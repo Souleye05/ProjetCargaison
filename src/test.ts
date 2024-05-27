@@ -1,253 +1,4 @@
-/* import { Cargaison, CargaisonAerienne, CargaisonMaritime, CargaisonRoutier } from './modele/cargaison.js';
-import { Produit } from './modele/produit.js';
-import { ProduitAlimentaire } from './modele/produitAlimentaire.js';
-import { ProduitChimique } from './modele/produitChimique.js';
-import { MaterielFragile } from './modele/materielFragile.js';
-import { MaterielIncassable } from './modele/materielIncassable.js';
-
-
-// Instanciations de cargaison
-const cargaisons: { [key: string]: Cargaison } = {
-    aerienne: new CargaisonAerienne(500, '../images/location-avion-cargo-fret-national-europe-international.jpg'),
-    maritime: new CargaisonMaritime(1000, 200, '../images/bateau.jpg'),
-    routier: new CargaisonRoutier(800, '../images/semi-trailer-trucks-on-parking-600nw-2335174911.webp')
-};
-// mise à jour de la date
-function updateDate() {
-    const elementDate = document.getElementById('currentDate');
-    if (elementDate) {
-        elementDate.textContent = new Date().toLocaleDateString();
-    }
-}
-
-// ajout produit à la cargaison
-function addProductToCargaison(typeCargaison: string, productType: string, nomProduit: string, poidsProduit: number) {
-    const selectedCargaison = cargaisons[typeCargaison];
-    if (!selectedCargaison) {
-        alert('Type de cargaison invalide');
-        return;
-    }
-
-    let newProduct: Produit;
-    switch (productType) {
-        case 'alimentaire':
-            newProduct = new ProduitAlimentaire(nomProduit, poidsProduit);
-            break;
-        case 'chimique':
-            newProduct = new ProduitChimique(nomProduit, poidsProduit, 5); 
-            break;
-        case 'fragile':
-            newProduct = new MaterielFragile(nomProduit, poidsProduit);
-            break;
-        case 'incassable':
-            newProduct = new MaterielIncassable(nomProduit, poidsProduit);
-            break;
-        default:
-            alert('Type de produit invalide');
-            return;
-    }
-
-    if (selectedCargaison.nombreProduits() >= 10) {
-        alert("La cargaison est pleine");
-        return;
-    }
-
-    if (newProduct instanceof MaterielFragile && selectedCargaison instanceof CargaisonMaritime) {
-        alert("Les produits fragiles ne doivent pas être transportés par voie maritime");
-        return;
-    }
-
-    if (newProduct instanceof ProduitChimique && !(selectedCargaison instanceof CargaisonMaritime)) {
-        alert("Les produits chimiques doivent être transportés par voie maritime");
-        return;
-    }
-
-    selectedCargaison.ajouterProduit(newProduct);
-    AfficherProduits();
-}
-
-// affichage de nos produits
-function AfficherProduits() {
-    const cargaisonProductsElement = document.getElementById('cargaisonProducts');
-    if (cargaisonProductsElement) {
-        cargaisonProductsElement.innerHTML = '';
-        Object.values(cargaisons).forEach(cargaison => {
-            const cargaisonDiv = document.createElement('div');
-            cargaisonDiv.classList.add('border', 'rounded-lg', 'p-4');
-
-            const libelle = document.createElement('h3');
-            libelle.classList.add('text-xl', 'font-bold', 'mb-2');
-            libelle.innerText = `${cargaison.constructor.name}`;
-
-            const typeCargaison = document.createElement('p');
-            typeCargaison.classList.add('text-sm', 'mb-1');
-            typeCargaison.innerText = `Type: ${cargaison.constructor.name}`;
-
-            const poidsCargaison = document.createElement('p');
-            poidsCargaison.classList.add('text-sm', 'mb-1');
-            poidsCargaison.innerText = `Distance: ${cargaison.getDistance()} km, Frais: ${cargaison.getFrais()} fcfa/kg`;
-
-            // Ajout de l'image de la cargaison
-            const imageCargaison = document.createElement('img');
-            imageCargaison.src = cargaison.image;
-            imageCargaison.alt = `${cargaison.constructor.name} Image`;
-            imageCargaison.classList.add('w-full', 'h-auto', 'mb-2');
-
-            cargaisonDiv.appendChild(libelle);
-            cargaisonDiv.appendChild(imageCargaison);
-            cargaisonDiv.appendChild(typeCargaison);
-            cargaisonDiv.appendChild(poidsCargaison);
-
-            cargaison.getProduits().forEach(produit => {
-                const productHTML = `
-                    <div class="border rounded-lg p-2 mt-2">
-                        <h4 class="text-lg font-bold">${produit.libelle}</h4>
-                        <p class="text-sm">Poids: ${produit.poids} kg</p>
-                        <p class="text-sm">Frais: ${produit.calculerFrais(cargaison)} fcfa</p>
-                    </div>
-                `;
-                cargaisonDiv.insertAdjacentHTML('beforeend', productHTML);
-            });
-
-            cargaisonProductsElement.appendChild(cargaisonDiv);
-        });
-    }
-}
-
-
-// affichage du degré de toxicité pour le type chimique
-const degreToxicite = (document.getElementById('toxique') as HTMLInputElement);
-document.getElementById('productType')?.addEventListener("change", function(){
-    console.log("productType");
-    const typeProduit = (document.getElementById('productType') as HTMLSelectElement).value;
-    
-    if (typeProduit == 'chimique'){
-       degreToxicite?.classList.remove('hidden');
-    }else{
-        degreToxicite?.classList.add('hidden');
-    }
-});
-
-// validation du formulaire
-document.getElementById('productForm')?.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const typeCargaison = (document.getElementById('cargaisonType') as HTMLSelectElement).value;
-    const typeProduit = (document.getElementById('productType') as HTMLSelectElement).value;
-    const nomProduit = (document.getElementById('productName') as HTMLInputElement).value;
-    const poidsProduit = parseFloat((document.getElementById('productWeight') as HTMLInputElement).value);
-
-    if (!nomProduit || isNaN(poidsProduit)) {
-        alert('Veuillez remplir tous les champs correctement');
-        return;
-    }
-
-    addProductToCargaison(typeCargaison, typeProduit, nomProduit, poidsProduit);
-});
-
-
-// Affichage de la page Gestion des cargaison
-const cargoLoyout = (document.getElementById('cargaison') as HTMLSelectElement);
-const linkCargaison = (document.getElementById('linkCargo') as HTMLSelectElement).value;
-document.getElementById('linkCargo')?.addEventListener("click", function(){
-    cargoLoyout?.classList.remove('hidden');
-    produitLoyout?.classList.add('hidden');
-    
-});
-
-// Affichage des pages de la page des produits
-const produitLoyout = (document.getElementById('produit') as HTMLSelectElement);
-const linkProduit = (document.getElementById('linkProduit') as HTMLSelectElement).value;
-document.getElementById('linkProduit')?.addEventListener("click", function(){
-    produitLoyout?.classList.remove('hidden');
-    cargoLoyout?.classList.add('hidden');
-    
-});
-
-
-
-
-    
-// // ajouter une nouvelle cargaison
-// document.getElementById('formAddCargaison')?.addEventListener('submit', function(event) {
-//     event.preventDefault();
-
-//     const typeCargaison = (document.getElementById('typeCargaison') as HTMLSelectElement).value;
-//     const distance = parseFloat((document.getElementById('distance') as HTMLInputElement).value);
-//     const frais = parseFloat((document.getElementById('frais') as HTMLInputElement).value);
-
-//     if (!typeCargaison || isNaN(distance) || isNaN(frais) ) {
-//         alert('Veuillez remplir tous les champs correctement');
-//         return;
-//     }
-
-//     const newCargaison = new Cargaison(typeCargaison, distance, frais);
-//     cargaisons[typeCargaison] = newCargaison;
-//     AjoutCargaison();
-// });
-
-// Ajouter sur la table des cargaisons
-function AjoutCargaison() {
-    const cargaisonTableBody = document.getElementById('cargaisonTableBody');
-    if (cargaisonTableBody) {
-        Object.values(cargaisons).forEach(cargaison => {
-            const row = document.createElement('tr');
-
-            const typeCell = document.createElement('td');
-            typeCell.textContent = cargaison.constructor.name;
-            typeCell.classList.add('py-2', 'px-4', 'border-b', 'border-gray-200');
-
-            const distanceCell = document.createElement('td');
-            distanceCell.textContent = `${cargaison.getDistance()} km`;
-            distanceCell.classList.add('py-2', 'px-4', 'border-b', 'border-gray-200');
-
-            const fraisCell = document.createElement('td');
-            fraisCell.textContent = `${cargaison.getFrais()} fcfa/kg`;
-            fraisCell.classList.add('py-2', 'px-4', 'border-b', 'border-gray-200');
-
-            const imageCell = document.createElement('td');
-            const image = document.createElement('img');
-            image.src = cargaison.image;
-            image.alt = `${cargaison.constructor.name} Image`;
-            image.classList.add('w-15', 'h-15', 'rounded-lg', 'object-cover');
-            imageCell.appendChild(image);
-            imageCell.classList.add('py-2', 'px-4', 'border-b', 'border-gray-200');
-
-            row.appendChild(imageCell);
-            row.appendChild(typeCell);
-            row.appendChild(distanceCell);
-            row.appendChild(fraisCell);
-
-            cargaisonTableBody.appendChild(row);
-        });
-    }
-}
-
-
-// // Filtrer les cargaisons par type
-// document.getElementById('filterInput')?.addEventListener('input', function() {
-//     const filterValue = (document.getElementById('filterInput') as HTMLInputElement).value.toLowerCase();
-//     const rows = document.querySelectorAll('#cargaisonTableBody tr');
-//     rows.forEach(row => {
-//         const typeCell = row.querySelector('td:first-child');
-//         if (typeCell) {
-//             const typeText = typeCell.textContent?.toLowerCase() || '';
-//             if (typeText.includes(filterValue)) {
-//                 row.style.display = '';
-//             } else {
-//                 row.style.display = 'none';
-//             }
-//         }
-//     });
-// });
-
-
-updateDate();
-AfficherProduits();
-AjoutCargaison();
- */
 import { Cargaison } from './modele/cargaison.js';
-
-
 
     const limitationType = (document.getElementById('limitation') as HTMLSelectElement);
     limitationType.addEventListener('change', () => {
@@ -265,44 +16,150 @@ import { Cargaison } from './modele/cargaison.js';
         produitField.classList.add('hidden');
     }
 });
+
+
+// -------------------------------------Validation of my field (formulaires) -------------------------------------
+
+// Function to validate the form
+function validateForm(): boolean {
+    let isValid = true;
   
+    // Get form elements
+    const numero = (document.getElementById('numero') as HTMLInputElement).value.trim();
+    const limitation = (document.getElementById('limitation') as HTMLSelectElement).value;
+    const poids = (document.getElementById('poids') as HTMLInputElement).value.trim();
+    const produit = (document.getElementById('produit') as HTMLInputElement).value.trim();
+    const depart = (document.getElementById('depart') as HTMLInputElement).value.trim();
+    const arrivee = (document.getElementById('arrivee') as HTMLInputElement).value.trim();
+    const dateDepart = (document.getElementById('dateDepart') as HTMLInputElement).value;
+    const dateArrivee = (document.getElementById('dateArrivee') as HTMLInputElement).value;
+    const distance = (document.getElementById('distance') as HTMLInputElement).value.trim();
+  
+    // Validate numero
+    if (!numero) {
+      showError('numeroError', 'Veuillez entrer un numéro valide.');
+      isValid = false;
+    } else {
+      hideError('numeroError');
+    }
+  
+    // Validate limitation
+    if (limitation === 'poids' && !poids) {
+      showError('poidsError', 'Veuillez entrer un poids valide.');
+      isValid = false;
+    } else {
+      hideError('poidsError');
+    }
+  
+    if (limitation === 'produit' && !produit) {
+      showError('produitError', 'Veuillez entrer un produit valide.');
+      isValid = false;
+    } else {
+      hideError('produitError');
+    }
+  
+    // Validate depart
+    if (!depart) {
+      showError('departError', 'Veuillez entrer un lieu de départ valide.');
+      isValid = false;
+    } else {
+      hideError('departError');
+    }
+  
+    // Validate arrivee
+    if (!arrivee) {
+      showError('arriveeError', 'Veuillez entrer un lieu d\'arrivée valide.');
+      isValid = false;
+    } else {
+      hideError('arriveeError');
+    }
+  
+    // Validate dateDepart
+    if (!dateDepart) {
+      showError('dateDepartError', 'Veuillez entrer une date de départ valide.');
+      isValid = false;
+    } else {
+      hideError('dateDepartError');
+    }
+  
+    // Validate dateArrivee
+    if (!dateArrivee) {
+      showError('dateArriveeError', 'Veuillez entrer une date d\'arrivée valide.');
+      isValid = false;
+    } else {
+      hideError('dateArriveeError');
+    }
+  
+    // Validate distance
+    if (!distance || isNaN(parseFloat(distance))) {
+      showError('distanceError', 'Veuillez entrer une distance valide.');
+      isValid = false;
+    } else {
+      hideError('distanceError');
+    }
+  
+    return isValid;
+  }
+  
+  // Function to show error message
+  function showError(elementId: string, message: string) {
+    const errorElement = document.getElementById(elementId) as HTMLSpanElement;
+    if (errorElement) {
+      errorElement.textContent = message;
+      errorElement.classList.remove('hidden');
+    }
+  }
+  
+  // Function to hide error message
+  function hideError(elementId: string) {
+    const errorElement = document.getElementById(elementId) as HTMLSpanElement;
+    if (errorElement) {
+      errorElement.classList.add('hidden');
+    }
+  }
+  
+  // Event listener for form submission
+  document.getElementById('form_id')?.addEventListener('submit', function(event) {
+    if (!validateForm()) {
+      event.preventDefault();
+    }
+  });
+  
+  // Event listener for limitation field change
+  document.getElementById('limitation')?.addEventListener('change', function() {
+    const limitation = (document.getElementById('limitation') as HTMLSelectElement).value;
+    const poidsField = document.getElementById('poidsField');
+    const produitField = document.getElementById('produitField');
+    
+    if (limitation === 'poids') {
+      poidsField?.classList.remove('hidden');
+      produitField?.classList.add('hidden');
+    } else if (limitation === 'produit') {
+      poidsField?.classList.add('hidden');
+      produitField?.classList.remove('hidden');
+    } else {
+      poidsField?.classList.add('hidden');
+      produitField?.classList.add('hidden');
+    }
+  });
+  
+  // Event listener for close button
+  document.getElementById('close')?.addEventListener('click', function() {
+    const modal = document.getElementById('my-modal');
+    modal?.classList.add('hidden');
+  });
+  
+
+// Affichage of my liste of cargaisons
 document.getElementById('valider')?.addEventListener('click', () => {
   afficherCargaisons();
 });
 
-// afficherCargaisons();
-
-// // Fonction pour afficher les cargaisons
-// function afficherCargaisons(): void {
-//   fetch('../public/data/cargos.json')
-//     .then(response => response.json())
-//     .then(data => {
-//       const cargaisons: Cargaison[] = data.cargaisons;
-//       const cargaisonList = document.getElementById('cargaisonbody');
-//       if (!cargaisonList) return;
-//       cargaisonList.innerHTML = '';
-//       cargaisons.forEach(cargaison => {
-//         const row = document.createElement('tr');
-//         row.innerHTML = `
-//           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.numero}</td>
-//           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.type}</td>
-//           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_depart}</td>
-//           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_arrivee}</td>
-//           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
-//           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
-//           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance}</td>
-//           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">voir</button></td>
-//         `;
-//         cargaisonList.appendChild(row);
-//       });
-
-    
-//     })
-
-// }
+/* --------------------- fonction filtre et Pagination ----------------------------------- */
 
 let currentPage = 1;
-const itemsPerPage = 5; // Nombre de cargaisons par page
+// Nombre de cargaisons par page
+const itemsPerPage = 5; 
 let cargaisons: Cargaison[] = [];
 
 function afficherCargaisons(): void {
@@ -313,16 +170,42 @@ function afficherCargaisons(): void {
         displayPage(currentPage);
       });
   }
+
+//   filter par catégories
+
+document.getElementById('typeFilter')?.addEventListener('change', applyFilters);
+document.getElementById('etatFilter')?.addEventListener('change', applyFilters);
+document.getElementById('destinationFilter')?.addEventListener('input', applyFilters);
+
+
+  
+function applyFilters(): void {
+    // Reset to the first page whenever filters change
+    currentPage = 1; 
+    displayPage(currentPage);
+  }
   
   function displayPage(page: number): void {
+    const typeFilter = (document.getElementById('typeFilter') as HTMLSelectElement).value;
+    const etatFilter = (document.getElementById('etatFilter') as HTMLSelectElement).value;
+    const destinationFilter = (document.getElementById('destinationFilter') as HTMLInputElement).value.toLowerCase();
+  
+    const filteredCargaisons = cargaisons.filter(cargaison => {
+      return (
+        (typeFilter === '' || cargaison.type.toLowerCase() === typeFilter.toLowerCase()) &&
+        (etatFilter === '') &&
+        (destinationFilter === '' || cargaison.lieu_arrivee.toLowerCase().includes(destinationFilter))
+      );
+    });
+  
     const cargaisonList = document.getElementById('cargaisonbody');
     if (!cargaisonList) return;
-    
+  
     cargaisonList.innerHTML = '';
   
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const pageCargaisons = cargaisons.slice(startIndex, endIndex);
+    const pageCargaisons = filteredCargaisons.slice(startIndex, endIndex);
   
     pageCargaisons.forEach(cargaison => {
       const row = document.createElement('tr');
@@ -339,22 +222,21 @@ function afficherCargaisons(): void {
       cargaisonList.appendChild(row);
     });
   
-    updatePaginationControls();
+    updatePaginationControls(filteredCargaisons.length);
   }
-
-  function updatePaginationControls(): void {
+  
+  function updatePaginationControls(totalItems: number): void {
     const paginationControls = document.getElementById('pagination-controls');
     if (!paginationControls) return;
-    
+  
     paginationControls.innerHTML = '';
-    
-    const totalPages = Math.ceil(cargaisons.length / itemsPerPage);
+  
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
   
     for (let i = 1; i <= totalPages; i++) {
       const button = document.createElement('button');
       button.innerText = i.toString();
       button.classList.add('pagination-button');
-      button.className = `join-item btn`;
       if (i === currentPage) {
         button.classList.add('active');
       }
@@ -368,6 +250,7 @@ function afficherCargaisons(): void {
   document.addEventListener('DOMContentLoaded', () => {
     afficherCargaisons();
   });
+  
     
 document.getElementById('form_id')?.addEventListener('submit', (event) => {
     event.preventDefault();
