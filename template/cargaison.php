@@ -120,6 +120,10 @@
       <input type="text" id="arrivee" name="arrivee" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200">
       <span id="arriveeError" class="text-red-500 text-sm hidden">Veuillez entrer un lieu d'arrivée valide.</span>
     </div>
+    <!-- <div>
+        <label for="map" class="block font-medium">Carte :</label>
+        <div id="map" class="w-full h-64 border border-gray-300 rounded-md"></div>
+    </div> -->
     <div>
       <label for="dateDepart" class="block font-medium">Date de départ :</label>
       <input type="date" id="dateDepart" name="dateDepart" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200">

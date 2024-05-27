@@ -1,21 +1,21 @@
 import { Cargaison } from './modele/cargaison.js';
 
-    const limitationType = (document.getElementById('limitation') as HTMLSelectElement);
-    limitationType.addEventListener('change', () => {
-    const poidsField = document.getElementById('poidsField') as HTMLElement;
-    const produitField = document.getElementById('produitField') as HTMLElement;
+//     const limitationType = (document.getElementById('limitation') as HTMLSelectElement);
+//     limitationType.addEventListener('change', () => {
+//     const poidsField = document.getElementById('poidsField') as HTMLElement;
+//     const produitField = document.getElementById('produitField') as HTMLElement;
 
-    if (limitationType.value == 'poids') {
-        poidsField.classList.remove('hidden');
-        produitField.classList.add('hidden');
-    } else if (limitationType.value == 'produit') {
-        poidsField.classList.add('hidden');
-        produitField.classList.remove('hidden');
-    } else {
-        poidsField.classList.add('hidden');
-        produitField.classList.add('hidden');
-    }
-});
+//     if (limitationType.value == 'poids') {
+//         poidsField.classList.remove('hidden');
+//         produitField.classList.add('hidden');
+//     } else if (limitationType.value == 'produit') {
+//         poidsField.classList.add('hidden');
+//         produitField.classList.remove('hidden');
+//     } else {
+//         poidsField.classList.add('hidden');
+//         produitField.classList.add('hidden');
+//     }
+// });
 
 
 // -------------------------------------Validation of my field (formulaires) -------------------------------------
@@ -303,6 +303,6 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
        
     });
     
-    
+    afficherCargaisons();
     
     
