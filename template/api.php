@@ -1,5 +1,6 @@
 
 <?php
+/* ------------lire le fichier json--------  */
 function lireJSON($filename) {
     $json_data = file_get_contents($filename);
     if ($json_data === false) {
@@ -8,7 +9,7 @@ function lireJSON($filename) {
     }
     return json_decode($json_data, true);
 }
-
+/* ------------écrire sur le fichier json--------  */
 function ecrireJSON($filename, $data) {
     $json_data = json_encode($data, JSON_PRETTY_PRINT);
     if (file_put_contents($filename, $json_data) === false) {
@@ -35,14 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log("Nouvelle cargaison: " . print_r($newCargaison, true));
 
         $currentData = lireJSON('../public/data/cargos.json');
-        var_dump($currentData);
         if ($currentData === null) {
             error_log("Erreur de décodage JSON pour le fichier");
             echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
             exit;
         }
 
-        $currentData['cargaisons'][] = $newCargaison;
+        // $currentData['cargaisons'][] = $newCargaison;
+        array_unshift( $currentData['cargaisons'], $newCargaison );
         ecrireJSON('../public/data/cargos.json', $currentData);
 
         // Re-lire le fichier pour vérifier
@@ -55,5 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["status" => "error", "message" => "Action non reconnue"]);
         exit;
     }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $data = lireJSON('../public/data/cargos.json');
+    if ($data === null) {
+        echo json_encode(["status" => "error", "message" => "Erreur de lecture des données existantes"]);
+    }else {
+        echo json_encode($data);
+        }
+        exit;
 }
-

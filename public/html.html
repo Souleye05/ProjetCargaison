@@ -1,42 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion de Cargaison</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        /* Ajoutez ici des styles supplémentaires si nécessaire */
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cargaisons</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="font-sans bg-gray-100 text-gray-900">
-    <header class="bg-blue-900 text-white py-4">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <div class="flex items-center">
-                <img src="logo.png" alt="Logo de l'application" class="h-8 mr-2">
-                <h1 class="text-2xl font-bold">Gestion de Cargaison</h1>
-            </div>
-            <nav>
-                <ul class="flex">
-                    <li class="ml-6"><a href="#" class="hover:text-gray-300">Accueil</a></li>
-                    <li class="ml-6"><a href="#" class="hover:text-gray-300">Gestion des Cargaisons</a></li>
-                    <li class="ml-6"><a href="#" class="hover:text-gray-300">Suivi des Colis</a></li>
-                    <li class="ml-6"><a href="#" class="hover:text-gray-300">Paramètres</a></li>
-                </ul>
-            </nav>
+<body class="bg-white p-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-xl font-bold">Group 1</h>
+        <nav class="flex space-x-4">
+          <a href="#" class="text-blue-600 font-semibold">Products</a>
+          <a href="#" class="text-gray-600">Containers & Trucks</a>
+          <a href="#" class="text-gray-600">Stuffing Result</a>
+        </nav>
+      </div>
+      <div class="bg-white shadow-md rounded-lg p-4">
+        <table class="min-w-full table-auto">
+          <thead>
+            <tr class="bg-blue-100">
+              <th class="px-4 py-2">TYPE</th>
+              <th class="px-4 py-2">NAME</th>
+              <th class="px-4 py-2">LENGTH</th>
+              <th class="px-4 py-2">WIDTH/RADIUS</th>
+              <th class="px-4 py-2">HEIGHT</th>
+              <th class="px-4 py-2">WEIGHT</th>
+              <th class="px-4 py-2">QUANTITY</th>
+              <th class="px-4 py-2">COLOR</th>
+              <th class="px-4 py-2">STACK</th>
+              <th class="px-4 py-2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b">
+              <td class="px-4 py-2 flex justify-center"><img src="icon1.png" alt="Type Icon" class="w-6 h-6"></td>
+              <td class="px-4 py-2">Boxes type A</td>
+              <td class="px-4 py-2"><input type="text" value="500" class="w-full bg-gray-100 border rounded px-2 py-1"></td>
+              <td class="px-4 py-2"><input type="text" value="370" class="w-full bg-gray-100 border rounded px-2 py-1"></td>
+              <td class="px-4 py-2"><input type="text" value="200" class="w-full bg-gray-100 border rounded px-2 py-1"></td>
+              <td class="px-4 py-2"><input type="text" value="10" class="w-full bg-gray-100 border rounded px-2 py-1"></td>
+              <td class="px-4 py-2"><input type="text" value="12" class="w-full bg-gray-100 border rounded px-2 py-1"></td>
+              <td class="px-4 py-2">
+                <select class="w-full bg-gray-100 border rounded px-2 py-1">
+                  <option>Blue</option>
+                  <option>Red</option>
+                </select>
+              </td>
+              <td class="px-4 py-2"><input type="text" value="4" class="w-full bg-gray-100 border rounded px-2 py-1"></td>
+              <td class="px-4 py-2 flex justify-center space-x-2">
+                <button class="text-blue-500"><img src="edit-icon.png" alt="Edit" class="w-6 h-6"></button>
+                <button class="text-red-500"><img src="delete-icon.png" alt="Delete" class="w-6 h-6"></button>
+              </td>
+            </tr>
+            <!-- Repeat the row for other products -->
+          </tbody>
+        </table>
+        <div class="flex justify-between items-center mt-4">
+          <button class="bg-blue-500 text-white px-4 py-2 rounded">Add Product +</button>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" class="form-checkbox">
+            <span>Use Pallets</span>
+          </label>
         </div>
-    </header>
-
-    <div class="flex">
-        <aside class="bg-gray-800 text-white w-1/5 py-8 px-4">
-            <h2 class="text-lg font-bold mb-4">Navigation</h2>
-            <ul>
-                <li class="mb-4"><a href="#" class="hover:text-gray-300">Gestion des Cargaisons</a></li>
-                <li class="mb-4"><a href="#" class="hover:text-gray-300">Suivi des Colis</a></li>
-                <li class="mb-4"><a href="#" class="hover:text-gray-300">Paramètres</a></li>
-            </ul>
-        </aside>
-
-        <main class="container mx-auto py-8 px-4 w-4/5">
-           
-   
+      </div>
+      <div class="flex justify-center mt-6">
+        <button class="bg-blue-500 text-white px-6 py-3 rounded-full">Next Step</button>
+      </div>
+    </div>
+  </body>
+  </html>
+  

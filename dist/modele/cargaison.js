@@ -102,6 +102,7 @@ export class Cargaison {
     date_depart;
     date_arrivee;
     distance;
+    etat;
     // etat_avancement: string;
     // etat_globale: string;
     constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance) {

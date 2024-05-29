@@ -1,20 +1,25 @@
 import { Cargaison } from './modele/cargaison.js';
-//     const limitationType = (document.getElementById('limitation') as HTMLSelectElement);
-//     limitationType.addEventListener('change', () => {
-//     const poidsField = document.getElementById('poidsField') as HTMLElement;
-//     const produitField = document.getElementById('produitField') as HTMLElement;
-//     if (limitationType.value == 'poids') {
-//         poidsField.classList.remove('hidden');
-//         produitField.classList.add('hidden');
-//     } else if (limitationType.value == 'produit') {
-//         poidsField.classList.add('hidden');
-//         produitField.classList.remove('hidden');
-//     } else {
-//         poidsField.classList.add('hidden');
-//         produitField.classList.add('hidden');
-//     }
-// });
-// -------------------------------------Validation of my field (formulaires) -------------------------------------
+/* ==============================Modal formulaire ADD CARGO ============================================== */
+const openModalButton = document.getElementById("add_modal");
+openModalButton?.addEventListener("click", () => {
+    ;
+    const modal = document.getElementById("my-modal");
+    if (openModalButton && modal) {
+        modal?.classList.remove("hidden");
+    }
+    /*  ----- close button -----------*/
+    document.getElementById('close')?.addEventListener('click', function () {
+        const modal = document.getElementById('my-modal');
+        modal?.classList.add('hidden');
+    });
+    // Close the modal when clicking outside of it
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal?.classList.add("hidden");
+        }
+    });
+});
+// ====================================Validation of my field (formulaires) ==================================
 // Function to validate the form
 function validateForm() {
     let isValid = true;
@@ -37,12 +42,15 @@ function validateForm() {
         hideError('numeroError');
     }
     // Validate limitation
-    if (limitation === 'poids' && !poids) {
-        showError('poidsError', 'Veuillez entrer un poids valide.');
-        isValid = false;
-    }
-    else {
-        hideError('poidsError');
+    if (limitation === 'poids') {
+        const poidsValue = parseFloat(poids);
+        if (isNaN(poidsValue) || poidsValue <= 0) {
+            showError('poidsError', 'Veuillez entrer un poids valide.');
+            isValid = false;
+        }
+        else {
+            hideError('poidsError');
+        }
     }
     if (limitation === 'produit' && !produit) {
         showError('produitError', 'Veuillez entrer un produit valide.');
@@ -68,16 +76,22 @@ function validateForm() {
         hideError('arriveeError');
     }
     // Validate dateDepart
-    if (!dateDepart) {
-        showError('dateDepartError', 'Veuillez entrer une date de départ valide.');
+    const currentDate = new Date();
+    const inputDateDepart = new Date(dateDepart);
+    currentDate.setHours(0, 0, 0, 0); // Set current date to start of the day
+    inputDateDepart.setHours(0, 0, 0, 0); // Set input date to start of the day
+    if (inputDateDepart < currentDate) {
+        showError('dateDepartError', 'La date de départ ne peut pas être inférieure à la date du jour.');
         isValid = false;
     }
     else {
         hideError('dateDepartError');
     }
     // Validate dateArrivee
-    if (!dateArrivee) {
-        showError('dateArriveeError', 'Veuillez entrer une date d\'arrivée valide.');
+    const inputDateArrivee = new Date(dateArrivee);
+    inputDateArrivee.setHours(0, 0, 0, 0); // Set input date to start of the day
+    if (inputDateArrivee.getTime() === currentDate.getTime()) {
+        showError('dateArriveeError', 'La date d\'arrivée ne peut pas être égale à la date du jour.');
         isValid = false;
     }
     else {
@@ -108,13 +122,13 @@ function hideError(elementId) {
         errorElement.classList.add('hidden');
     }
 }
-// Event listener for form submission
+/* --------Soumisson du formulaire ------------------------- */
 document.getElementById('form_id')?.addEventListener('submit', function (event) {
     if (!validateForm()) {
         event.preventDefault();
     }
 });
-// Event listener for limitation field change
+/* -------------------------Choix entre Produit et Poids ---------------------------- */
 document.getElementById('limitation')?.addEventListener('change', function () {
     const limitation = document.getElementById('limitation').value;
     const poidsField = document.getElementById('poidsField');
@@ -132,45 +146,39 @@ document.getElementById('limitation')?.addEventListener('change', function () {
         produitField?.classList.add('hidden');
     }
 });
-// Event listener for close button
-document.getElementById('close')?.addEventListener('click', function () {
-    const modal = document.getElementById('my-modal');
-    modal?.classList.add('hidden');
-});
-// Affichage of my liste of cargaisons
+/* -------------------------Affichage de la liste des cargaisons ---------------------------- */
 document.getElementById('valider')?.addEventListener('click', () => {
     afficherCargaisons();
 });
-/* --------------------- fonction filtre et Pagination ----------------------------------- */
+/* -------------------------------- Filtre et pagination ----------------------------------------------- */
 let currentPage = 1;
-// Nombre de cargaisons par page
 const itemsPerPage = 5;
 let cargaisons = [];
 function afficherCargaisons() {
-    fetch('../public/data/cargos.json')
+    fetch('../template/api.php')
         .then(response => response.json())
         .then(data => {
+        console.log(data);
         cargaisons = data.cargaisons;
         displayPage(currentPage);
     });
 }
-//   filter par catégories
-document.getElementById('typeFilter')?.addEventListener('change', applyFilters);
-document.getElementById('etatFilter')?.addEventListener('change', applyFilters);
-document.getElementById('destinationFilter')?.addEventListener('input', applyFilters);
-function applyFilters() {
-    // Reset to the first page whenever filters change
-    currentPage = 1;
-    displayPage(currentPage);
-}
 function displayPage(page) {
-    const typeFilter = document.getElementById('typeFilter').value;
-    const etatFilter = document.getElementById('etatFilter').value;
+    const numeroFilter = document.getElementById('numeroFilter').value.toLowerCase();
+    const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
+    const etatFilter = document.getElementById('etatFilter').value.toLowerCase();
     const destinationFilter = document.getElementById('destinationFilter').value.toLowerCase();
+    const departFilter = document.getElementById('departFilter').value.toLowerCase();
+    const dateDepartFilter = document.getElementById('dateDepartFilter').value;
+    const dateArriveeFilter = document.getElementById('dateArriveeFilter').value;
     const filteredCargaisons = cargaisons.filter(cargaison => {
-        return ((typeFilter === '' || cargaison.type.toLowerCase() === typeFilter.toLowerCase()) &&
-            (etatFilter === '') &&
-            (destinationFilter === '' || cargaison.lieu_arrivee.toLowerCase().includes(destinationFilter)));
+        return ((!numeroFilter || cargaison.numero.toLowerCase().includes(numeroFilter)) &&
+            (!typeFilter || cargaison.type.toLowerCase() === typeFilter) &&
+            (!etatFilter || cargaison.etat.toLowerCase() === etatFilter) &&
+            (!destinationFilter || cargaison.lieu_arrivee.toLowerCase().includes(destinationFilter)) &&
+            (!departFilter || cargaison.lieu_depart.toLowerCase().includes(departFilter)) &&
+            (!dateDepartFilter || cargaison.date_depart === dateDepartFilter) &&
+            (!dateArriveeFilter || cargaison.date_arrivee === dateArriveeFilter));
     });
     const cargaisonList = document.getElementById('cargaisonbody');
     if (!cargaisonList)
@@ -182,19 +190,20 @@ function displayPage(page) {
     pageCargaisons.forEach(cargaison => {
         const row = document.createElement('tr');
         row.innerHTML = `
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.numero}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.type}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_depart}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_arrivee}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">voir</button></td>
-      `;
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.numero}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.type}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_depart}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_arrivee}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">voir</button></td>
+        `;
         cargaisonList.appendChild(row);
     });
     updatePaginationControls(filteredCargaisons.length);
 }
+/* ===================== Controles de Pagination ============================ */
 function updatePaginationControls(totalItems) {
     const paginationControls = document.getElementById('pagination-controls');
     if (!paginationControls)
@@ -218,8 +227,18 @@ function updatePaginationControls(totalItems) {
 document.addEventListener('DOMContentLoaded', () => {
     afficherCargaisons();
 });
+document.getElementById('numeroFilter')?.addEventListener('input', () => displayPage(1));
+document.getElementById('typeFilter')?.addEventListener('change', () => displayPage(1));
+document.getElementById('etatFilter')?.addEventListener('change', () => displayPage(1));
+document.getElementById('destinationFilter')?.addEventListener('input', () => displayPage(1));
+document.getElementById('departFilter')?.addEventListener('input', () => displayPage(1));
+document.getElementById('dateDepartFilter')?.addEventListener('change', () => displayPage(1));
+document.getElementById('dateArriveeFilter')?.addEventListener('change', () => displayPage(1));
 document.getElementById('form_id')?.addEventListener('submit', (event) => {
     event.preventDefault();
+    if (!validateForm()) {
+        return;
+    }
     const idcargo = Cargaison.length + 1;
     const typeCargaison = document.getElementById('type').value;
     const numero = "CRG" + Math.floor(Math.random() * 1000); // Générer un numéro aléatoire pour la cargaison
@@ -243,10 +262,14 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
         console.log(result);
         if (result.status === 'success') {
             alert(result.message);
+            afficherCargaisons(); // Appel après succès
         }
         else {
             alert('Erreur lors de l\'ajout de la cargaison');
         }
+    })
+        .catch(error => {
+        console.error('Erreur:', error);
+        alert('Erreur lors de l\'ajout de la cargaison');
     });
 });
-afficherCargaisons();

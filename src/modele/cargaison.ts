@@ -128,6 +128,7 @@ export class Cargaison {
     date_depart: string;
     date_arrivee: string;
     distance: number;
+  etat: any;
     // etat_avancement: string;
     // etat_globale: string;
 

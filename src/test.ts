@@ -1,39 +1,45 @@
 import { Cargaison } from './modele/cargaison.js';
+/* ==============================Modal formulaire ADD CARGO ============================================== */
 
-//     const limitationType = (document.getElementById('limitation') as HTMLSelectElement);
-//     limitationType.addEventListener('change', () => {
-//     const poidsField = document.getElementById('poidsField') as HTMLElement;
-//     const produitField = document.getElementById('produitField') as HTMLElement;
+const openModalButton = document.getElementById("add_modal");
+openModalButton?.addEventListener("click", () => {;
+  const modal = document.getElementById("my-modal")
+  
+  if (openModalButton && modal) {
+          modal?.classList.remove("hidden");
+        }   
+        /*  ----- close button -----------*/
+        document.getElementById('close')?.addEventListener('click', function() {
+          const modal = document.getElementById('my-modal');
+          modal?.classList.add('hidden');
+        });
+        
+      // Close the modal when clicking outside of it
+      window.addEventListener("click", (event) => {
+          if (event.target === modal) {
+            modal?.classList.add("hidden");
+          }
+        });
+     
+      
+});
 
-//     if (limitationType.value == 'poids') {
-//         poidsField.classList.remove('hidden');
-//         produitField.classList.add('hidden');
-//     } else if (limitationType.value == 'produit') {
-//         poidsField.classList.add('hidden');
-//         produitField.classList.remove('hidden');
-//     } else {
-//         poidsField.classList.add('hidden');
-//         produitField.classList.add('hidden');
-//     }
-// });
-
-
-// -------------------------------------Validation of my field (formulaires) -------------------------------------
+// ====================================Validation of my field (formulaires) ==================================
 
 // Function to validate the form
 function validateForm(): boolean {
-    let isValid = true;
+    let isValid: boolean = true;
   
     // Get form elements
-    const numero = (document.getElementById('numero') as HTMLInputElement).value.trim();
-    const limitation = (document.getElementById('limitation') as HTMLSelectElement).value;
-    const poids = (document.getElementById('poids') as HTMLInputElement).value.trim();
-    const produit = (document.getElementById('produit') as HTMLInputElement).value.trim();
-    const depart = (document.getElementById('depart') as HTMLInputElement).value.trim();
-    const arrivee = (document.getElementById('arrivee') as HTMLInputElement).value.trim();
-    const dateDepart = (document.getElementById('dateDepart') as HTMLInputElement).value;
-    const dateArrivee = (document.getElementById('dateArrivee') as HTMLInputElement).value;
-    const distance = (document.getElementById('distance') as HTMLInputElement).value.trim();
+    const numero: string = (document.getElementById('numero') as HTMLInputElement).value.trim();
+    const limitation: string = (document.getElementById('limitation') as HTMLSelectElement).value;
+    const poids: string = (document.getElementById('poids') as HTMLInputElement).value.trim();
+    const produit: string = (document.getElementById('produit') as HTMLInputElement).value.trim();
+    const depart: string = (document.getElementById('depart') as HTMLInputElement).value.trim();
+    const arrivee: string = (document.getElementById('arrivee') as HTMLInputElement).value.trim();
+    const dateDepart: string = (document.getElementById('dateDepart') as HTMLInputElement).value;
+    const dateArrivee: string = (document.getElementById('dateArrivee') as HTMLInputElement).value;
+    const distance: string = (document.getElementById('distance') as HTMLInputElement).value.trim();
   
     // Validate numero
     if (!numero) {
@@ -44,12 +50,15 @@ function validateForm(): boolean {
     }
   
     // Validate limitation
-    if (limitation === 'poids' && !poids) {
-      showError('poidsError', 'Veuillez entrer un poids valide.');
-      isValid = false;
-    } else {
-      hideError('poidsError');
-    }
+    if (limitation === 'poids') {
+      const poidsValue = parseFloat(poids);
+      if (isNaN(poidsValue) || poidsValue <= 0) {
+        showError('poidsError', 'Veuillez entrer un poids valide.');
+        isValid = false;
+      } else {
+        hideError('poidsError');
+      }
+    }    
   
     if (limitation === 'produit' && !produit) {
       showError('produitError', 'Veuillez entrer un produit valide.');
@@ -75,20 +84,28 @@ function validateForm(): boolean {
     }
   
     // Validate dateDepart
-    if (!dateDepart) {
-      showError('dateDepartError', 'Veuillez entrer une date de départ valide.');
-      isValid = false;
-    } else {
-      hideError('dateDepartError');
-    }
-  
-    // Validate dateArrivee
-    if (!dateArrivee) {
-      showError('dateArriveeError', 'Veuillez entrer une date d\'arrivée valide.');
-      isValid = false;
-    } else {
-      hideError('dateArriveeError');
-    }
+  const currentDate: Date = new Date();
+  const inputDateDepart: Date = new Date(dateDepart);
+  currentDate.setHours(0, 0, 0, 0);  // Set current date to start of the day
+  inputDateDepart.setHours(0, 0, 0, 0);  // Set input date to start of the day
+
+  if (inputDateDepart < currentDate) {
+    showError('dateDepartError', 'La date de départ ne peut pas être inférieure à la date du jour.');
+    isValid = false;
+  } else {
+    hideError('dateDepartError');
+  }
+
+  // Validate dateArrivee
+  const inputDateArrivee: Date = new Date(dateArrivee);
+  inputDateArrivee.setHours(0, 0, 0, 0);  // Set input date to start of the day
+
+  if (inputDateArrivee.getTime() === currentDate.getTime()) {
+    showError('dateArriveeError', 'La date d\'arrivée ne peut pas être égale à la date du jour.');
+    isValid = false;
+  } else {
+    hideError('dateArriveeError');
+  }
   
     // Validate distance
     if (!distance || isNaN(parseFloat(distance))) {
@@ -118,16 +135,17 @@ function validateForm(): boolean {
     }
   }
   
-  // Event listener for form submission
+  /* --------Soumisson du formulaire ------------------------- */
   document.getElementById('form_id')?.addEventListener('submit', function(event) {
     if (!validateForm()) {
       event.preventDefault();
     }
   });
   
-  // Event listener for limitation field change
+  /* -------------------------Choix entre Produit et Poids ---------------------------- */
+
   document.getElementById('limitation')?.addEventListener('change', function() {
-    const limitation = (document.getElementById('limitation') as HTMLSelectElement).value;
+    const limitation: string = (document.getElementById('limitation') as HTMLSelectElement).value;
     const poidsField = document.getElementById('poidsField');
     const produitField = document.getElementById('produitField');
     
@@ -143,166 +161,175 @@ function validateForm(): boolean {
     }
   });
   
-  // Event listener for close button
-  document.getElementById('close')?.addEventListener('click', function() {
-    const modal = document.getElementById('my-modal');
-    modal?.classList.add('hidden');
-  });
-  
+  /* -------------------------Affichage de la liste des cargaisons ---------------------------- */
 
-// Affichage of my liste of cargaisons
 document.getElementById('valider')?.addEventListener('click', () => {
   afficherCargaisons();
 });
 
-/* --------------------- fonction filtre et Pagination ----------------------------------- */
 
-let currentPage = 1;
-// Nombre de cargaisons par page
-const itemsPerPage = 5; 
+
+/* -------------------------------- Filtre et pagination ----------------------------------------------- */
+let currentPage: number = 1;
+
+const itemsPerPage: number = 5; 
 let cargaisons: Cargaison[] = [];
 
 function afficherCargaisons(): void {
-    fetch('../public/data/cargos.json')
-      .then(response => response.json())
+    fetch('../template/api.php')
+    .then(response => response.json())
       .then(data => {
+        console.log(data);
         cargaisons = data.cargaisons;
         displayPage(currentPage);
       });
   }
 
-//   filter par catégories
-
-document.getElementById('typeFilter')?.addEventListener('change', applyFilters);
-document.getElementById('etatFilter')?.addEventListener('change', applyFilters);
-document.getElementById('destinationFilter')?.addEventListener('input', applyFilters);
-
-
-  
-function applyFilters(): void {
-    // Reset to the first page whenever filters change
-    currentPage = 1; 
-    displayPage(currentPage);
-  }
-  
   function displayPage(page: number): void {
-    const typeFilter = (document.getElementById('typeFilter') as HTMLSelectElement).value;
-    const etatFilter = (document.getElementById('etatFilter') as HTMLSelectElement).value;
+    const numeroFilter = (document.getElementById('numeroFilter') as HTMLInputElement).value.toLowerCase();
+    const typeFilter = (document.getElementById('typeFilter') as HTMLSelectElement).value.toLowerCase();
+    const etatFilter = (document.getElementById('etatFilter') as HTMLSelectElement).value.toLowerCase();
     const destinationFilter = (document.getElementById('destinationFilter') as HTMLInputElement).value.toLowerCase();
-  
+    const departFilter = (document.getElementById('departFilter') as HTMLInputElement).value.toLowerCase();
+    const dateDepartFilter = (document.getElementById('dateDepartFilter') as HTMLInputElement).value;
+    const dateArriveeFilter = (document.getElementById('dateArriveeFilter') as HTMLInputElement).value;
+
     const filteredCargaisons = cargaisons.filter(cargaison => {
-      return (
-        (typeFilter === '' || cargaison.type.toLowerCase() === typeFilter.toLowerCase()) &&
-        (etatFilter === '') &&
-        (destinationFilter === '' || cargaison.lieu_arrivee.toLowerCase().includes(destinationFilter))
-      );
+        return (
+            (!numeroFilter || cargaison.numero.toLowerCase().includes(numeroFilter)) &&
+            (!typeFilter || cargaison.type.toLowerCase() === typeFilter) &&
+            (!etatFilter || cargaison.etat.toLowerCase() === etatFilter) &&
+            (!destinationFilter || cargaison.lieu_arrivee.toLowerCase().includes(destinationFilter)) &&
+            (!departFilter || cargaison.lieu_depart.toLowerCase().includes(departFilter)) &&
+            (!dateDepartFilter || cargaison.date_depart === dateDepartFilter) &&
+            (!dateArriveeFilter || cargaison.date_arrivee === dateArriveeFilter)
+        );
     });
-  
+
     const cargaisonList = document.getElementById('cargaisonbody');
     if (!cargaisonList) return;
-  
+
     cargaisonList.innerHTML = '';
-  
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const pageCargaisons = filteredCargaisons.slice(startIndex, endIndex);
-  
+
+    const startIndex: number = (page - 1) * itemsPerPage;
+    const endIndex: number = startIndex + itemsPerPage;
+    const pageCargaisons: Cargaison[] = filteredCargaisons.slice(startIndex, endIndex);
+
     pageCargaisons.forEach(cargaison => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.numero}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.type}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_depart}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_arrivee}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">voir</button></td>
-      `;
-      cargaisonList.appendChild(row);
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.numero}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.type}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_depart}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_arrivee}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">voir</button></td>
+        `;
+        cargaisonList.appendChild(row);
     });
-  
+
     updatePaginationControls(filteredCargaisons.length);
-  }
-  
-  function updatePaginationControls(totalItems: number): void {
+}
+/* ===================== Controles de Pagination ============================ */
+function updatePaginationControls(totalItems: number): void {
     const paginationControls = document.getElementById('pagination-controls');
     if (!paginationControls) return;
-  
+
     paginationControls.innerHTML = '';
-  
+
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-  
+
     for (let i = 1; i <= totalPages; i++) {
-      const button = document.createElement('button');
-      button.innerText = i.toString();
-      button.classList.add('pagination-button');
-      if (i === currentPage) {
-        button.classList.add('active');
-      }
-      button.addEventListener('click', () => {
-        currentPage = i;
-        displayPage(currentPage);
-      });
-      paginationControls.appendChild(button);
+        const button = document.createElement('button');
+        button.innerText = i.toString();
+        button.classList.add('pagination-button');
+        if (i === currentPage) {
+            button.classList.add('active');
+        }
+        button.addEventListener('click', () => {
+            currentPage = i;
+            displayPage(currentPage);
+        });
+        paginationControls.appendChild(button);
     }
-  }
-  document.addEventListener('DOMContentLoaded', () => {
+}
+
+document.addEventListener('DOMContentLoaded', () => {
     afficherCargaisons();
+});
+
+document.getElementById('numeroFilter')?.addEventListener('input', () => displayPage(1));
+document.getElementById('typeFilter')?.addEventListener('change', () => displayPage(1));
+document.getElementById('etatFilter')?.addEventListener('change', () => displayPage(1));
+document.getElementById('destinationFilter')?.addEventListener('input', () => displayPage(1));
+document.getElementById('departFilter')?.addEventListener('input', () => displayPage(1));
+document.getElementById('dateDepartFilter')?.addEventListener('change', () => displayPage(1));
+document.getElementById('dateArriveeFilter')?.addEventListener('change', () => displayPage(1));
+
+    
+  document.getElementById('form_id')?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    
+    if (!validateForm()) {
+      return;  
+    }
+  
+    const idcargo: number = Cargaison.length +1;
+    const typeCargaison: string = (document.getElementById('type') as HTMLSelectElement).value;
+    const numero: string = "CRG" + Math.floor(Math.random() * 1000);  // Générer un numéro aléatoire pour la cargaison
+    const poidsCargaison: number = parseFloat((document.getElementById('poids') as HTMLInputElement).value);
+    const pointDepart: string = (document.getElementById('depart') as HTMLInputElement).value;
+    const pointArrive: string = (document.getElementById('arrivee') as HTMLInputElement).value;
+    const dateDepart: string = (document.getElementById('dateDepart') as HTMLInputElement).value;
+    const dateArrivee: string = (document.getElementById('dateArrivee') as HTMLInputElement).value;
+    const distance: number = parseFloat((document.getElementById('distance') as HTMLInputElement).value);
+  
+    const cargaison: Cargaison = new Cargaison(
+      'addCargaison',
+      idcargo,
+      numero,
+      typeCargaison,
+      poidsCargaison,
+      pointDepart,
+      pointArrive,
+      dateDepart,
+      dateArrivee,
+      distance
+    );
+  
+    console.log(cargaison);
+  
+    fetch('../template/api.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(cargaison),
+    })
+      .then(response => response.json())
+      .then(result => {
+        console.log(result);
+        if (result.status === 'success') {
+          alert(result.message);
+          afficherCargaisons();  // Appel après succès
+        } else {
+          alert('Erreur lors de l\'ajout de la cargaison');
+        }
+      })
+      .catch(error => {
+        console.error('Erreur:', error);
+        alert('Erreur lors de l\'ajout de la cargaison');
+      });
   });
   
     
-document.getElementById('form_id')?.addEventListener('submit', (event) => {
-    event.preventDefault();
+    
+
+
+
   
-    const idcargo = Cargaison.length +1;
-    const typeCargaison = (document.getElementById('type') as HTMLSelectElement).value;
-    const numero = "CRG" + Math.floor(Math.random() * 1000);  // Générer un numéro aléatoire pour la cargaison
-    const poidsCargaison = parseFloat((document.getElementById('poids') as HTMLInputElement).value);
-    const pointDepart = (document.getElementById('depart') as HTMLInputElement).value;
-    const pointArrive = (document.getElementById('arrivee') as HTMLInputElement).value;
-    const dateDepart = (document.getElementById('dateDepart') as HTMLInputElement).value;
-    const dateArrivee = (document.getElementById('dateArrivee') as HTMLInputElement).value;
-    const distance = parseFloat((document.getElementById('distance') as HTMLInputElement).value);
 
-
-    const cargaison = new Cargaison(
-        'addCargaison',
-        idcargo,
-        numero,
-        typeCargaison,
-        poidsCargaison,
-        pointDepart,
-        pointArrive,
-        dateDepart,
-        dateArrivee,
-        distance
-    
-      );
-    
   
-    
-      console.log(cargaison);
-
-      fetch('../template/api.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(cargaison),
-      })
-        .then(response => response.json())
-        .then(result => {
-          console.log(result);
-          if (result.status === 'success') {
-            alert(result.message);
-          } else {
-            alert('Erreur lors de l\'ajout de la cargaison');
-          }
-        })
-       
-    });
-    
-    afficherCargaisons();
-    
-    
+ 
