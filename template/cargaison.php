@@ -115,10 +115,11 @@
         </tbody>
     </table>
     <div class="join float-right" id="pagination-controls">
-        <button class="join-item btn">«</button>
-        <button class="join-item btn">Page 22</button>
-        <button class="join-item btn">»</button>
-    </div>
+    <button class="join-item btn" id="prevPage">«</button>
+    <button class="join-item btn" id="pageDisplay">Page 1</button>
+    <button class="join-item btn" id="nextPage">»</button>
+</div>
+
     </div>
 </main>
 

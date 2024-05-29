@@ -27,7 +27,7 @@
     </style>
 </head>
 
-<body class="font-sans bg-blue-100 text-gray-900 h-screen overflow-hidden">
+<body class="font-sans bg-gray-100 text-gray-900 h-screen overflow-hidden">
     <header class="bg-blue-900 text-white py-4">
         <div class="container mx-auto flex justify-between items-center px-4">
             <div class="flex items-center">

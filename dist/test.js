@@ -203,25 +203,17 @@ function displayPage(page) {
     });
     updatePaginationControls(filteredCargaisons.length);
 }
-/* ===================== Controles de Pagination ============================ */
 function updatePaginationControls(totalItems) {
-    const paginationControls = document.getElementById('pagination-controls');
-    if (!paginationControls)
-        return;
-    paginationControls.innerHTML = '';
     const totalPages = Math.ceil(totalItems / itemsPerPage);
-    for (let i = 1; i <= totalPages; i++) {
-        const button = document.createElement('button');
-        button.innerText = i.toString();
-        button.classList.add('pagination-button');
-        if (i === currentPage) {
-            button.classList.add('active');
-        }
-        button.addEventListener('click', () => {
-            currentPage = i;
-            displayPage(currentPage);
-        });
-        paginationControls.appendChild(button);
+    const pageDisplay = document.getElementById('pageDisplay');
+    if (!pageDisplay)
+        return;
+    pageDisplay.innerText = `Page ${currentPage}`;
+    const prevPage = document.getElementById('prevPage');
+    const nextPage = document.getElementById('nextPage');
+    if (prevPage && nextPage) {
+        prevPage.disabled = currentPage === 1;
+        nextPage.disabled = currentPage === totalPages;
     }
 }
 document.addEventListener('DOMContentLoaded', () => {
@@ -234,6 +226,19 @@ document.getElementById('destinationFilter')?.addEventListener('input', () => di
 document.getElementById('departFilter')?.addEventListener('input', () => displayPage(1));
 document.getElementById('dateDepartFilter')?.addEventListener('change', () => displayPage(1));
 document.getElementById('dateArriveeFilter')?.addEventListener('change', () => displayPage(1));
+document.getElementById('prevPage')?.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        displayPage(currentPage);
+    }
+});
+document.getElementById('nextPage')?.addEventListener('click', () => {
+    const totalPages = Math.ceil(cargaisons.length / itemsPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        displayPage(currentPage);
+    }
+});
 document.getElementById('form_id')?.addEventListener('submit', (event) => {
     event.preventDefault();
     if (!validateForm()) {
