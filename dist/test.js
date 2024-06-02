@@ -1,4 +1,4 @@
-import { Cargaison } from './modele/cargaison.js';
+import { Cargaison, CargaisonMaritime } from './modele/cargaison.js';
 /* ==============================Modal formulaire ADD CARGO ============================================== */
 const openModalButton = document.getElementById("add_modal");
 openModalButton?.addEventListener("click", () => {
@@ -18,6 +18,18 @@ openModalButton?.addEventListener("click", () => {
             modal?.classList.add("hidden");
         }
     });
+});
+/* ============================== affichage du degré de toxicité pour le type chimique ================================ */
+document.getElementById('productType')?.addEventListener("change", function () {
+    const typeProduit = document.getElementById('productType').value;
+    console.log("productType");
+    const degreToxicite = document.getElementById('productToxicity');
+    if (typeProduit == 'chimique') {
+        degreToxicite?.classList.remove('hidden');
+    }
+    else {
+        degreToxicite?.classList.add('hidden');
+    }
 });
 // ====================================Validation of my field (formulaires) ==================================
 // Function to validate the form
@@ -122,13 +134,13 @@ function hideError(elementId) {
         errorElement.classList.add('hidden');
     }
 }
-/* --------Soumisson du formulaire ------------------------- */
+/* ================= Soumisson du formulaire ======================= */
 document.getElementById('form_id')?.addEventListener('submit', function (event) {
     if (!validateForm()) {
         event.preventDefault();
     }
 });
-/* -------------------------Choix entre Produit et Poids ---------------------------- */
+/* ======================== Choix entre Produit et Poids ============================ */
 document.getElementById('limitation')?.addEventListener('change', function () {
     const limitation = document.getElementById('limitation').value;
     const poidsField = document.getElementById('poidsField');
@@ -146,11 +158,11 @@ document.getElementById('limitation')?.addEventListener('change', function () {
         produitField?.classList.add('hidden');
     }
 });
-/* -------------------------Affichage de la liste des cargaisons ---------------------------- */
+/* ====================== Affichage de la liste des cargaisons =============================== */
 document.getElementById('valider')?.addEventListener('click', () => {
     afficherCargaisons();
 });
-/* -------------------------------- Filtre et pagination ----------------------------------------------- */
+/* ====================== Filtre et pagination ================================== */
 let currentPage = 1;
 const itemsPerPage = 5;
 let cargaisons = [];
@@ -174,7 +186,7 @@ function displayPage(page) {
     const filteredCargaisons = cargaisons.filter(cargaison => {
         return ((!numeroFilter || cargaison.numero.toLowerCase().includes(numeroFilter)) &&
             (!typeFilter || cargaison.type.toLowerCase() === typeFilter) &&
-            (!etatFilter || cargaison.etat.toLowerCase() === etatFilter) &&
+            (!etatFilter || cargaison.etat_avancement.toLowerCase() === etatFilter) &&
             (!destinationFilter || cargaison.lieu_arrivee.toLowerCase().includes(destinationFilter)) &&
             (!departFilter || cargaison.lieu_depart.toLowerCase().includes(departFilter)) &&
             (!dateDepartFilter || cargaison.date_depart === dateDepartFilter) &&
@@ -196,10 +208,18 @@ function displayPage(page) {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_arrivee}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance_km}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-add"> <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal"><i class="material-icons" >add</i></button></td> 
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">voir</button></td>
         `;
         cargaisonList.appendChild(row);
+    });
+    const btns = document.querySelectorAll(".btn-add");
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('mymodal1').showModal();
+            console.log('Added');
+        });
     });
     updatePaginationControls(filteredCargaisons.length);
 }
@@ -253,7 +273,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
     const dateDepart = document.getElementById('dateDepart').value;
     const dateArrivee = document.getElementById('dateArrivee').value;
     const distance = parseFloat(document.getElementById('distance').value);
-    const cargaison = new Cargaison('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance);
+    const cargaison = new CargaisonMaritime('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance);
     console.log(cargaison);
     fetch('../template/api.php', {
         method: 'POST',

@@ -1,4 +1,5 @@
-import { Cargaison } from './modele/cargaison.js';
+import { Cargaison, CargaisonMaritime, CargaisonAerienne, CargaisonRoutier } from './modele/cargaison.js';
+import { Product, FoodProduct, ChemicalProduct, MaterialProduct, FragileMaterial, unbreackableMaterial } from './modele/produit.js';
 /* ==============================Modal formulaire ADD CARGO ============================================== */
 
 const openModalButton = document.getElementById("add_modal");
@@ -23,6 +24,21 @@ openModalButton?.addEventListener("click", () => {;
      
       
 });
+
+/* ============================== affichage du degré de toxicité pour le type chimique ================================ */
+ 
+document.getElementById('productType')?.addEventListener("change", function(){
+  const typeProduit = (document.getElementById('productType') as HTMLSelectElement).value;
+  console.log("productType");
+  const degreToxicite = (document.getElementById('productToxicity') as HTMLInputElement);
+    
+    if (typeProduit == 'chimique'){
+       degreToxicite?.classList.remove('hidden');
+    }else{
+        degreToxicite?.classList.add('hidden');
+    }
+});
+
 
 // ====================================Validation of my field (formulaires) ==================================
 
@@ -135,14 +151,14 @@ function validateForm(): boolean {
     }
   }
   
-  /* --------Soumisson du formulaire ------------------------- */
+  /* ================= Soumisson du formulaire ======================= */
   document.getElementById('form_id')?.addEventListener('submit', function(event) {
     if (!validateForm()) {
       event.preventDefault();
     }
   });
   
-  /* -------------------------Choix entre Produit et Poids ---------------------------- */
+  /* ======================== Choix entre Produit et Poids ============================ */
 
   document.getElementById('limitation')?.addEventListener('change', function() {
     const limitation: string = (document.getElementById('limitation') as HTMLSelectElement).value;
@@ -161,13 +177,13 @@ function validateForm(): boolean {
     }
   });
   
-  /* -------------------------Affichage de la liste des cargaisons ---------------------------- */
+  /* ====================== Affichage de la liste des cargaisons =============================== */
 
 document.getElementById('valider')?.addEventListener('click', () => {
   afficherCargaisons();
 });
 
-/* -------------------------------- Filtre et pagination ----------------------------------------------- */
+/* ====================== Filtre et pagination ================================== */
 let currentPage: number = 1;
 
 const itemsPerPage: number = 5; 
@@ -196,7 +212,7 @@ function afficherCargaisons(): void {
         return (
             (!numeroFilter || cargaison.numero.toLowerCase().includes(numeroFilter)) &&
             (!typeFilter || cargaison.type.toLowerCase() === typeFilter) &&
-            (!etatFilter || cargaison.etat.toLowerCase() === etatFilter) &&
+            (!etatFilter || cargaison.etat_avancement.toLowerCase() === etatFilter) &&
             (!destinationFilter || cargaison.lieu_arrivee.toLowerCase().includes(destinationFilter)) &&
             (!departFilter || cargaison.lieu_depart.toLowerCase().includes(departFilter)) &&
             (!dateDepartFilter || cargaison.date_depart === dateDepartFilter) &&
@@ -222,12 +238,21 @@ function afficherCargaisons(): void {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_arrivee}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance_km}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-add"> <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal"><i class="material-icons" >add</i></button></td> 
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">voir</button></td>
         `;
         cargaisonList.appendChild(row);
     });
-
+    const btns= document.querySelectorAll(".btn-add");
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        (document.getElementById('mymodal1') as HTMLDialogElement).showModal()
+        console.log('Added');
+      })
+     
+      
+    })
     updatePaginationControls(filteredCargaisons.length);
 }
 
@@ -291,7 +316,7 @@ document.getElementById('nextPage')?.addEventListener('click', () => {
     const dateArrivee: string = (document.getElementById('dateArrivee') as HTMLInputElement).value;
     const distance: number = parseFloat((document.getElementById('distance') as HTMLInputElement).value);
   
-    const cargaison: Cargaison = new Cargaison(
+    const cargaison: Cargaison = new CargaisonMaritime(
       'addCargaison',
       idcargo,
       numero,

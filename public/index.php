@@ -19,6 +19,11 @@
     <style>
         #map {
             height: 400px;
+            
+        }
+        .produit{
+            z-index: 1;
+            position: fixed;
         }
 
         /* .modal { display: none; }
@@ -27,7 +32,7 @@
     </style>
 </head>
 
-<body class="font-sans bg-gray-100 text-gray-900 h-screen overflow-hidden">
+<body class="font-sans bg-gray-100 text-gray-900 h-screen">
     <header class="bg-blue-900 text-white py-4">
         <div class="container mx-auto flex justify-between items-center px-4">
             <div class="flex items-center">

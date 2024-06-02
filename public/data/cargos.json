@@ -4,12 +4,105 @@
             "idcargo": "66561e5784ab6",
             "numero": "CRG43",
             "type": "maritime",
-            "poids": null,
+            "poids_max": 5000,
             "lieu_depart": "Dakar",
             "lieu_arrivee": "Mbour",
             "date_depart": "2024-05-28",
             "date_arrivee": "2024-06-19",
-            "distance_km": null
+            "distance_km": 150,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "Bon état",
+            "frais": 10,
+            "produits": [
+                {
+                  "nom": "Produit A",
+                  "poids": 10,
+                  "typePro": "type",
+                  "typeCargo": "type",
+                  "clientApport": {
+                    "nom": "Client A",
+                    "prenom": "Prenom A",
+                    "tel": "0123456789",
+                    "adresse": "0123456789",
+                    "email": "clientA@example.com"
+                  },
+                  "destinataire": {
+                    "nom": "Destinataire A",
+                    "prenom": "Prenom D",
+                    "tel": "0987654321",
+                    "adresse": "0987654321",
+                    "email": "destinataireA@example.com"
+                  }
+                }
+              ]
+            },
+        {
+            "idcargo": "66561e5784ab6",
+            "numero": "CRG43",
+            "type": "maritime",
+            "poids_max": 5000,
+            "lieu_depart": "Dakar",
+            "lieu_arrivee": "Mbour",
+            "date_depart": "2024-05-28",
+            "date_arrivee": "2024-06-19",
+            "distance_km": 150,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "Bon état",
+            "frais": 10,
+            "produits": [
+                {
+                    "nom": "Produit A",
+                    "poids": 10,
+                    "typePro": "type",
+                    "typeCargo": "type",
+                    "clientApport": {
+                      "nom": "Client A",
+                      "prenom": "Prenom A",
+                      "tel": "0123456789",
+                      "email": "clientA@example.com"
+                    },
+                    "destinataire": {
+                      "nom": "Destinataire A",
+                      "prenom": "Prenom D",
+                      "tel": "0987654321",
+                      "email": "destinataireA@example.com"
+                    }
+                }
+            ]            
+        },
+        {
+            "idcargo": "66561e5784ab6",
+            "numero": "CRG43",
+            "type": "maritime",
+            "poids_max": 5000,
+            "lieu_depart": "Dakar",
+            "lieu_arrivee": "Mbour",
+            "date_depart": "2024-05-28",
+            "date_arrivee": "2024-06-19",
+            "distance_km": 150,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "Bon état",
+            "frais": 10,
+            "produits": [
+                {
+                    "nom": "Produit A",
+                    "poids": 10,
+                    "typePro": "type",
+                    "typeCargo": "type",
+                    "clientApport": {
+                      "nom": "Client A",
+                      "prenom": "Prenom A",
+                      "tel": "0123456789",
+                      "email": "clientA@example.com"
+                    },
+                    "destinataire": {
+                      "nom": "Destinataire A",
+                      "prenom": "Prenom D",
+                      "tel": "0987654321",
+                      "email": "destinataireA@example.com"
+                    }
+                  }
+            ]            
         },
         {
             "idcargo": "665610d612aba",

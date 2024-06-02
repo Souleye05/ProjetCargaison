@@ -1,125 +1,9 @@
-// import { Produit } from "./produit.js";
-// import { ProduitChimique } from "./produitChimique.js";
-// import { MaterielFragile } from "./materielFragile.js";
+import { Product,  FoodProduct, ChemicalProduct, MaterialProduct, FragileMaterial, unbreackableMaterial } from "../modele/produit.js";
+import { Clients } from "../modele/produit.js";
 
-// export abstract class Cargaison {
-//     protected produits: Produit[] = [];
-//     protected distance: number;
-//     protected frais: number;
-//     public image: string;
-
-//     constructor(distance: number, frais: number, image: string) {
-//         this.distance = distance;
-//         this.frais = frais;
-//         this.image = image;
-//     }
-
-//     abstract calculerFrais(): number;
-
-//     public ajouterProduit(produit: Produit): void {
-//         if (this.produits.length >= 10) {
-//             console.log("La cargaison est pleine");
-//             return;
-//         }
-
-//         if (produit instanceof MaterielFragile && this instanceof CargaisonMaritime) {
-//             console.log("Les produits fragiles ne doivent pas être transportés par voie maritime");
-//             return;
-//         }
-
-//         if (produit instanceof ProduitChimique && !(this instanceof CargaisonMaritime)) {
-//             console.log("Les produits chimiques doivent être transportés par voie maritime");
-//             return;
-//         }
-
-//         this.produits.push(produit);
-//         console.log("Produit ajouté: ${produit.libelle} - Montant Total: ${this.sommeTotal()} ");
-//     }
-
-//     public nombreProduits(): number {
-//         return this.produits.length;
-//     }
-
-//     public sommeTotal(): number {
-//         return this.produits.reduce((total, produit) => total + produit.poids * this.frais, 0);
-//     }
-
-//     public getDistance(): number {
-//         return this.distance;
-//     }
-
-//     public setDistance(distance: number): void {
-//         if (distance < 0) {
-//             throw new Error("La distance ne peut pas être négative");
-//         }
-//         this.distance = distance;
-//     }
-
-//     public getFrais(): number {
-//         return this.frais;
-//     }
-
-//     public setFrais(frais: number): void {
-//         if (frais < 0) {
-//             throw new Error("Les frais ne peuvent pas être négatifs");
-//         }
-//         this.frais = frais;
-//     }
-
-//     public getProduits(): Produit[] {
-//         return this.produits;
-//     }
-// }
-
-// export class CargaisonMaritime extends Cargaison {
-//     private dureeTransit: number;
-
-//     constructor(distance: number, frais: number, image: string) {
-//         super(distance, frais, image);
-//         this.dureeTransit = 19; 
-//     }
-
-//     public calculerFrais(): number {
-//         return this.distance * this.frais;
-//     }
-
-//     public getDureeTransit(): number {
-//         return this.dureeTransit;
-//     }
-
-//     public setDureeTransit(dureeTransit: number): void {
-//         if (dureeTransit < 0) {
-//             throw new Error("La durée du transit ne peut pas être négative");
-//         }
-//         this.dureeTransit = dureeTransit;
-//     }
-// }
-
-// export class CargaisonAerienne extends Cargaison {
-//     constructor(distance: number, image: string) {
-//         super(distance, 100, image); 
-//     }
-
-//     public calculerFrais(): number {
-//         return this.distance * this.frais;
-//     }
-// }
-
-// export class CargaisonRoutier extends Cargaison {
-//     constructor(distance: number, image: string) {
-//         super(distance, 90, image); 
-//     }
-
-//     public calculerFrais(): number {
-//         return this.distance * this.frais;
-//     }
-// }
-
-
-
-export class Cargaison {
-    action:string;
-    idcargo: number;
+export abstract class Cargaison {
+    action: string;
+    idcargo: string;
     numero: string;
     type: string;
     poids_max: number;
@@ -127,28 +11,269 @@ export class Cargaison {
     lieu_arrivee: string;
     date_depart: string;
     date_arrivee: string;
-    distance: number;
-  etat: any;
-    // etat_avancement: string;
-    // etat_globale: string;
+    distance_km: number;
+    etat_avancement: string;
+    etat_globale: string;
+    produits: Product[] = [];
 
-    constructor(action:string, idcargo: number, numero: string, type: string, poids_max: number,lieu_depart: string, lieu_arrivee: string, date_depart: string, date_arrivee: string, distance: number) {
+    constructor(
+        action: string,
+        idcargo: string,
+        numero: string,
+        type: string,
+        poids_max: number,
+        lieu_depart: string,
+        lieu_arrivee: string,
+        date_depart: string,
+        date_arrivee: string,
+        distance_km: number,
+        etat_avancement: string,
+        etat_globale: string,
+        
+    ) {
         this.action = action;
         this.idcargo = idcargo;
         this.numero = numero;
-        this.type = type;       
+        this.type = type;
         this.poids_max = poids_max;
-        this.distance = distance;
         this.lieu_depart = lieu_depart;
         this.lieu_arrivee = lieu_arrivee;
         this.date_depart = date_depart;
         this.date_arrivee = date_arrivee;
-        // this.etat_avancement = etat_avancement;
-        // this.etat_globale = etat_globale;
+        this.distance_km = distance_km;
+        this.etat_avancement = etat_avancement;
+        this.etat_globale = etat_globale;
+        
     }
+
+    abstract calculerFrais(produit: Product): number;
+
+    public ajouterProduit(produit: Product): void {
+
+        this.produits.push(produit);
+        console.log(`Produit ajouté: ${produit.nom} - Montant Total: ${this.sommeTotal()}`);
+    }
+
+    public nombreProduits(): number {
+        return this.produits.length;
+    }
+
+    public sommeTotal(): number {
+        return this.produits.reduce((total, produit) => total * this.calculerFrais(produit), 0);
+    }
+
+    public fermer(): void {
+        if (this.etat_avancement === "EN ATTENTE") {
+            this.etat_avancement = "FERMÉE";
+        } else {
+            console.log("Seules les cargaisons en attente peuvent être fermées");
+        }
+    }
+
+    public reouvrir(): void {
+        if (this.etat_avancement === "FERMÉE") {
+            this.etat_avancement = "EN ATTENTE";
+        } else {
+            console.log("Seules les cargaisons fermées peuvent être rouvertes");
+        }
+    }
+  
 }
 
+export class CargaisonMaritime extends Cargaison {
+  produits: (FoodProduct | unbreackableMaterial | ChemicalProduct)[];
+    constructor(
+        action: string,
+        idcargo: string,
+        numero: string,
+        poids_max: number,
+        lieu_depart: string,
+        lieu_arrivee: string,
+        date_depart: string,
+        date_arrivee: string,
+        distance_km: number,
+        etat_avancement: string,
+        etat_globale: string,
+        
+    ) {
+        super(action, idcargo, numero, "maritime", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+       this.produits = [];
+       
+    }
+    fermer(): void {
+      if (this.etat_avancement === "EN ATTENTE") {
+          this.etat_avancement = "FERMÉE";
+      } else {
+          console.log("Seules les cargaisons en attente peuvent être fermées");
+      }
+  }
+  reouvrir(): void {
+    if (this.etat_avancement === "FERMÉE") {
+        this.etat_avancement = "EN ATTENTE";
+    } else {
+        console.log("Seules les cargaisons fermées peuvent être rouvertes");
+    }
+}
+    ajouterProduit(produit: FoodProduct | unbreackableMaterial | ChemicalProduct): void {
+      if (produit instanceof FragileMaterial) {
+        console.log("Les produits fragiles ne doivent pas être transportés par voie maritime");
+        return;
+      }
+      if (this.etat_avancement !== "EN ATTENTE") {
+        console.log("La cargaison est fermée et ne peut plus recevoir de produits");
+        return;
+    }
+    if (this.poids_max && this.sommeTotal() + produit.poids > this.poids_max) {
+      console.log("La cargaison ne peut pas dépasser le poids maximum");
+      return;
+  }
+  this.produits.push(produit); 
+}
+calculerFrais(produit: FoodProduct | unbreackableMaterial | ChemicalProduct): number{
+  if (produit instanceof FragileMaterial) {
+    console.log("Impossible to add");
+      return 0;
+  } 
+  let frais: number;
+    if (produit instanceof ChemicalProduct){
+      frais = 500 * produit.poids * produit.toxicity + 10000;
+    }else if (produit instanceof MaterialProduct) {
+      frais = 400 * produit.poids * this.distance_km + 5000;
+    }else{
+      frais = 90 * produit.poids * this.distance_km + 5000;
+    }
+    return frais;
+}
+}
 
+export class CargaisonAerienne extends Cargaison {
+  produits: (FoodProduct | MaterialProduct)[];
+    constructor(
+        action: string,
+        idcargo: string,
+        numero: string,
+        poids_max: number,
+        lieu_depart: string,
+        lieu_arrivee: string,
+        date_depart: string,
+        date_arrivee: string,
+        distance_km: number,
+        etat_avancement: string,
+        etat_globale: string,
+        
+    ) {
+        super(action, idcargo, numero, "aerienne", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+        this.produits = [];
 
+    }
+    fermer(): void {
+      if (this.etat_avancement === "EN ATTENTE") {
+          this.etat_avancement = "FERMÉE";
+      } else {
+          console.log("Seules les cargaisons en attente peuvent être fermées");
+      }
+  }
+  reouvrir(): void {
+    if (this.etat_avancement === "FERMÉE") {
+        this.etat_avancement = "EN ATTENTE";
+    } else {
+        console.log("Seules les cargaisons fermées peuvent être rouvertes");
+    }
+}
+    public ajouterProduit(produit: FoodProduct | MaterialProduct): void {
+      if (produit instanceof ChemicalProduct) {
+        console.log("Les produits chimiques ne doivent pas être transportés par voie aérienne");
+        return;
+    }
+    if (this.etat_avancement !== "EN ATTENTE") {
+      console.log("La cargaison est fermée et ne peut plus recevoir de produits");
+      return;
+  }
+  if (this.poids_max && this.sommeTotal() + produit.poids > this.poids_max) {
+    console.log("La cargaison ne peut pas dépasser le poids maximum");
+    return;
+}
+this.produits.push(produit);
 
+}
+calculerFrais(produit: FoodProduct | MaterialProduct): number {
+  if (produit instanceof ChemicalProduct){
+    console.log("Impossible to add");
+      return 0;
+  }
+  let frais: number;
+  if (produit instanceof FoodProduct){
+    frais = 300 * produit.poids * this.distance_km + 5000;
+  }else {
+    frais = 1000 * produit.poids * this.distance_km;
+  }
+  return frais;
 
+}
+}
+
+export class CargaisonRoutier extends Cargaison {
+  produits: (FoodProduct | MaterialProduct)[];
+
+    constructor(
+        action: string,
+        idcargo: string,
+        numero: string,
+        poids_max: number,
+        lieu_depart: string,
+        lieu_arrivee: string,
+        date_depart: string,
+        date_arrivee: string,
+        distance_km: number,
+        etat_avancement: string,
+        etat_globale: string,
+      
+    ) {
+        super(action, idcargo, numero, "routier", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+        this.produits = [];
+    }
+    fermer(): void {
+      if (this.etat_avancement === "EN ATTENTE") {
+          this.etat_avancement = "FERMÉE";
+      } else {
+          console.log("Seules les cargaisons en attente peuvent être fermées");
+      }
+  }
+  reouvrir(): void {
+    if (this.etat_avancement === "FERMÉE") {
+        this.etat_avancement = "EN ATTENTE";
+    } else {
+        console.log("Seules les cargaisons fermées peuvent être rouvertes");
+    }
+}
+       ajouterProduit(produit: FoodProduct | MaterialProduct): void {
+        if (produit instanceof ChemicalProduct){
+          console.log("Les produits chimiques ne doivent pas être transportés par voie Routiére");
+        return;
+        }
+        if (this.etat_avancement!== "EN ATTENTE") {
+          console.log("La cargaison est fermée et ne peut plus recevoir de produits");
+          return;
+      }
+      if (this.poids_max && this.sommeTotal() + produit.poids > this.poids_max) {
+        console.log("La cargaison ne peut pas dépasser le poids maximum");
+        return;
+    }
+    this.produits.push(produit);
+   
+}
+calculerFrais(produit: FoodProduct | MaterialProduct): number {
+  if (produit instanceof ChemicalProduct){
+    console.log("Impossible to add");
+      return 0;
+  }
+  let frais: number;
+  if (produit instanceof FoodProduct){
+    frais = 100 * produit.poids * this.distance_km;
+  }else {
+    frais = 200 * produit.poids * this.distance_km;
+  }
+  return frais;
+
+}
+}
