@@ -30,7 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "lieu_arrivee" => $data['lieu_arrivee'],
             "date_depart" => $data['date_depart'],
             "date_arrivee" => $data['date_arrivee'],
-            "distance_km" => $data['distance_km']
+            "distance_km" => $data['distance_km'],
+            "etat_avancement" => $data['etat_avancement'],
+            "etat_globale" => $data['etat_globale'],
+            "produits" => $data['produits'],
         ];
 
         error_log("Nouvelle cargaison: " . print_r($newCargaison, true));
@@ -52,7 +55,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo json_encode(["status" => "success", "message" => "Cargaison ajoutée avec succès"]);
         exit;
-    } else {
+    }elseif (isset($data['action']) && $data['action'] == 'addproduit'){
+
+        $newProduit = $data ['produit'];
+        $newId = $data ['idcargo'];
+
+        $currentData = lireJSON('../public/data/cargos.json');
+
+        foreach ($currentData['cargaisons'] as $key => $value){
+            if ($value['numero'] == $newId){
+                $currentData['cargaisons'][$key]['produits'][] = $newProduit;
+            }
+        }
+
+        ecrireJSON('../public/data/cargos.json', $currentData);
+        $verifData = lireJSON('../public/data/cargos.json');
+        error_log("Données après écriture: " . print_r($verifData, true));
+
+        echo json_encode(["status" => "success", "message" => "produit ajoutée avec succès"]);
+        exit;
+    }
+     else {
         echo json_encode(["status" => "error", "message" => "Action non reconnue"]);
         exit;
     }

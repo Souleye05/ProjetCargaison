@@ -3,7 +3,7 @@ import { Clients } from "../modele/produit.js";
 
 export abstract class Cargaison {
     action: string;
-    idcargo: string;
+    idcargo: number;
     numero: string;
     type: string;
     poids_max: number;
@@ -18,7 +18,7 @@ export abstract class Cargaison {
 
     constructor(
         action: string,
-        idcargo: string,
+        idcargo: number,
         numero: string,
         type: string,
         poids_max: number,
@@ -84,8 +84,9 @@ export class CargaisonMaritime extends Cargaison {
   produits: (FoodProduct | unbreackableMaterial | ChemicalProduct)[];
     constructor(
         action: string,
-        idcargo: string,
+        idcargo: number,
         numero: string,
+        type: string,
         poids_max: number,
         lieu_depart: string,
         lieu_arrivee: string,
@@ -96,7 +97,7 @@ export class CargaisonMaritime extends Cargaison {
         etat_globale: string,
         
     ) {
-        super(action, idcargo, numero, "maritime", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+        super(action, idcargo, numero, "Maritime", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
        this.produits = [];
        
     }
@@ -150,8 +151,9 @@ export class CargaisonAerienne extends Cargaison {
   produits: (FoodProduct | MaterialProduct)[];
     constructor(
         action: string,
-        idcargo: string,
+        idcargo: number,
         numero: string,
+        type: string,
         poids_max: number,
         lieu_depart: string,
         lieu_arrivee: string,
@@ -160,10 +162,11 @@ export class CargaisonAerienne extends Cargaison {
         distance_km: number,
         etat_avancement: string,
         etat_globale: string,
+        produit: []
         
     ) {
-        super(action, idcargo, numero, "aerienne", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
-        this.produits = [];
+        super(action, idcargo, numero, "Aerienne", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+        this.produits = produit;
 
     }
     fermer(): void {
@@ -217,8 +220,9 @@ export class CargaisonRoutier extends Cargaison {
 
     constructor(
         action: string,
-        idcargo: string,
+        idcargo: number,
         numero: string,
+        type: string,
         poids_max: number,
         lieu_depart: string,
         lieu_arrivee: string,
@@ -229,7 +233,7 @@ export class CargaisonRoutier extends Cargaison {
         etat_globale: string,
       
     ) {
-        super(action, idcargo, numero, "routier", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+        super(action, idcargo, numero, "Routier", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
         this.produits = [];
     }
     fermer(): void {

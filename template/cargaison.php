@@ -74,7 +74,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="clientAddress" class="block text-gray-700">E-mail</label>
-                        <input type="text" id="clientAddress" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" id="clientMail" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <!-- <span class="error">error</span> -->
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="recipientAddress" class="block text-gray-700">téléphone du destinataire</label>
-                        <input type="text" id="addressDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" id="TelDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <div class="mb-4">
                         <label for="recipientAddress" class="block text-gray-700">Adresse du destinataire</label>
@@ -99,11 +99,11 @@
                     </div>
                     <div class="mb-4">
                         <label for="recipientAddress" class="block text-gray-700">E-mail du destinataire</label>
-                        <input type="text" id="addressDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" id="MailDestin" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                 </div>
             </div>
-            <button type="submit" id="addProduct" class="w-full text-blue-600   py-2 rounded-lg mt-6">Ajouter</button>
+            <button type="button" id="addProduct" class="w-full text-blue-600   py-2 rounded-lg mt-6">Ajouter</button>
         </form>
     </div>
 </dialog>
@@ -114,7 +114,7 @@
     <!-- <button id="add_modal" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Add</button> -->
 
 
-    <!-- <button type="button" class="btn btn-primary">Primary</button>
+     <!-- <button type="button" class="btn btn-primary">Primary</button>
 <button type="button" class="btn btn-secondary">Secondary</button>
 <button type="button" class="btn btn-success">Success</button>
 <button type="button" class="btn btn-info">Info</button>
@@ -122,8 +122,8 @@
 <button type="button" class="btn btn-danger">Danger</button>
 <button type="button" class="btn btn-light">Light</button>
 <button type="button" class="btn btn-dark">Dark</button>
-<button type="button" class="btn btn-link">Link</button> -->
-   
+<button type="button" class="btn btn-link">Link</button> 
+    -->
    
     
 
@@ -184,7 +184,9 @@
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date de départ</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date d'arrivée</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Distance</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">État</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produit</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ouvert/Fermer</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
             </tr>
         </thead>
@@ -206,9 +208,10 @@
                     <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['date_depart'] ?></td>
                     <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['date_arrivee'] ?></td>
                     <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['distance_km'] ?></td>
-                    <td class="bg-red">   
-                    </td>
-                    <td class="bg-red"></td>
+                    <td class="bg-red"><?= $cargaisons['etat_avancement'] ?></td>
+                    <td class="bg-red"><?= $cargaisons[''] ?></td>
+                    <td class="bg-red"><?= $cargaisons[''] ?></td>
+                    <td class="bg-red"><?= $cargaisons[''] ?></td>
                 </tr>
             <?php } ?>
 

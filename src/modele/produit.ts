@@ -1,12 +1,13 @@
 export interface Clients {
     nom: string;
     prenom: string;
-    tel: string;
-    adresse: string;
+    tel: number;
+    adresse: number;
     email: string;
 }
 
 export interface Product {
+    action: string;
     nom: string;
     poids: number;
     typePro: string;
@@ -16,6 +17,7 @@ export interface Product {
 }
 
 export class FoodProduct implements Product {
+    action: string;
     nom: string;
     poids: number;
     typePro = "";
@@ -24,7 +26,8 @@ export class FoodProduct implements Product {
     destinataire: Clients;
 
 
-    constructor(nom: string, poids: number, clientsApport: Clients, destinataire: Clients) {
+    constructor(action: string, nom: string, poids: number, clientsApport: Clients, destinataire: Clients) {
+        this.action = action;
         this.nom = nom;
         this.poids = poids;
         this.clientApport = clientsApport;
@@ -34,6 +37,7 @@ export class FoodProduct implements Product {
 }
 
 export class ChemicalProduct implements Product {
+    action: string;
     nom: string;
     poids: number;
     typePro = "";
@@ -42,7 +46,8 @@ export class ChemicalProduct implements Product {
     destinataire: Clients;
     toxicity: number;
 
-    constructor(nom: string, poids: number, clientsApport: Clients, destinataire: Clients, toxicity: number) {
+    constructor(action: string, nom: string, poids: number, clientsApport: Clients, destinataire: Clients, toxicity: number) {
+        this.action = action;
         this.nom = nom;
         this.poids = poids;
         this.clientApport = clientsApport;
@@ -52,6 +57,7 @@ export class ChemicalProduct implements Product {
 }
 
 export abstract class MaterialProduct implements Product {
+    action: string;
     nom: string;
     poids: number;
     typePro = "";
@@ -59,7 +65,8 @@ export abstract class MaterialProduct implements Product {
     clientApport: Clients;
     destinataire: Clients;
 
-    constructor(nom: string, poids: number, clientsApport: Clients, destinataire: Clients) {
+    constructor(action: string, nom: string, poids: number, clientsApport: Clients, destinataire: Clients) {
+        this.action = action;
         this.nom = nom;
         this.poids = poids;
         this.clientApport = clientsApport;
@@ -69,6 +76,7 @@ export abstract class MaterialProduct implements Product {
   
 
 export class FragileMaterial implements MaterialProduct {
+    action: string;
     nom: string;
     poids: number;
     typePro = "";
@@ -76,7 +84,8 @@ export class FragileMaterial implements MaterialProduct {
     clientApport: Clients;
     destinataire: Clients;
 
-    constructor(nom: string, poids: number, clientsApport: Clients, destinataire: Clients) {
+    constructor(action: string, nom: string, poids: number, clientsApport: Clients, destinataire: Clients) {
+        this.action = action;
         this.nom = nom;
         this.poids = poids;
         this.clientApport = clientsApport;
@@ -85,6 +94,7 @@ export class FragileMaterial implements MaterialProduct {
 }
 
 export class unbreackableMaterial implements MaterialProduct {
+    action: string;
     nom: string;
     poids: number;
     typePro = "";
@@ -92,7 +102,8 @@ export class unbreackableMaterial implements MaterialProduct {
     clientApport: Clients;
     destinataire: Clients;
 
-    constructor(nom: string, poids: number, clientsApport: Clients, destinataire: Clients) {
+    constructor(action: string, nom: string, poids: number, clientsApport: Clients, destinataire: Clients) {
+        this.action = action;
         this.nom = nom;
         this.poids = poids;
         this.clientApport = clientsApport;

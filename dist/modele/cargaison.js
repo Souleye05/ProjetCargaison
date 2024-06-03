@@ -56,8 +56,8 @@ export class Cargaison {
 }
 export class CargaisonMaritime extends Cargaison {
     produits;
-    constructor(action, idcargo, numero, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale) {
-        super(action, idcargo, numero, "maritime", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale) {
+        super(action, idcargo, numero, "Maritime", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
         this.produits = [];
     }
     fermer() {
@@ -111,9 +111,9 @@ export class CargaisonMaritime extends Cargaison {
 }
 export class CargaisonAerienne extends Cargaison {
     produits;
-    constructor(action, idcargo, numero, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale) {
-        super(action, idcargo, numero, "aerienne", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
-        this.produits = [];
+    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale, produit) {
+        super(action, idcargo, numero, "Aerienne", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+        this.produits = produit;
     }
     fermer() {
         if (this.etat_avancement === "EN ATTENTE") {
@@ -163,8 +163,8 @@ export class CargaisonAerienne extends Cargaison {
 }
 export class CargaisonRoutier extends Cargaison {
     produits;
-    constructor(action, idcargo, numero, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale) {
-        super(action, idcargo, numero, "routier", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale) {
+        super(action, idcargo, numero, "Routier", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
         this.produits = [];
     }
     fermer() {

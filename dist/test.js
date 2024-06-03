@@ -1,4 +1,5 @@
-import { Cargaison, CargaisonMaritime } from './modele/cargaison.js';
+import { Cargaison, CargaisonMaritime, CargaisonAerienne, CargaisonRoutier } from './modele/cargaison.js';
+import { FoodProduct, ChemicalProduct, FragileMaterial, unbreackableMaterial } from './modele/produit.js';
 /* ==============================Modal formulaire ADD CARGO ============================================== */
 const openModalButton = document.getElementById("add_modal");
 openModalButton?.addEventListener("click", () => {
@@ -36,7 +37,6 @@ document.getElementById('productType')?.addEventListener("change", function () {
 function validateForm() {
     let isValid = true;
     // Get form elements
-    const numero = document.getElementById('numero').value.trim();
     const limitation = document.getElementById('limitation').value;
     const poids = document.getElementById('poids').value.trim();
     const produit = document.getElementById('produit').value.trim();
@@ -45,14 +45,6 @@ function validateForm() {
     const dateDepart = document.getElementById('dateDepart').value;
     const dateArrivee = document.getElementById('dateArrivee').value;
     const distance = document.getElementById('distance').value.trim();
-    // Validate numero
-    if (!numero) {
-        showError('numeroError', 'Veuillez entrer un numéro valide.');
-        isValid = false;
-    }
-    else {
-        hideError('numeroError');
-    }
     // Validate limitation
     if (limitation === 'poids') {
         const poidsValue = parseFloat(poids);
@@ -162,6 +154,7 @@ document.getElementById('limitation')?.addEventListener('change', function () {
 document.getElementById('valider')?.addEventListener('click', () => {
     afficherCargaisons();
 });
+afficherCargaisons();
 /* ====================== Filtre et pagination ================================== */
 let currentPage = 1;
 const itemsPerPage = 5;
@@ -175,6 +168,7 @@ function afficherCargaisons() {
         displayPage(currentPage);
     });
 }
+let id;
 function displayPage(page) {
     const numeroFilter = document.getElementById('numeroFilter').value.toLowerCase();
     const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
@@ -209,14 +203,24 @@ function displayPage(page) {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance_km}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-add"> <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal"><i class="material-icons" >add</i></button></td> 
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">voir</button></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.etat_avancement}<select id="etat_avancement">
+    <option value="EN ATTENTE">En attente</option>
+    <option value="EN ROUTE">En route</option>
+    <option value="ARRIVÉE">Arrivée</option>
+    <option value="PERDU">Perdu</option>
+  </select></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-add" data-id="${cargaison.numero}"> <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal" data-id="${cargaison.numero}"><i class="material-icons" data-id="${cargaison.numero}">add</i></button></td> 
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.idcargo}" id="toggle"> <button class="bg-green-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">Ouvert</button></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.numero}">voir</button></td>
         `;
         cargaisonList.appendChild(row);
     });
     const btns = document.querySelectorAll(".btn-add");
     btns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (event) => {
+            const target = event.target;
+            id = target.getAttribute('data-id');
+            console.log(id);
             document.getElementById('mymodal1').showModal();
             console.log('Added');
         });
@@ -259,11 +263,15 @@ document.getElementById('nextPage')?.addEventListener('click', () => {
         displayPage(currentPage);
     }
 });
+/* =========================== Ajouter cargaison ======================================= */
+let cargaison;
+let produit;
 document.getElementById('form_id')?.addEventListener('submit', (event) => {
     event.preventDefault();
     if (!validateForm()) {
         return;
     }
+    /* ====================== Recupération des données formulaire Cargaison ===================================== */
     const idcargo = Cargaison.length + 1;
     const typeCargaison = document.getElementById('type').value;
     const numero = "CRG" + Math.floor(Math.random() * 1000); // Générer un numéro aléatoire pour la cargaison
@@ -273,8 +281,20 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
     const dateDepart = document.getElementById('dateDepart').value;
     const dateArrivee = document.getElementById('dateArrivee').value;
     const distance = parseFloat(document.getElementById('distance').value);
-    const cargaison = new CargaisonMaritime('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance);
-    console.log(cargaison);
+    console.log(typeCargaison);
+    if (typeCargaison == "maritime") {
+        cargaison = new CargaisonMaritime('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERT');
+    }
+    else if (typeCargaison == "aérienne") {
+        cargaison = new CargaisonAerienne('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERT', []);
+    }
+    else if (typeCargaison == "routiére") {
+        cargaison = new CargaisonRoutier('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERT');
+    }
+    else {
+        alert("Type de cargaison invalide");
+        return;
+    }
     fetch('../template/api.php', {
         method: 'POST',
         headers: {
@@ -287,7 +307,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
         console.log(result);
         if (result.status === 'success') {
             alert(result.message);
-            afficherCargaisons(); // Appel après succès
+            afficherCargaisons();
         }
         else {
             alert('Erreur lors de l\'ajout de la cargaison');
@@ -297,4 +317,96 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
         console.error('Erreur:', error);
         alert('Erreur lors de l\'ajout de la cargaison');
     });
+});
+/* ============================= Ajouter Produit ===================================== */
+document.getElementById('addProduct')?.addEventListener('click', (event) => {
+    event.preventDefault();
+    const numero = "PRO" + Math.floor(Math.random() * 1000);
+    const nomProduit = document.getElementById('nomProduit').value;
+    const poidsProduit = parseFloat(document.getElementById('productWeight').value);
+    const typeProduit = document.getElementById('productType').value;
+    const toxiciteProduit = parseFloat(document.getElementById('productToxicity').value);
+    const prix = parseFloat(document.getElementById('productPrice').value);
+    const expéditeurePrenom = document.getElementById('clientLastName').value;
+    const expéditeureNom = document.getElementById('clientFirstName').value;
+    const expéditeureTelephone = parseFloat(document.getElementById('clientPhone').value);
+    const expéditeureAdresse = parseFloat(document.getElementById('clientAddress').value);
+    const expéditeureEmail = document.getElementById('clientMail').value;
+    const destinataireNom = document.getElementById('nomDestin').value;
+    const destinatairePrenom = document.getElementById('prenomDestin').value;
+    const destinataireTelephone = parseFloat(document.getElementById('TelDestin').value);
+    const destinataireAdresse = parseFloat(document.getElementById('addressDestin').value);
+    const destinataireEmail = document.getElementById('MailDestin').value;
+    let clientApport = { nom: expéditeureNom, prenom: expéditeurePrenom, tel: expéditeureTelephone, adresse: expéditeureAdresse, email: expéditeureEmail };
+    let destinataire = { nom: destinataireNom, prenom: destinatairePrenom, tel: destinataireTelephone, adresse: destinataireAdresse, email: destinataireEmail };
+    if (typeProduit === 'alimentaire') {
+        produit = new FoodProduct('addproduit', nomProduit, poidsProduit, clientApport, destinataire);
+    }
+    else if (typeProduit === 'chimique') {
+        produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, clientApport, destinataire, toxiciteProduit);
+    }
+    else if (typeProduit === 'incassable') {
+        produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, clientApport, destinataire);
+    }
+    else if (typeProduit === 'cassable') {
+        produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, clientApport, destinataire);
+    }
+    else {
+        alert("Type de produit invalide");
+        return;
+    }
+    console.log(produit);
+    const donne = {
+        "action": "addproduit",
+        "produit": produit,
+        "idcargo": id
+    };
+    fetch('../template/api.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(donne),
+    })
+        .then(response => response.json())
+        .then(result => {
+        console.log(result);
+        if (result.status === 'success') {
+            alert(result.message);
+        }
+        else {
+            alert('Erreur lors de l\'ajout du produit');
+        }
+    });
+});
+// Gestion du bouton unique pour ouvrir/fermer la cargaison
+const toggleButon = document.getElementById('toggle');
+toggleButon.addEventListener('click', function () {
+    if (cargaison) {
+        if (cargaison.etat_avancement === "EN ATTENTE") {
+            cargaison.fermer();
+            console.log(`Cargaison fermée. État de la cargaison: ${cargaison.etat_avancement}`);
+        }
+        else if (cargaison.etat_avancement === "FERMÉE") {
+            cargaison.reouvrir();
+            console.log(`Cargaison rouverte. État de la cargaison: ${cargaison.etat_avancement}`);
+        }
+        else {
+            console.log("La cargaison ne peut être fermée ou rouverte que si elle est en attente ou fermée.");
+        }
+    }
+    else {
+        alert("Veuillez créer une cargaison d'abord");
+    }
+});
+// Gestion du changement de l'état d'avancement
+const etatAvancementSelect = document.getElementById('etat_avancement');
+etatAvancementSelect.addEventListener('change', function (event) {
+    if (cargaison) {
+        cargaison.etat_avancement = event.target.value;
+        console.log(`Nouvel état d'avancement: ${cargaison.etat_avancement}`);
+    }
+    else {
+        alert("Veuillez créer une cargaison d'abord");
+    }
 });
