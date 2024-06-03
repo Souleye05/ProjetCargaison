@@ -37,16 +37,30 @@ export class Cargaison {
     sommeTotal() {
         return this.produits.reduce((total, produit) => total * this.calculerFrais(produit), 0);
     }
+    retireProduit(produit) {
+        if (this.etat_avancement !== "EN ATTENTE" || this.etat_globale !== "OUVERT") {
+            console.log("Les produits ne peuvent être retirés que si la cargaison est en attente et ouverte.");
+            return;
+        }
+        const index = this.produits.indexOf(produit);
+        if (index > -1) {
+            this.produits.splice(index, 1);
+            console.log(`Produit retiré: ${produit.nom} - Montant Total: ${this.sommeTotal()}`);
+        }
+        else {
+            console.log(`Le produit ${produit.nom} n'est pas dans la cargaison`);
+        }
+    }
     fermer() {
         if (this.etat_avancement === "EN ATTENTE") {
-            this.etat_avancement = "FERMÉE";
+            this.etat_globale = "FERMÉE";
         }
         else {
             console.log("Seules les cargaisons en attente peuvent être fermées");
         }
     }
     reouvrir() {
-        if (this.etat_avancement === "FERMÉE") {
+        if (this.etat_globale === "FERMÉE") {
             this.etat_avancement = "EN ATTENTE";
         }
         else {
@@ -56,20 +70,20 @@ export class Cargaison {
 }
 export class CargaisonMaritime extends Cargaison {
     produits;
-    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale) {
+    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale, produit) {
         super(action, idcargo, numero, "Maritime", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
         this.produits = [];
     }
     fermer() {
         if (this.etat_avancement === "EN ATTENTE") {
-            this.etat_avancement = "FERMÉE";
+            this.etat_globale = "FERMÉE";
         }
         else {
             console.log("Seules les cargaisons en attente peuvent être fermées");
         }
     }
     reouvrir() {
-        if (this.etat_avancement === "FERMÉE") {
+        if (this.etat_globale === "FERMÉE") {
             this.etat_avancement = "EN ATTENTE";
         }
         else {
@@ -117,14 +131,14 @@ export class CargaisonAerienne extends Cargaison {
     }
     fermer() {
         if (this.etat_avancement === "EN ATTENTE") {
-            this.etat_avancement = "FERMÉE";
+            this.etat_globale = "FERMÉE";
         }
         else {
             console.log("Seules les cargaisons en attente peuvent être fermées");
         }
     }
     reouvrir() {
-        if (this.etat_avancement === "FERMÉE") {
+        if (this.etat_globale === "FERMÉE") {
             this.etat_avancement = "EN ATTENTE";
         }
         else {
@@ -163,20 +177,20 @@ export class CargaisonAerienne extends Cargaison {
 }
 export class CargaisonRoutier extends Cargaison {
     produits;
-    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale) {
+    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale, produit) {
         super(action, idcargo, numero, "Routier", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
         this.produits = [];
     }
     fermer() {
         if (this.etat_avancement === "EN ATTENTE") {
-            this.etat_avancement = "FERMÉE";
+            this.etat_globale = "FERMÉE";
         }
         else {
             console.log("Seules les cargaisons en attente peuvent être fermées");
         }
     }
     reouvrir() {
-        if (this.etat_avancement === "FERMÉE") {
+        if (this.etat_globale === "FERMÉE") {
             this.etat_avancement = "EN ATTENTE";
         }
         else {

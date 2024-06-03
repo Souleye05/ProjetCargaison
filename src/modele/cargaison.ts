@@ -62,16 +62,31 @@ export abstract class Cargaison {
         return this.produits.reduce((total, produit) => total * this.calculerFrais(produit), 0);
     }
 
+    public retireProduit(produit: Product): void {
+      if (this.etat_avancement !== "EN ATTENTE" || this.etat_globale !== "OUVERT") {
+        console.log("Les produits ne peuvent être retirés que si la cargaison est en attente et ouverte.");
+        return;
+      }
+  
+      const index = this.produits.indexOf(produit);
+      if (index > -1) {
+        this.produits.splice(index, 1);
+        console.log(`Produit retiré: ${produit.nom} - Montant Total: ${this.sommeTotal()}`);
+      } else {
+        console.log(`Le produit ${produit.nom} n'est pas dans la cargaison`);
+      }
+    }
+  
     public fermer(): void {
         if (this.etat_avancement === "EN ATTENTE") {
-            this.etat_avancement = "FERMÉE";
+            this.etat_globale = "FERMÉE";
         } else {
             console.log("Seules les cargaisons en attente peuvent être fermées");
         }
     }
 
     public reouvrir(): void {
-        if (this.etat_avancement === "FERMÉE") {
+        if (this.etat_globale === "FERMÉE") {
             this.etat_avancement = "EN ATTENTE";
         } else {
             console.log("Seules les cargaisons fermées peuvent être rouvertes");
@@ -95,6 +110,7 @@ export class CargaisonMaritime extends Cargaison {
         distance_km: number,
         etat_avancement: string,
         etat_globale: string,
+        produit: []
         
     ) {
         super(action, idcargo, numero, "Maritime", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
@@ -103,13 +119,13 @@ export class CargaisonMaritime extends Cargaison {
     }
     fermer(): void {
       if (this.etat_avancement === "EN ATTENTE") {
-          this.etat_avancement = "FERMÉE";
+          this.etat_globale = "FERMÉE";
       } else {
           console.log("Seules les cargaisons en attente peuvent être fermées");
       }
   }
   reouvrir(): void {
-    if (this.etat_avancement === "FERMÉE") {
+    if (this.etat_globale === "FERMÉE") {
         this.etat_avancement = "EN ATTENTE";
     } else {
         console.log("Seules les cargaisons fermées peuvent être rouvertes");
@@ -171,13 +187,13 @@ export class CargaisonAerienne extends Cargaison {
     }
     fermer(): void {
       if (this.etat_avancement === "EN ATTENTE") {
-          this.etat_avancement = "FERMÉE";
+          this.etat_globale = "FERMÉE";
       } else {
           console.log("Seules les cargaisons en attente peuvent être fermées");
       }
   }
   reouvrir(): void {
-    if (this.etat_avancement === "FERMÉE") {
+    if (this.etat_globale === "FERMÉE") {
         this.etat_avancement = "EN ATTENTE";
     } else {
         console.log("Seules les cargaisons fermées peuvent être rouvertes");
@@ -231,6 +247,7 @@ export class CargaisonRoutier extends Cargaison {
         distance_km: number,
         etat_avancement: string,
         etat_globale: string,
+        produit: []
       
     ) {
         super(action, idcargo, numero, "Routier", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
@@ -238,13 +255,13 @@ export class CargaisonRoutier extends Cargaison {
     }
     fermer(): void {
       if (this.etat_avancement === "EN ATTENTE") {
-          this.etat_avancement = "FERMÉE";
+          this.etat_globale = "FERMÉE";
       } else {
           console.log("Seules les cargaisons en attente peuvent être fermées");
       }
   }
   reouvrir(): void {
-    if (this.etat_avancement === "FERMÉE") {
+    if (this.etat_globale === "FERMÉE") {
         this.etat_avancement = "EN ATTENTE";
     } else {
         console.log("Seules les cargaisons fermées peuvent être rouvertes");

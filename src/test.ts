@@ -231,15 +231,23 @@ function displayPage(page: number): void {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance_km}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.etat_avancement}<select id="etat_avancement">
-    <option value="EN ATTENTE">En attente</option>
-    <option value="EN ROUTE">En route</option>
-    <option value="ARRIVÉE">Arrivée</option>
-    <option value="PERDU">Perdu</option>
-  </select></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-add" data-id="${cargaison.numero}"> <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal" data-id="${cargaison.numero}"><i class="material-icons" data-id="${cargaison.numero}">add</i></button></td> 
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.idcargo}" id="toggle"> <button class="bg-green-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.idcargo}">Ouvert</button></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.numero}">voir</button></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><select id="etat_avancement" class="etat-avancement-select" data-id="${cargaison.numero}">
+          <option value="EN ATTENTE">En attente</option>
+          <option value="EN ROUTE">En route</option>
+          <option value="ARRIVÉE">Arrivée</option>
+          <option value="PERDU">Perdu</option>
+        </select>
+        </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.etat_globale}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-add" data-id="${cargaison.numero}">
+          <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal" data-id="${cargaison.numero}">
+          <i class="material-icons" data-id="${cargaison.numero}">add</i>
+          </button>
+        </td> 
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle"> <button class="bg-red-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.numero}">Retirer</button></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle"> <button class="bg-green-500 text-white px-1 py-1 rounded btn-view btn-ouvrir-cargo" type="button" data-id="${cargaison.numero}">Ouvert</button></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle"> <button class="bg-red-500 text-white px-1 py-1 rounded btn-view btn-fermer-cargo" type="button" data-id="${cargaison.numero}">Fermer</button></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view detail-button" type="button"  data-id="${cargaison.numero}">voir</button></td>
         `;
     cargaisonList.appendChild(row);
   });
@@ -253,9 +261,68 @@ function displayPage(page: number): void {
       (document.getElementById('mymodal1') as HTMLDialogElement).showModal()
       console.log('Added');
     })
-
-
   })
+  /*  ============== Modal pour les détails de la cargaison ========================== */
+  const details = document.querySelectorAll(".detail-button");
+  details.forEach(btn => {
+    btn.addEventListener('click', (event) => {
+      const target = event.target as HTMLElement;
+      id = target.getAttribute('data-id');
+      console.log(id);
+      
+      const detailModal = document.getElementById('detail-modal');
+      if (detailModal) {
+        detailModal.classList.remove('hidden');
+        detailModal.classList.add('flex');
+      }
+      
+
+      const closeModalButton = document.getElementById('close-modal');
+    if (closeModalButton) {
+    closeModalButton.addEventListener('click', function() {
+    const detailModal = document.getElementById('detail-modal');
+    if (detailModal) {
+      detailModal.classList.remove('flex');
+      detailModal.classList.add('hidden');
+    }
+  });
+}
+showDetails(id, cargaisons)
+    })
+  })
+  ////Evenement change État_avancement
+  document.querySelectorAll(".etat-avancement-select").forEach((select) => {
+    select.addEventListener("change", (event) => {
+        const target = event.target as HTMLSelectElement;
+        const cargaisonId = target.getAttribute("data-id");
+        const newEtat = target.value;
+        changerEtatAvancement(cargaisonId, newEtat);
+    });
+});
+
+  ////Evenement click bouton Ouvrir
+  document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo");
+      if (target) {
+        const cargaisonId = target.getAttribute("data-id");
+        console.log(cargaisonId);
+        ouvrirCargaison(cargaisonId);
+      }
+    });
+  });
+  ////Evenement click bouton fermer
+document.querySelectorAll(".btn-fermer-cargo").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    const target = (event.target as HTMLElement).closest(".btn-fermer-cargo");
+    if (target) {
+      const cargaisonId = target.getAttribute("data-id");
+      console.log(cargaisonId);
+      fermerCargaison(cargaisonId);
+    }
+  });
+});
+
   updatePaginationControls(filteredCargaisons.length);
 }
 
@@ -301,6 +368,101 @@ document.getElementById('nextPage')?.addEventListener('click', () => {
   }
 });
 
+// Fonction changer etat_avancement d'une cargaison
+function changerEtatAvancement(cargaisonId: string | null, newEtat: string): void {
+  if (!cargaisonId) return;
+
+  fetch("../template/api.php", {
+      method: "POST",
+      body: JSON.stringify({
+        action: "changerEtape",
+        idCargaison: cargaisonId,
+          nouvelleEtape: newEtat,
+      }),
+      headers: {
+          "Content-Type": "application/json"
+      }
+  })
+  .then((response) => response.json())
+  .then((data) => {
+      if (data.status === "success") {
+          alert("État d'avancement mis à jour avec succès");
+          afficherCargaisons();
+      } else {
+          alert("Erreur lors de la mise à jour de l'état d'avancement");
+      }
+  })
+  .catch((error) => {
+      console.error("Erreur:", error);
+      alert("Erreur lors de la mise à jour de l'état d'avancement");
+  });
+}
+
+ // Fonction pour fermer une cargaison
+function fermerCargaison(cargaisonId: string | null): void {
+  console.log(cargaisonId);
+  
+  if (!cargaisonId) {
+      console.error("cargaisonId is null");
+      return;
+  }
+
+  fetch("../template/api.php", {
+      method: "POST",
+      body: JSON.stringify({
+          action: "fermerCargaison",
+          id: cargaisonId
+      }),
+      headers: {
+          "Content-Type": "application/json"
+      }
+  })
+  .then((response) => response.json())
+  .then((data) => {
+      if (data.status === "success") {
+          alert(data.message);
+          afficherCargaisons(); // Rafraîchir le tableau après fermeture
+      } else {
+          alert("Erreur lors de la fermeture de la cargaison : " + data.message);
+      }
+  })
+  .catch((error) => {
+      console.error("Erreur:", error);
+      alert("Erreur lors de la fermeture de la cargaison");
+  });
+}
+
+// Fonction pour ouvrir une cargaison
+function ouvrirCargaison(cargaisonId: string | null): void {
+  if (!cargaisonId) {
+      console.error("cargaisonId is null");
+      return;
+  }
+
+  fetch("../template/api.php", {
+      method: "POST",
+      body: JSON.stringify({
+          action: "ouvrirCargaison",
+          id: cargaisonId
+      }),
+      headers: {
+          "Content-Type": "application/json"
+      }
+  })
+  .then((response) => response.json())
+  .then((data) => {
+      if (data.status === "success") {
+          alert(data.message);
+          afficherCargaisons(); // Rafraîchir le tableau après fermeture
+      } else {
+          alert("Erreur lors de l'ouverture de la cargaison : " + data.message);
+      }
+  })
+  .catch((error) => {
+      console.error("Erreur:", error);
+      alert("Erreur lors de l'ouverture de la cargaison");
+  });
+}
 /* =========================== Ajouter cargaison ======================================= */
 let cargaison: Cargaison;
 let produit: Product;
@@ -338,7 +500,8 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       dateArrivee,
       distance,
       'EN ATTENTE',
-      'OUVERT'
+      'OUVERT',
+      []
     );
   } else if (typeCargaison == "aérienne") {
     cargaison = new CargaisonAerienne(
@@ -369,7 +532,8 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       dateArrivee,
       distance,
       'EN ATTENTE',
-      'OUVERT'
+      'OUVERT',
+      []
     );
   } else {
     alert("Type de cargaison invalide");
@@ -465,36 +629,34 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
   });
 
 
-  // Gestion du bouton unique pour ouvrir/fermer la cargaison
-  const toggleButon = document.getElementById('toggle') as HTMLElement;
-  toggleButon.addEventListener('click', function() {
-  if (cargaison) {
-      if (cargaison.etat_avancement === "EN ATTENTE") {
-          cargaison.fermer();
-          console.log(`Cargaison fermée. État de la cargaison: ${cargaison.etat_avancement}`);
-      } else if (cargaison.etat_avancement === "FERMÉE") {
-          cargaison.reouvrir();
-          console.log(`Cargaison rouverte. État de la cargaison: ${cargaison.etat_avancement}`);
-      } else {
-          console.log("La cargaison ne peut être fermée ou rouverte que si elle est en attente ou fermée.");
-      }
-  } else {
-      alert("Veuillez créer une cargaison d'abord");
+
+ function showDetails (id: string | null, cargaisons: Cargaison[]) {
+
+  const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
+  if (cargaisonIndex === -1) {
+    console.error(`Cargaison avec id ${id} non trouvée.`);
+    return;
   }
-});
 
-// Gestion du changement de l'état d'avancement
-const etatAvancementSelect = document.getElementById('etat_avancement') as HTMLElement;
-etatAvancementSelect.addEventListener('change', function(event) {
-  if (cargaison) {
-    cargaison.etat_avancement = (event.target as HTMLSelectElement).value;
-    console.log(`Nouvel état d'avancement: ${cargaison.etat_avancement}`);
-  } else {
-    alert("Veuillez créer une cargaison d'abord");
-  }
-});
+   cargaison = cargaisons[cargaisonIndex];
 
+    (document.getElementById('detail-idcargo') as HTMLSpanElement).innerText = cargaison.numero.toString();
+    (document.getElementById('detail-type') as HTMLSpanElement).innerText = cargaison.type;
+    (document.getElementById('detail-lieu-depart') as HTMLSpanElement).innerText = cargaison.lieu_depart;
+    (document.getElementById('detail-lieu-arrivee') as HTMLSpanElement).innerText = cargaison.lieu_arrivee;
+    (document.getElementById('detail-date-depart') as HTMLSpanElement).innerText = cargaison.date_depart;
+    (document.getElementById('detail-date-arrivee') as HTMLSpanElement).innerText = cargaison.date_arrivee;
+    (document.getElementById('detail-distance') as HTMLSpanElement).innerText = cargaison.distance_km.toString();
+    (document.getElementById('detail-etat-avancement') as HTMLSpanElement).innerText = cargaison.etat_avancement;
+    const produitsContainer = document.getElementById('detail-produits') as HTMLUListElement;
+  produitsContainer.innerHTML = ''; // Clear previous content
 
-
+  cargaison.produits.forEach(produit => {
+    const li = document.createElement('li');
+    li.innerText = `Nom: ${produit.nom}, Poids: ${produit.poids}, clientApport: ${produit.clientApport}`;
+    produitsContainer.appendChild(li);
+  });
+  
+};
 
 

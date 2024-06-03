@@ -10,8 +10,8 @@
             "date_depart": "2024-06-02",
             "date_arrivee": "2024-06-03",
             "distance_km": 1295.92,
-            "etat_avancement": "EN ATTENTE",
-            "etat_globale": "OUVERT",
+            "etat_avancement": "EN ROUTE",
+            "etat_globale": "FERMER",
             "produits": [
                 {
                     "action": "addproduit",
@@ -75,6 +75,27 @@
                         "tel": null,
                         "adresse": null,
                         "email": "Voluptas cupiditate "
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Voluptatem Eiusmod ",
+                    "poids": null,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Miriam",
+                        "prenom": "Moses",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Iste ex ut in mollit"
+                    },
+                    "destinataire": {
+                        "nom": "Omnis et labore anim",
+                        "prenom": "Exercitationem amet",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Debitis mollit aut l"
                     }
                 }
             ]
@@ -191,7 +212,8 @@
             "distance_km": 1913.65,
             "etat": "EN ATTENTE",
             "global": "OUVERT",
-            "produits": []
+            "produits": [],
+            "etat_globale": "FERMER"
         },
         {
             "idcargo": "66561e5784ab6",
@@ -204,7 +226,7 @@
             "date_arrivee": "2024-06-19",
             "distance_km": 150,
             "etat_avancement": "EN ATTENTE",
-            "etat_globale": "OUVERT",
+            "etat_globale": "FERMER",
             "frais": 10,
             "produits": [
                 {
@@ -241,7 +263,7 @@
             "date_arrivee": "2024-06-19",
             "distance_km": 150,
             "etat_avancement": "EN ATTENTE",
-            "etat_globale": "OUVERT",
+            "etat_globale": "FERMER",
             "frais": 10,
             "produits": [
                 {
@@ -275,7 +297,7 @@
             "date_arrivee": "2024-06-19",
             "distance_km": 150,
             "etat_avancement": "EN ATTENTE",
-            "etat_globale": "OUVERT",
+            "etat_globale": "FERMER",
             "frais": 10,
             "produits": [
                 {
@@ -309,7 +331,7 @@
             "date_arrivee": "2024-06-19",
             "distance_km": 150,
             "etat_avancement": "EN ATTENTE",
-            "etat_globale": "OUVERT",
+            "etat_globale": "FERMER",
             "frais": 10,
             "produits": [
                 {
@@ -343,7 +365,7 @@
             "date_arrivee": "2024-06-19",
             "distance_km": 150,
             "etat_avancement": "EN ATTENTE",
-            "etat_globale": "OUVERT",
+            "etat_globale": "FERMER",
             "frais": 10,
             "produits": [
                 {

@@ -9,15 +9,15 @@
     <!-- -================= Formulaire d'ajout produit dans cargaison  =================== ---->
 
 <dialog id="mymodal1" class="produit"> 
-    <div class="bg-white p-6 rounded-lg shadow-lg border w-3/6 flex" style="width:80%">
+    <div class="bg-white p-6 rounded-lg shadow-lg border w-full flex" style="width:100%">
         <form method="dialog" class="border-none">
             <!-- if there is a button in form, it will close the modal -->
             <button class="btn">Close</button> 
         </form>
         <form id="addProductForm" class="" style="width:100%">
-            <div class="flex flex-col space-y-10 gap-3">
+            <div class="flex flex-row space-y-10 gap-3">
                 <!-- Produit Section -->
-                <div>
+                <div class="mt-20">
                     <h3 class="text-md font-semibold text-gray-800 mb-2">Produit</h3>
                     <div class="mb-4">
                         <label for="productName" class="block text-gray-700">Nom du produit</label>
@@ -103,7 +103,7 @@
                     </div>
                 </div>
             </div>
-            <button type="button" id="addProduct" class="w-full text-blue-600   py-2 rounded-lg mt-6">Ajouter</button>
+            <button type="button" id="addProduct" class="w-full text-gray-100 bg-blue-500   py-2 rounded-lg mt-6">Ajouter</button>
         </form>
     </div>
 </dialog>
@@ -185,8 +185,10 @@
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date d'arrivée</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Distance</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">État</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">État Globale</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produit</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ouvert/Fermer</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Retirer Produit</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">On/Off</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
             </tr>
         </thead>
@@ -230,7 +232,7 @@
 
 <!-- -================= Formulaire d'ajout de cargaison  =================== ---->
 
-<div id="my-modal" class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg hidden fixed inset-0 z-20 m-auto flex flex-col justify-center items-center">
+<div id="my-modal" class="bg-white p-8 rounded-lg shadow-lg w-2/4 hidden fixed inset-0 z-20 m-auto flex flex-col justify-center items-center">
     <h2 class="text-2xl font-bold mb-4">Formulaire de création de Cargaison</h2>
     <form class="space-y-4 w-full" id="form_id">
         <div>
@@ -299,3 +301,19 @@
 </div>
 
 
+<div id="detail-modal" class="hidden fixed inset-0 flex items-center justify-center">
+  <div class="bg-white p-4 rounded shadow-lg">
+    <h2>Détails de la cargaison</h2>
+    <p><strong>ID Cargaison:</strong> <span id="detail-idcargo"></span></p>
+    <p><strong>Type:</strong> <span id="detail-type"></span></p>
+    <p><strong>Lieu de départ:</strong> <span id="detail-lieu-depart"></span></p>
+    <p><strong>Lieu d'arrivée:</strong> <span id="detail-lieu-arrivee"></span></p>
+    <p><strong>Date de départ:</strong> <span id="detail-date-depart"></span></p>
+    <p><strong>Date d'arrivée:</strong> <span id="detail-date-arrivee"></span></p>
+    <p><strong>Distance (km):</strong> <span id="detail-distance"></span></p>
+    <p><strong>État d'avancement:</strong> <span id="detail-etat-avancement"></span></p>
+    <h3>Produits</h3>
+    <ul id="detail-produits"></ul>
+    <button id="close-modal">Fermer</button>
+  </div>
+</div>

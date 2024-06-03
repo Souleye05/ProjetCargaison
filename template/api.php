@@ -75,6 +75,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(["status" => "success", "message" => "produit ajoutée avec succès"]);
         exit;
     }
+    elseif (isset($data['action']) && $data['action'] == 'fermerCargaison'){
+
+       
+        $newId = $data ['id'];
+
+        $currentData = lireJSON('../public/data/cargos.json');
+
+        foreach ($currentData['cargaisons'] as $key => $value){
+            if ($value['numero'] == $newId){
+                $currentData['cargaisons'][$key]['etat_globale'] = "FERMER";
+            }
+        }
+
+        ecrireJSON('../public/data/cargos.json', $currentData);
+        $verifData = lireJSON('../public/data/cargos.json');
+        error_log("Données après écriture: " . print_r($verifData, true));
+
+        echo json_encode(["status" => "success", "message" => "La cargaison est en État fERMER"]);
+        exit;
+    }
+    elseif (isset($data['action']) && $data['action'] == 'ouvrirCargaison'){
+
+       
+        $newId = $data ['id'];
+
+        $currentData = lireJSON('../public/data/cargos.json');
+
+        foreach ($currentData['cargaisons'] as $key => $value){
+            if ($value['numero'] == $newId){
+                $currentData['cargaisons'][$key]['etat_globale'] = "OUVERT";
+            }
+        }
+
+        ecrireJSON('../public/data/cargos.json', $currentData);
+        $verifData = lireJSON('../public/data/cargos.json');
+        error_log("Données après écriture: " . print_r($verifData, true));
+
+        echo json_encode(["status" => "success", "message" => "La cargaison est en État OUVERT"]);
+        exit;
+    }
+    elseif (isset($data['action']) && $data['action'] == 'changerEtape'){
+
+       $newEtat = $data['nouvelleEtape'];
+        $newId = $data ['idCargaison'];
+
+        $currentData = lireJSON('../public/data/cargos.json');
+
+        foreach ($currentData['cargaisons'] as $key => $value){
+            if ($value['numero'] == $newId){
+                $currentData['cargaisons'][$key]['etat_avancement'] = $newEtat;
+            }
+        }
+
+        ecrireJSON('../public/data/cargos.json', $currentData);
+        $verifData = lireJSON('../public/data/cargos.json');
+        error_log("Données après écriture: " . print_r($verifData, true));
+
+        echo json_encode(["status" => "success", "message" => "La cargaison est en État OUVERT"]);
+        exit;
+    }
      else {
         echo json_encode(["status" => "error", "message" => "Action non reconnue"]);
         exit;
