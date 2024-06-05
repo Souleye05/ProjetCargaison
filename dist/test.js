@@ -644,3 +644,24 @@ function showDetails(id, cargaisons) {
     });
 }
 ;
+function afficherAlerte(message, type) {
+    let alertDiv = document.getElementById("alert");
+    let divContent = document.createElement("divContent");
+    let alertContent = document.getElementById("alertContent");
+    alertDiv.classList.remove("hidden");
+    switch (type) {
+        case 'success':
+            alertContent.classList.add('bg-green-200', 'text-green-800');
+            break;
+        case 'error':
+            alertContent.classList.add('bg-red-200', 'text-red-800');
+            break;
+        default:
+            alertContent.classList.add('bg-gray-200', 'text-gray-800');
+    }
+    alertContent.textContent = message;
+    divContent.appendChild(alertContent);
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 5000);
+}

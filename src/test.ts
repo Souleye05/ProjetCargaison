@@ -753,3 +753,30 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
   });
 
 };
+
+function afficherAlerte(message: string, type: string) {
+  let alertDiv = document.getElementById("alert") as HTMLDivElement;
+  let divContent = document.createElement("divContent") as HTMLDivElement;
+  let alertContent = document.getElementById("alertContent") as HTMLDivElement;
+  alertDiv!.classList.remove("hidden");
+  
+  switch(type) {
+    case 'success':
+      alertContent.classList.add('bg-green-200', 'text-green-800');
+      break;
+    case 'error':
+      alertContent.classList.add('bg-red-200', 'text-red-800');
+      break;
+    default:
+      alertContent.classList.add('bg-gray-200', 'text-gray-800');
+  }
+
+  alertContent.textContent = message;
+  divContent.appendChild(alertContent);
+
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 5000); 
+
+
+}

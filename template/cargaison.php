@@ -113,7 +113,13 @@
     </div>
 </dialog>
 
- 
+ <!-- ======== message d'alerte ====================== -->
+
+ <div id="alert" class=" hidden fixed top-1/4 w-1/4 left-1/2 h-1/5 right-0 m-4 p-4 bg-white rounded-lg shadow-lg ">
+    <div class="alertContent" id="divContent">
+       <p id="alertContent">Mon message d'alerte</p>
+    </div>
+ </div>
 
  
     <!-- <button id="add_modal" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Add</button> -->
