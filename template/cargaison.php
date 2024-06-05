@@ -45,6 +45,11 @@
                         <!-- <span class="error">error</span> -->
                     </div>
                     <div class="mb-4">
+                        <label for="productState" class="block text-gray-700">État</label>
+                        <input type="text" id="productState" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <!-- <span class="error">error</span> -->
+                    </div>
+                    <div class="mb-4">
                         <label for="productPrice" class="block text-gray-700">Prix</label>
                         <input type="text" id="productPrice" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <!-- <span class="error">error</span> -->
@@ -146,12 +151,12 @@
         <label for="etatFilter" class="block font-medium">Filtrer par État:</label>
         <select id="etatFilter" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 p-3">
             <option value="">Tous</option>
-            <option value="en_attente">En Attente</option>
-            <option value="en_cours">En Cours</option>
-            <option value="arrivé">Arrivé</option>
-            <option value="récupéré">Récupéré</option>
-            <option value="perdu">Perdu</option>
-            <option value="archivé">Archivé</option>
+            <option value="en_attente">En ATTENTE</option>
+            <option value="en_cours">EN COURS</option>
+            <option value="arrivé">ARRIVÉE</option>
+            <option value="récupéré">RECUPÉRÉE</option>
+            <option value="perdu">PERDU</option>
+            <option value="archivé">ARCHIVÉE</option>
         </select>
     </div>
     <div class="flex-1 min-w-[200px]">
@@ -187,7 +192,6 @@
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">État</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">État Globale</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produit</th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Retirer Produit</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">On/Off</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
             </tr>
@@ -314,6 +318,8 @@
     <p><strong>État d'avancement:</strong> <span id="detail-etat-avancement"></span></p>
     <h3>Produits</h3>
     <ul id="detail-produits"></ul>
-    <button id="close-modal">Fermer</button>
+    <!-- <button id="close-modal" >Fermer</button> -->
+<button  id="close-modal" type="button" class="btn btn-light">Fermer</button>
+
   </div>
 </div>

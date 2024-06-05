@@ -231,37 +231,48 @@ function displayPage(page: number): void {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance_km}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><select id="etat_avancement" class="etat-avancement-select" data-id="${cargaison.numero}">
-          <option value="EN ATTENTE">En attente</option>
-          <option value="EN ROUTE">En route</option>
-          <option value="ARRIVÉE">Arrivée</option>
-          <option value="PERDU">Perdu</option>
-        </select>
-        </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.etat_globale}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.etat_avancement}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-add" data-id="${cargaison.numero}">
-          <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal" data-id="${cargaison.numero}">
-          <i class="material-icons" data-id="${cargaison.numero}">add</i>
-          </button>
-        </td> 
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle"> <button class="bg-red-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.numero}">Retirer</button></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle"> <button class="bg-green-500 text-white px-1 py-1 rounded btn-view btn-ouvrir-cargo" type="button" data-id="${cargaison.numero}">Ouvert</button></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle"> <button class="bg-red-500 text-white px-1 py-1 rounded btn-view btn-fermer-cargo" type="button" data-id="${cargaison.numero}">Fermer</button></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view detail-button" type="button"  data-id="${cargaison.numero}">voir</button></td>
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal" data-id="${cargaison.numero}">
+            <i class="material-icons" data-id="${cargaison.numero}">add</i>
+            </button>
+          </td> 
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle">
+            <button class="bg-green-500 text-white px-1 py-1 rounded btn-view btn-ouvrir-cargo" type="button" data-id="${cargaison.numero}">ON</button>
+            <button class="bg-red-500 text-white px-1 py-1 rounded btn-view btn-fermer-cargo" type="button" data-id="${cargaison.numero}">OFF</button>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <button class="bg-blue-500 text-white px-1 py-1 rounded btn-view detail-button" type="button"  data-id="${cargaison.numero}">voir</button>
+            <select id="etat_avancement" class="etat-avancement-select" data-id="${cargaison.numero}">
+              <option value="EN ATTENTE">EN ATTENTE</option>
+              <option value="EN COURS">EN COURS</option>
+              <option value="ARRIVÉE">ARRIVÉE</option>
+              <option value="PERDU">PERDU</option>
+            </select>
+          </td>
         `;
     cargaisonList.appendChild(row);
+  /* =========== Modal add Product ========================== */
+    const btn = row.querySelector(".btn-add");
+    
+      btn?.addEventListener('click', (event) => {
+        if (cargaison.etat_globale == "OUVERTE") {
+          const target = event.target as HTMLElement;
+          id = target.getAttribute('data-id');
+          console.log(id);
+  
+  
+          (document.getElementById('mymodal1') as HTMLDialogElement).showModal()
+          console.log('Added');
+        }else{
+          alert("la cargaison est fermée")
+        }
+       
+      })
+
   });
-  const btns = document.querySelectorAll(".btn-add");
-  btns.forEach(btn => {
-    btn.addEventListener('click', (event) => {
-      const target = event.target as HTMLElement;
-      id = target.getAttribute('data-id');
-      console.log(id);
-      
-      (document.getElementById('mymodal1') as HTMLDialogElement).showModal()
-      console.log('Added');
-    })
-  })
+
   /*  ============== Modal pour les détails de la cargaison ========================== */
   const details = document.querySelectorAll(".detail-button");
   details.forEach(btn => {
@@ -269,59 +280,90 @@ function displayPage(page: number): void {
       const target = event.target as HTMLElement;
       id = target.getAttribute('data-id');
       console.log(id);
-      
+
       const detailModal = document.getElementById('detail-modal');
       if (detailModal) {
         detailModal.classList.remove('hidden');
         detailModal.classList.add('flex');
       }
-      
+
 
       const closeModalButton = document.getElementById('close-modal');
-    if (closeModalButton) {
-    closeModalButton.addEventListener('click', function() {
-    const detailModal = document.getElementById('detail-modal');
-    if (detailModal) {
-      detailModal.classList.remove('flex');
-      detailModal.classList.add('hidden');
-    }
-  });
-}
-showDetails(id, cargaisons)
+      if (closeModalButton) {
+        closeModalButton.addEventListener('click', function () {
+          const detailModal = document.getElementById('detail-modal');
+          if (detailModal) {
+            detailModal.classList.remove('flex');
+            detailModal.classList.add('hidden');
+          }
+        });
+      }
+      showDetails(id, cargaisons)
     })
   })
   ////Evenement change État_avancement
   document.querySelectorAll(".etat-avancement-select").forEach((select) => {
     select.addEventListener("change", (event) => {
-        const target = event.target as HTMLSelectElement;
-        const cargaisonId = target.getAttribute("data-id");
-        const newEtat = target.value;
-        changerEtatAvancement(cargaisonId, newEtat);
-    });
-});
-
-  ////Evenement click bouton Ouvrir
-  document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo");
-      if (target) {
-        const cargaisonId = target.getAttribute("data-id");
-        console.log(cargaisonId);
-        ouvrirCargaison(cargaisonId);
-      }
+      const target = event.target as HTMLSelectElement;
+      const cargaisonId = target.getAttribute("data-id");
+      const newEtat = target.value;
+      changerEtatAvancement(cargaisonId, newEtat);
     });
   });
-  ////Evenement click bouton fermer
-document.querySelectorAll(".btn-fermer-cargo").forEach((button) => {
+
+/* =============================== Evenement click bouton Ouvrir ============================*/
+document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
   button.addEventListener("click", (event) => {
-    const target = (event.target as HTMLElement).closest(".btn-fermer-cargo");
+    const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo");
+
     if (target) {
       const cargaisonId = target.getAttribute("data-id");
-      console.log(cargaisonId);
-      fermerCargaison(cargaisonId);
+      if (cargaisonId) {
+        const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+        if (cargaison) {
+          // Vérifier les états d'avancement et globale pour déterminer si la cargaison peut être ouverte
+          if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "FERMÉE" || cargaison.etat_avancement === "ARRIVÉE" && cargaison.etat_globale === "FERMÉE") {
+            console.log(cargaisonId);
+            ouvrirCargaison(cargaisonId);
+          } else {
+            console.log("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en route.");
+          }
+        } else {
+          console.error("Cargaison non trouvée.");
+        }
+      } else {
+        console.error("ID de cargaison non trouvé.");
+      }
     }
   });
 });
+
+
+/* =============================== Evenement click bouton Ouvrir ============================*/
+
+  document.querySelectorAll(".btn-fermer-cargo").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const target = (event.target as HTMLElement).closest(".btn-fermer-cargo");
+  
+      if (target) {
+        const cargaisonId = target.getAttribute("data-id");
+        if (cargaisonId) {
+          const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+          if (cargaison) {
+            if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "OUVERTE") {
+              console.log(cargaisonId);
+              fermerCargaison(cargaisonId);
+            } 
+          } else {
+            console.error("Cargaison non trouvée.");
+          }
+        } else {
+          console.error("ID de cargaison non trouvé.");
+        }
+      }
+    });
+  });
+  
 
   updatePaginationControls(filteredCargaisons.length);
 }
@@ -373,95 +415,95 @@ function changerEtatAvancement(cargaisonId: string | null, newEtat: string): voi
   if (!cargaisonId) return;
 
   fetch("../template/api.php", {
-      method: "POST",
-      body: JSON.stringify({
-        action: "changerEtape",
-        idCargaison: cargaisonId,
-          nouvelleEtape: newEtat,
-      }),
-      headers: {
-          "Content-Type": "application/json"
-      }
+    method: "POST",
+    body: JSON.stringify({
+      action: "changerEtape",
+      idCargaison: cargaisonId,
+      nouvelleEtape: newEtat,
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
   })
-  .then((response) => response.json())
-  .then((data) => {
+    .then((response) => response.json())
+    .then((data) => {
       if (data.status === "success") {
-          alert("État d'avancement mis à jour avec succès");
-          afficherCargaisons();
+        alert("État d'avancement mis à jour avec succès");
+        afficherCargaisons();
       } else {
-          alert("Erreur lors de la mise à jour de l'état d'avancement");
+        alert("Erreur lors de la mise à jour de l'état d'avancement");
       }
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       console.error("Erreur:", error);
       alert("Erreur lors de la mise à jour de l'état d'avancement");
-  });
+    });
 }
 
- // Fonction pour fermer une cargaison
+// Fonction pour fermer une cargaison
 function fermerCargaison(cargaisonId: string | null): void {
   console.log(cargaisonId);
-  
+
   if (!cargaisonId) {
-      console.error("cargaisonId is null");
-      return;
+    console.error("cargaisonId is null");
+    return;
   }
 
   fetch("../template/api.php", {
-      method: "POST",
-      body: JSON.stringify({
-          action: "fermerCargaison",
-          id: cargaisonId
-      }),
-      headers: {
-          "Content-Type": "application/json"
-      }
+    method: "POST",
+    body: JSON.stringify({
+      action: "fermerCargaison",
+      id: cargaisonId
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
   })
-  .then((response) => response.json())
-  .then((data) => {
+    .then((response) => response.json())
+    .then((data) => {
       if (data.status === "success") {
-          alert(data.message);
-          afficherCargaisons(); // Rafraîchir le tableau après fermeture
+        alert(data.message);
+        afficherCargaisons(); // Rafraîchir le tableau après fermeture
       } else {
-          alert("Erreur lors de la fermeture de la cargaison : " + data.message);
+        alert("Erreur lors de la fermeture de la cargaison : " + data.message);
       }
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       console.error("Erreur:", error);
       alert("Erreur lors de la fermeture de la cargaison");
-  });
+    });
 }
 
 // Fonction pour ouvrir une cargaison
 function ouvrirCargaison(cargaisonId: string | null): void {
   if (!cargaisonId) {
-      console.error("cargaisonId is null");
-      return;
+    console.error("cargaisonId is null");
+    return;
   }
 
   fetch("../template/api.php", {
-      method: "POST",
-      body: JSON.stringify({
-          action: "ouvrirCargaison",
-          id: cargaisonId
-      }),
-      headers: {
-          "Content-Type": "application/json"
-      }
+    method: "POST",
+    body: JSON.stringify({
+      action: "ouvrirCargaison",
+      id: cargaisonId
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
   })
-  .then((response) => response.json())
-  .then((data) => {
+    .then((response) => response.json())
+    .then((data) => {
       if (data.status === "success") {
-          alert(data.message);
-          afficherCargaisons(); // Rafraîchir le tableau après fermeture
+        alert(data.message);
+        afficherCargaisons(); // Rafraîchir le tableau après fermeture
       } else {
-          alert("Erreur lors de l'ouverture de la cargaison : " + data.message);
+        alert("Erreur lors de l'ouverture de la cargaison : " + data.message);
       }
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       console.error("Erreur:", error);
       alert("Erreur lors de l'ouverture de la cargaison");
-  });
+    });
 }
 /* =========================== Ajouter cargaison ======================================= */
 let cargaison: Cargaison;
@@ -473,7 +515,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
   if (!validateForm()) {
     return;
   }
-/* ====================== Recupération des données formulaire Cargaison ===================================== */
+  /* ====================== Recupération des données formulaire Cargaison ===================================== */
   const idcargo: number = Cargaison.length + 1;
   const typeCargaison: string = (document.getElementById('type') as HTMLSelectElement).value;
   const numero: string = "CRG" + Math.floor(Math.random() * 1000);  // Générer un numéro aléatoire pour la cargaison
@@ -485,7 +527,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
   const distance: number = parseFloat((document.getElementById('distance') as HTMLInputElement).value);
 
   console.log(typeCargaison);
-  
+
 
   if (typeCargaison == "maritime") {
     cargaison = new CargaisonMaritime(
@@ -500,9 +542,12 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       dateArrivee,
       distance,
       'EN ATTENTE',
-      'OUVERT',
+      'OUVERTE',
       []
     );
+    cargaison.fermer();
+    cargaison.reouvrir();
+
   } else if (typeCargaison == "aérienne") {
     cargaison = new CargaisonAerienne(
       'addCargaison',
@@ -516,7 +561,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       dateArrivee,
       distance,
       'EN ATTENTE',
-      'OUVERT',
+      'OUVERTE',
       []
     );
   } else if (typeCargaison == "routiére") {
@@ -532,27 +577,33 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       dateArrivee,
       distance,
       'EN ATTENTE',
-      'OUVERT',
+      'OUVERTE',
       []
     );
+    cargaison.fermer();
+    cargaison.reouvrir();
+    cargaison.ajouterProduit(produit);
+    cargaison.retireProduit(produit);
+
   } else {
     alert("Type de cargaison invalide");
     return;
   }
 
-    fetch('../template/api.php', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify(cargaison),
-})
+
+  fetch('../template/api.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(cargaison),
+  })
     .then(response => response.json())
     .then(result => {
       console.log(result);
       if (result.status === 'success') {
         alert(result.message);
-        afficherCargaisons(); 
+        afficherCargaisons();
       } else {
         alert('Erreur lors de l\'ajout de la cargaison');
       }
@@ -561,76 +612,77 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       console.error('Erreur:', error);
       alert('Erreur lors de l\'ajout de la cargaison');
     });
-  });
+});
 /* ============================= Ajouter Produit ===================================== */
-  document.getElementById('addProduct')?.addEventListener('click', (event) => {
-    event.preventDefault();
+document.getElementById('addProduct')?.addEventListener('click', (event) => {
+  event.preventDefault();
 
 
-    const numero: string = "PRO" + Math.floor(Math.random() * 1000);  
-    const nomProduit = (document.getElementById('nomProduit') as HTMLSelectElement).value;
-    const poidsProduit = parseFloat((document.getElementById('productWeight') as HTMLSelectElement).value);
-    const typeProduit = (document.getElementById('productType') as HTMLSelectElement).value;
-    const toxiciteProduit = parseFloat((document.getElementById('productToxicity') as HTMLSelectElement).value);
-    const prix = parseFloat((document.getElementById('productPrice') as HTMLSelectElement).value);
-    const expéditeurePrenom = (document.getElementById('clientLastName') as HTMLSelectElement).value;
-    const expéditeureNom = (document.getElementById('clientFirstName') as HTMLSelectElement).value;
-    const expéditeureTelephone = parseFloat((document.getElementById('clientPhone') as HTMLSelectElement).value);
-    const expéditeureAdresse = parseFloat((document.getElementById('clientAddress') as HTMLSelectElement).value);
-    const expéditeureEmail = (document.getElementById('clientMail') as HTMLSelectElement).value;
-    const destinataireNom = (document.getElementById('nomDestin') as HTMLSelectElement).value;
-    const destinatairePrenom = (document.getElementById('prenomDestin') as HTMLSelectElement).value;
-    const destinataireTelephone = parseFloat((document.getElementById('TelDestin') as HTMLSelectElement).value);
-    const destinataireAdresse = parseFloat((document.getElementById('addressDestin') as HTMLSelectElement).value);
-    const destinataireEmail = (document.getElementById('MailDestin') as HTMLSelectElement).value;
+  const numero: string = "PRO" + Math.floor(Math.random() * 1000);
+  const nomProduit: string = (document.getElementById('nomProduit') as HTMLSelectElement).value;
+  const poidsProduit: number = parseFloat((document.getElementById('productWeight') as HTMLSelectElement).value);
+  const etatProduit: string = (document.getElementById('productState') as HTMLSelectElement).value;
+  const typeProduit: string = (document.getElementById('productType') as HTMLSelectElement).value;
+  const toxiciteProduit: number = parseFloat((document.getElementById('productToxicity') as HTMLSelectElement).value);
+  const prix: number = parseFloat((document.getElementById('productPrice') as HTMLSelectElement).value);
+  const expéditeurePrenom: string = (document.getElementById('clientLastName') as HTMLSelectElement).value;
+  const expéditeureNom = (document.getElementById('clientFirstName') as HTMLSelectElement).value;
+  const expéditeureTelephone = parseFloat((document.getElementById('clientPhone') as HTMLSelectElement).value);
+  const expéditeureAdresse = parseFloat((document.getElementById('clientAddress') as HTMLSelectElement).value);
+  const expéditeureEmail = (document.getElementById('clientMail') as HTMLSelectElement).value;
+  const destinataireNom = (document.getElementById('nomDestin') as HTMLSelectElement).value;
+  const destinatairePrenom = (document.getElementById('prenomDestin') as HTMLSelectElement).value;
+  const destinataireTelephone = parseFloat((document.getElementById('TelDestin') as HTMLSelectElement).value);
+  const destinataireAdresse = parseFloat((document.getElementById('addressDestin') as HTMLSelectElement).value);
+  const destinataireEmail = (document.getElementById('MailDestin') as HTMLSelectElement).value;
 
 
-    let clientApport: Clients = { nom: expéditeureNom, prenom: expéditeurePrenom, tel: expéditeureTelephone, adresse: expéditeureAdresse, email: expéditeureEmail };
-    let destinataire: Clients = { nom: destinataireNom, prenom: destinatairePrenom, tel: destinataireTelephone, adresse: destinataireAdresse, email: destinataireEmail }
+  let clientApport: Clients = { nom: expéditeureNom, prenom: expéditeurePrenom, tel: expéditeureTelephone, adresse: expéditeureAdresse, email: expéditeureEmail };
+  let destinataire: Clients = { nom: destinataireNom, prenom: destinatairePrenom, tel: destinataireTelephone, adresse: destinataireAdresse, email: destinataireEmail }
 
-    if (typeProduit === 'alimentaire') {
-      produit = new FoodProduct('addproduit', nomProduit, poidsProduit, clientApport, destinataire);
-    } else if (typeProduit === 'chimique') {
-      produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, clientApport, destinataire, toxiciteProduit);
-    } else if (typeProduit === 'incassable') {
-      produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, clientApport, destinataire);
-    } else if (typeProduit === 'cassable') {
-      produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, clientApport, destinataire);
-    } else {
-      alert("Type de produit invalide");
-      return;
-    }
+  if (typeProduit === 'alimentaire') {
+    produit = new FoodProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+  } else if (typeProduit === 'chimique') {
+    produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);
+  } else if (typeProduit === 'incassable') {
+    produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+  } else if (typeProduit === 'cassable') {
+    produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+  } else {
+    alert("Type de produit invalide");
+    return;
+  }
 
-    console.log(produit);
-    
-    const donne={
-      "action": "addproduit",
-      "produit":produit,
-      "idcargo":id
-    }
+  console.log(produit);
 
-    fetch('../template/api.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(donne),
+  const donne = {
+    "action": "addproduit",
+    "produit": produit,
+    "idcargo": id
+  }
+
+  fetch('../template/api.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(donne),
+  })
+    .then(response => response.json())
+    .then(result => {
+      console.log(result);
+      if (result.status === 'success') {
+        alert(result.message);
+      } else {
+        alert('Erreur lors de l\'ajout du produit');
+      }
     })
-        .then(response => response.json())
-        .then(result => {
-          console.log(result);
-          if (result.status ==='success') {
-            alert(result.message);
-          } else {
-            alert('Erreur lors de l\'ajout du produit');
-          }
-        })
-        
-  });
+
+});
 
 
 
- function showDetails (id: string | null, cargaisons: Cargaison[]) {
+function showDetails(id: string | null, cargaisons: Cargaison[]) {
 
   const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
   if (cargaisonIndex === -1) {
@@ -638,17 +690,17 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
     return;
   }
 
-   cargaison = cargaisons[cargaisonIndex];
+  cargaison = cargaisons[cargaisonIndex];
 
-    (document.getElementById('detail-idcargo') as HTMLSpanElement).innerText = cargaison.numero.toString();
-    (document.getElementById('detail-type') as HTMLSpanElement).innerText = cargaison.type;
-    (document.getElementById('detail-lieu-depart') as HTMLSpanElement).innerText = cargaison.lieu_depart;
-    (document.getElementById('detail-lieu-arrivee') as HTMLSpanElement).innerText = cargaison.lieu_arrivee;
-    (document.getElementById('detail-date-depart') as HTMLSpanElement).innerText = cargaison.date_depart;
-    (document.getElementById('detail-date-arrivee') as HTMLSpanElement).innerText = cargaison.date_arrivee;
-    (document.getElementById('detail-distance') as HTMLSpanElement).innerText = cargaison.distance_km.toString();
-    (document.getElementById('detail-etat-avancement') as HTMLSpanElement).innerText = cargaison.etat_avancement;
-    const produitsContainer = document.getElementById('detail-produits') as HTMLUListElement;
+  (document.getElementById('detail-idcargo') as HTMLSpanElement).innerText = cargaison.numero.toString();
+  (document.getElementById('detail-type') as HTMLSpanElement).innerText = cargaison.type;
+  (document.getElementById('detail-lieu-depart') as HTMLSpanElement).innerText = cargaison.lieu_depart;
+  (document.getElementById('detail-lieu-arrivee') as HTMLSpanElement).innerText = cargaison.lieu_arrivee;
+  (document.getElementById('detail-date-depart') as HTMLSpanElement).innerText = cargaison.date_depart;
+  (document.getElementById('detail-date-arrivee') as HTMLSpanElement).innerText = cargaison.date_arrivee;
+  (document.getElementById('detail-distance') as HTMLSpanElement).innerText = cargaison.distance_km.toString();
+  (document.getElementById('detail-etat-avancement') as HTMLSpanElement).innerText = cargaison.etat_avancement;
+  const produitsContainer = document.getElementById('detail-produits') as HTMLUListElement;
   produitsContainer.innerHTML = ''; // Clear previous content
 
   cargaison.produits.forEach(produit => {
@@ -656,7 +708,5 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
     li.innerText = `Nom: ${produit.nom}, Poids: ${produit.poids}, clientApport: ${produit.clientApport}`;
     produitsContainer.appendChild(li);
   });
-  
+
 };
-
-

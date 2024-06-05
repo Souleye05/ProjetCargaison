@@ -203,34 +203,41 @@ function displayPage(page) {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_arrivee}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.distance_km}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><select id="etat_avancement" class="etat-avancement-select" data-id="${cargaison.numero}">
-          <option value="EN ATTENTE">En attente</option>
-          <option value="EN ROUTE">En route</option>
-          <option value="ARRIVÉE">Arrivée</option>
-          <option value="PERDU">Perdu</option>
-        </select>
-        </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.etat_globale}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.etat_avancement}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-add" data-id="${cargaison.numero}">
-          <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal" data-id="${cargaison.numero}">
-          <i class="material-icons" data-id="${cargaison.numero}">add</i>
-          </button>
-        </td> 
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle"> <button class="bg-red-500 text-white px-1 py-1 rounded btn-view" type="button" data-id="${cargaison.numero}">Retirer</button></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle"> <button class="bg-green-500 text-white px-1 py-1 rounded btn-view btn-ouvrir-cargo" type="button" data-id="${cargaison.numero}">Ouvert</button></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle"> <button class="bg-red-500 text-white px-1 py-1 rounded btn-view btn-fermer-cargo" type="button" data-id="${cargaison.numero}">Fermer</button></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"><button class="bg-blue-500 text-white px-1 py-1 rounded btn-view detail-button" type="button"  data-id="${cargaison.numero}">voir</button></td>
+            <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab"id="add_modal" data-id="${cargaison.numero}">
+            <i class="material-icons" data-id="${cargaison.numero}">add</i>
+            </button>
+          </td> 
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 btn-view" data-id="${cargaison.numero}" id="toggle">
+            <button class="bg-green-500 text-white px-1 py-1 rounded btn-view btn-ouvrir-cargo" type="button" data-id="${cargaison.numero}">ON</button>
+            <button class="bg-red-500 text-white px-1 py-1 rounded btn-view btn-fermer-cargo" type="button" data-id="${cargaison.numero}">OFF</button>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <button class="bg-blue-500 text-white px-1 py-1 rounded btn-view detail-button" type="button"  data-id="${cargaison.numero}">voir</button>
+            <select id="etat_avancement" class="etat-avancement-select" data-id="${cargaison.numero}">
+              <option value="EN ATTENTE">EN ATTENTE</option>
+              <option value="EN COURS">EN COURS</option>
+              <option value="ARRIVÉE">ARRIVÉE</option>
+              <option value="PERDU">PERDU</option>
+            </select>
+          </td>
         `;
         cargaisonList.appendChild(row);
-    });
-    const btns = document.querySelectorAll(".btn-add");
-    btns.forEach(btn => {
-        btn.addEventListener('click', (event) => {
-            const target = event.target;
-            id = target.getAttribute('data-id');
-            console.log(id);
-            document.getElementById('mymodal1').showModal();
-            console.log('Added');
+        /* =========== Modal add Product ========================== */
+        const btn = row.querySelector(".btn-add");
+        btn?.addEventListener('click', (event) => {
+            if (cargaison.etat_globale == "OUVERTE") {
+                const target = event.target;
+                id = target.getAttribute('data-id');
+                console.log(id);
+                document.getElementById('mymodal1').showModal();
+                console.log('Added');
+            }
+            else {
+                alert("la cargaison est fermée");
+            }
         });
     });
     /*  ============== Modal pour les détails de la cargaison ========================== */
@@ -267,25 +274,55 @@ function displayPage(page) {
             changerEtatAvancement(cargaisonId, newEtat);
         });
     });
-    ////Evenement click bouton Ouvrir
+    /* =============================== Evenement click bouton Ouvrir ============================*/
     document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
         button.addEventListener("click", (event) => {
             const target = event.target.closest(".btn-ouvrir-cargo");
             if (target) {
                 const cargaisonId = target.getAttribute("data-id");
-                console.log(cargaisonId);
-                ouvrirCargaison(cargaisonId);
+                if (cargaisonId) {
+                    const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+                    if (cargaison) {
+                        // Vérifier les états d'avancement et globale pour déterminer si la cargaison peut être ouverte
+                        if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "FERMÉE" || cargaison.etat_avancement === "ARRIVÉE" && cargaison.etat_globale === "FERMÉE") {
+                            console.log(cargaisonId);
+                            ouvrirCargaison(cargaisonId);
+                        }
+                        else {
+                            console.log("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en route.");
+                        }
+                    }
+                    else {
+                        console.error("Cargaison non trouvée.");
+                    }
+                }
+                else {
+                    console.error("ID de cargaison non trouvé.");
+                }
             }
         });
     });
-    ////Evenement click bouton fermer
+    /* =============================== Evenement click bouton Ouvrir ============================*/
     document.querySelectorAll(".btn-fermer-cargo").forEach((button) => {
         button.addEventListener("click", (event) => {
             const target = event.target.closest(".btn-fermer-cargo");
             if (target) {
                 const cargaisonId = target.getAttribute("data-id");
-                console.log(cargaisonId);
-                fermerCargaison(cargaisonId);
+                if (cargaisonId) {
+                    const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+                    if (cargaison) {
+                        if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "OUVERTE") {
+                            console.log(cargaisonId);
+                            fermerCargaison(cargaisonId);
+                        }
+                    }
+                    else {
+                        console.error("Cargaison non trouvée.");
+                    }
+                }
+                else {
+                    console.error("ID de cargaison non trouvé.");
+                }
             }
         });
     });
@@ -440,13 +477,19 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
     const distance = parseFloat(document.getElementById('distance').value);
     console.log(typeCargaison);
     if (typeCargaison == "maritime") {
-        cargaison = new CargaisonMaritime('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERT', []);
+        cargaison = new CargaisonMaritime('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERTE', []);
+        cargaison.fermer();
+        cargaison.reouvrir();
     }
     else if (typeCargaison == "aérienne") {
-        cargaison = new CargaisonAerienne('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERT', []);
+        cargaison = new CargaisonAerienne('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERTE', []);
     }
     else if (typeCargaison == "routiére") {
-        cargaison = new CargaisonRoutier('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERT', []);
+        cargaison = new CargaisonRoutier('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERTE', []);
+        cargaison.fermer();
+        cargaison.reouvrir();
+        cargaison.ajouterProduit(produit);
+        cargaison.retireProduit(produit);
     }
     else {
         alert("Type de cargaison invalide");
@@ -481,6 +524,7 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
     const numero = "PRO" + Math.floor(Math.random() * 1000);
     const nomProduit = document.getElementById('nomProduit').value;
     const poidsProduit = parseFloat(document.getElementById('productWeight').value);
+    const etatProduit = document.getElementById('productState').value;
     const typeProduit = document.getElementById('productType').value;
     const toxiciteProduit = parseFloat(document.getElementById('productToxicity').value);
     const prix = parseFloat(document.getElementById('productPrice').value);
@@ -497,16 +541,16 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
     let clientApport = { nom: expéditeureNom, prenom: expéditeurePrenom, tel: expéditeureTelephone, adresse: expéditeureAdresse, email: expéditeureEmail };
     let destinataire = { nom: destinataireNom, prenom: destinatairePrenom, tel: destinataireTelephone, adresse: destinataireAdresse, email: destinataireEmail };
     if (typeProduit === 'alimentaire') {
-        produit = new FoodProduct('addproduit', nomProduit, poidsProduit, clientApport, destinataire);
+        produit = new FoodProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
     }
     else if (typeProduit === 'chimique') {
-        produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, clientApport, destinataire, toxiciteProduit);
+        produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);
     }
     else if (typeProduit === 'incassable') {
-        produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, clientApport, destinataire);
+        produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
     }
     else if (typeProduit === 'cassable') {
-        produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, clientApport, destinataire);
+        produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
     }
     else {
         alert("Type de produit invalide");

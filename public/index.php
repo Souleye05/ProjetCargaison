@@ -51,7 +51,7 @@
     </header>
 
     <div class="flex h-full">
-        <aside class="bg-gray-800 text-white w-1/5 py-8 px-4">
+        <aside class="bg-gray-800 text-white w-1/6 py-8 px-4">
             <!-- Contenu de la barre latérale -->
             <ul>
                 <li class="mb-4"><a href="?page=Gestion des Cargaisons" class="hover:text-gray-300">Gestion des Cargaisons</a></li>

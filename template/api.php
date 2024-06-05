@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         foreach ($currentData['cargaisons'] as $key => $value){
             if ($value['numero'] == $newId){
-                $currentData['cargaisons'][$key]['etat_globale'] = "FERMER";
+                $currentData['cargaisons'][$key]['etat_globale'] = "FERMÉE";
             }
         }
 
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $verifData = lireJSON('../public/data/cargos.json');
         error_log("Données après écriture: " . print_r($verifData, true));
 
-        echo json_encode(["status" => "success", "message" => "La cargaison est en État fERMER"]);
+        echo json_encode(["status" => "success", "message" => "La cargaison est en État FERMÉE"]);
         exit;
     }
     elseif (isset($data['action']) && $data['action'] == 'ouvrirCargaison'){
@@ -104,7 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         foreach ($currentData['cargaisons'] as $key => $value){
             if ($value['numero'] == $newId){
-                $currentData['cargaisons'][$key]['etat_globale'] = "OUVERT";
+
+                $currentData['cargaisons'][$key]['etat_globale'] = "OUVERTE";
             }
         }
 
@@ -112,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $verifData = lireJSON('../public/data/cargos.json');
         error_log("Données après écriture: " . print_r($verifData, true));
 
-        echo json_encode(["status" => "success", "message" => "La cargaison est en État OUVERT"]);
+        echo json_encode(["status" => "success", "message" => "La cargaison est en État OUVERTE"]);
         exit;
     }
     elseif (isset($data['action']) && $data['action'] == 'changerEtape'){
@@ -124,6 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         foreach ($currentData['cargaisons'] as $key => $value){
             if ($value['numero'] == $newId){
+            
                 $currentData['cargaisons'][$key]['etat_avancement'] = $newEtat;
             }
         }
@@ -132,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $verifData = lireJSON('../public/data/cargos.json');
         error_log("Données après écriture: " . print_r($verifData, true));
 
-        echo json_encode(["status" => "success", "message" => "La cargaison est en État OUVERT"]);
+        echo json_encode(["status" => "success", "message" => "La cargaison est en État OUVERTE"]);
         exit;
     }
      else {
