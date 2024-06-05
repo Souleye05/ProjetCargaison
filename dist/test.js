@@ -265,13 +265,53 @@ function displayPage(page) {
             showDetails(id, cargaisons);
         });
     });
-    ////Evenement change État_avancement
+    /* ====================== Change État d'avancement ================================ */
+    /* ============ Fonction qui active ou désactive les options du select en fonction de l'état actuel de la cargaison ================================== */
+    function setOptionsByEtat(selectElement, etat) {
+        const options = selectElement.querySelectorAll("option");
+        options.forEach(option => {
+            option.classList.remove("bg-green-200");
+            if (etat === "EN ATTENTE" && option.value === "EN COURS") {
+                option.disabled = false;
+                option.classList.add("bg-green-200");
+            }
+            else if (etat === "EN COURS" && (option.value === "ARRIVÉE" || option.value === "PERDU")) {
+                option.disabled = false;
+                option.classList.add("bg-green-200");
+            }
+            else {
+                option.disabled = true;
+            }
+        });
+    }
+    /* ====================== Changement d'état ========================== */
     document.querySelectorAll(".etat-avancement-select").forEach((select) => {
+        const target = select;
+        const cargaisonId = target.getAttribute("data-id");
+        if (cargaisonId) {
+            const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+            if (cargaison) {
+                setOptionsByEtat(target, cargaison.etat_avancement);
+            }
+        }
         select.addEventListener("change", (event) => {
             const target = event.target;
             const cargaisonId = target.getAttribute("data-id");
             const newEtat = target.value;
-            changerEtatAvancement(cargaisonId, newEtat);
+            if (cargaisonId) {
+                const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+                if (cargaison) {
+                    if (cargaison.etat_avancement === "EN ATTENTE" && newEtat === "EN COURS") {
+                        changerEtatAvancement(cargaisonId, newEtat);
+                    }
+                    else if (cargaison.etat_avancement === "EN COURS" && (newEtat === "ARRIVÉE" || newEtat === "PERDU")) {
+                        changerEtatAvancement(cargaisonId, newEtat);
+                    }
+                    else {
+                        console.log("Changement d'état non autorisé.");
+                    }
+                }
+            }
         });
     });
     /* =============================== Evenement click bouton Ouvrir ============================*/
@@ -289,7 +329,7 @@ function displayPage(page) {
                             ouvrirCargaison(cargaisonId);
                         }
                         else {
-                            console.log("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en route.");
+                            console.log("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en COURS.");
                         }
                     }
                     else {
