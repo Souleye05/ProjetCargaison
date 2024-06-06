@@ -199,8 +199,9 @@ function displayPage(page: number): void {
   const departFilter = (document.getElementById('departFilter') as HTMLInputElement).value.toLowerCase();
   const dateDepartFilter = (document.getElementById('dateDepartFilter') as HTMLInputElement).value;
   const dateArriveeFilter = (document.getElementById('dateArriveeFilter') as HTMLInputElement).value;
-
+  
   const filteredCargaisons = cargaisons.filter(cargaison => {
+    console.log(cargaison);
     return (
       (!numeroFilter || cargaison.numero.toLowerCase().includes(numeroFilter)) &&
       (!typeFilter || cargaison.type.toLowerCase() === typeFilter) &&
@@ -209,6 +210,7 @@ function displayPage(page: number): void {
       (!departFilter || cargaison.lieu_depart.toLowerCase().includes(departFilter)) &&
       (!dateDepartFilter || cargaison.date_depart === dateDepartFilter) &&
       (!dateArriveeFilter || cargaison.date_arrivee === dateArriveeFilter)
+      
     );
   });
 
@@ -223,9 +225,11 @@ function displayPage(page: number): void {
 
   pageCargaisons.forEach(cargaison => {
     const row = document.createElement('tr');
+    
     row.innerHTML = `
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.numero}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.type}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.poids_max != null ? cargaison.poids_max + ' (KG)' : cargaison.nbr_prod_max}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_depart}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_arrivee}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
@@ -245,19 +249,25 @@ function displayPage(page: number): void {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             <button class="bg-blue-500 text-white px-1 py-1 rounded btn-view detail-button" type="button"  data-id="${cargaison.numero}">voir</button>
             <select id="etat_avancement" class="etat-avancement-select" data-id="${cargaison.numero}">
-              <option value="EN ATTENTE">EN ATTENTE</option>
-              <option value="EN COURS">EN COURS</option>
-              <option value="ARRIVÉE">ARRIVÉE</option>
-              <option value="PERDU">PERDU</option>
+              <option value="EN ATTENTE" ${cargaison.etat_avancement === "EN ATTENTE" ?'selected':""}>EN ATTENTE</option>
+              <option value="EN COURS" ${cargaison.etat_avancement === "EN COURS" ?'selected':""}>EN COURS</option>
+              <option value="ARRIVÉE" ${cargaison.etat_avancement === "ARRIVÉE" ?'selected':""}>ARRIVÉE</option>
+              <option value="PERDU" ${cargaison.etat_avancement === "PERDU" ?'selected':""}>PERDU</option>
             </select>
           </td>
         `;
     cargaisonList.appendChild(row);
   /* =========== Modal add Product ========================== */
     const btn = row.querySelector(".btn-add");
+    const productWeight = document.getElementById('productWeight') as HTMLElement;
     
       btn?.addEventListener('click', (event) => {
         if (cargaison.etat_globale == "OUVERTE") {
+          if (cargaison.poids_max === null){
+            productWeight.classList.add('hidden');
+          }else{
+            productWeight.classList.remove('hidden');
+          }
           const target = event.target as HTMLElement;
           id = target.getAttribute('data-id');
           console.log(id);
@@ -266,12 +276,49 @@ function displayPage(page: number): void {
           (document.getElementById('mymodal1') as HTMLDialogElement).showModal()
           console.log('Added');
         }else{
-          alert("la cargaison est fermée")
+          afficherAlerte("la cargaison est fermée", "error")
         }
        
       })
 
   });
+
+//   // Assurez-vous que le code s'exécute après que le DOM est complètement chargé
+// document.addEventListener('DOMContentLoaded', () => {
+//   /* =========== Modal add Product ========================== */
+//   const rows = document.querySelectorAll(".row"); // Assurez-vous que ".row" sélectionne tous les éléments pertinents
+
+//   rows.forEach(row => {
+//     const btn = row.querySelector(".btn-add");
+//     const productWeight = document.getElementById('productWeight') as HTMLElement;
+
+//     btn?.addEventListener('click', (event) => {
+//       // Vérifiez l'état global de la cargaison
+//       if (cargaison.etat_globale === "OUVERTE") {
+//         // Cachez ou affichez le champ de poids du produit en fonction du poids maximum
+//         if (cargaison.poids_max === null) {
+//           productWeight.classList.add('hidden');
+//         } else {
+//           productWeight.classList.remove('hidden');
+//         }
+
+//         // Obtenez l'ID du produit à partir de l'attribut data-id
+//         const target = event.target as HTMLElement;
+//         const id = target.getAttribute('data-id');
+//         console.log(id);
+
+//         // Affichez la modal pour ajouter un produit
+//         (document.getElementById('mymodal1') as HTMLDialogElement).showModal();
+//         console.log('Added');
+//       } else {
+//         // Affichez une alerte si la cargaison est fermée
+//         afficherAlerte("La cargaison est fermée", "error");
+//       }
+//     });
+//   });
+// });
+// });
+
 
   /*  ============== Modal pour les détails de la cargaison ========================== */
   const details = document.querySelectorAll(".detail-button");
@@ -355,6 +402,32 @@ function setOptionsByEtat(selectElement: HTMLSelectElement, etat: string): void 
       });
 
 /* =============================== Evenement click bouton Ouvrir ============================*/
+// document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
+//   button.addEventListener("click", (event) => {
+//     const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo");
+
+//     if (target) {
+//       const cargaisonId = target.getAttribute("data-id");
+//       if (cargaisonId) {
+//         const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+//         if (cargaison) {
+//           // Vérifier les états d'avancement et globale pour déterminer si la cargaison peut être ouverte
+//           if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "FERMÉE" || cargaison.etat_avancement === "ARRIVÉE" && cargaison.etat_globale === "FERMÉE") {
+//             console.log(cargaisonId);
+//             ouvrirCargaison(cargaisonId);
+//           } else {
+//             console.log("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en COURS.");
+//           }
+//         } else {
+//           console.error("Cargaison non trouvée.");
+//         }
+//       } else {
+//         console.error("ID de cargaison non trouvé.");
+//       }
+//     }
+//   });
+// });
+
 document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
   button.addEventListener("click", (event) => {
     const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo");
@@ -368,8 +441,12 @@ document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
           if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "FERMÉE" || cargaison.etat_avancement === "ARRIVÉE" && cargaison.etat_globale === "FERMÉE") {
             console.log(cargaisonId);
             ouvrirCargaison(cargaisonId);
+          } else if (cargaison.etat_avancement === "EN COURS") {
+            // Si la cargaison est en cours, la marquer automatiquement comme fermée
+            cargaison.etat_globale = "FERMÉE";
+            afficherAlerte(`La cargaison ${cargaisonId} est en cours et est maintenant fermée automatiquement.`, "error");
           } else {
-            console.log("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en COURS.");
+            afficherAlerte("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en cours.", "error");
           }
         } else {
           console.error("Cargaison non trouvée.");
@@ -382,7 +459,8 @@ document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
 });
 
 
-/* =============================== Evenement click bouton Ouvrir ============================*/
+
+/* =============================== Evenement click bouton fermée ============================*/
 
   document.querySelectorAll(".btn-fermer-cargo").forEach((button) => {
     button.addEventListener("click", (event) => {
@@ -396,6 +474,7 @@ document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
             if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "OUVERTE") {
               console.log(cargaisonId);
               fermerCargaison(cargaisonId);
+
             } 
           } else {
             console.error("Cargaison non trouvée.");
@@ -471,7 +550,7 @@ function changerEtatAvancement(cargaisonId: string | null, newEtat: string): voi
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "success") {
-        alert("État d'avancement mis à jour avec succès");
+        afficherAlerte("État d'avancement mis à jour avec succès", data.status);
         afficherCargaisons();
       } else {
         alert("Erreur lors de la mise à jour de l'état d'avancement");
@@ -505,7 +584,7 @@ function fermerCargaison(cargaisonId: string | null): void {
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "success") {
-        alert(data.message);
+        afficherAlerte("La cargaison est FERMÉE avec succée", data.status);
         afficherCargaisons(); // Rafraîchir le tableau après fermeture
       } else {
         alert("Erreur lors de la fermeture de la cargaison : " + data.message);
@@ -519,6 +598,7 @@ function fermerCargaison(cargaisonId: string | null): void {
 
 // Fonction pour ouvrir une cargaison
 function ouvrirCargaison(cargaisonId: string | null): void {
+
   if (!cargaisonId) {
     console.error("cargaisonId is null");
     return;
@@ -537,8 +617,10 @@ function ouvrirCargaison(cargaisonId: string | null): void {
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "success") {
-        alert(data.message);
-        afficherCargaisons(); // Rafraîchir le tableau après fermeture
+        afficherAlerte("La cargaison est en État OUVERTE", data.status);
+      }else if(data.status === "error"){
+        afficherAlerte(data.message, data.status);
+      afficherCargaisons(); // Rafraîchir le tableau après fermeture
       } else {
         alert("Erreur lors de l'ouverture de la cargaison : " + data.message);
       }
@@ -563,6 +645,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
   const typeCargaison: string = (document.getElementById('type') as HTMLSelectElement).value;
   const numero: string = "CRG" + Math.floor(Math.random() * 1000);  // Générer un numéro aléatoire pour la cargaison
   const poidsCargaison: number = parseFloat((document.getElementById('poids') as HTMLInputElement).value);
+  const nbrProduitMax: number = parseFloat((document.getElementById('produit') as HTMLInputElement).value);
   const pointDepart: string = (document.getElementById('depart') as HTMLInputElement).value;
   const pointArrive: string = (document.getElementById('arrivee') as HTMLInputElement).value;
   const dateDepart: string = (document.getElementById('dateDepart') as HTMLInputElement).value;
@@ -571,7 +654,6 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
 
   console.log(typeCargaison);
 
-
   if (typeCargaison == "maritime") {
     cargaison = new CargaisonMaritime(
       'addCargaison',
@@ -579,6 +661,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       numero,
       typeCargaison,
       poidsCargaison,
+      nbrProduitMax,
       pointDepart,
       pointArrive,
       dateDepart,
@@ -588,8 +671,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       'OUVERTE',
       []
     );
-    cargaison.fermer();
-    cargaison.reouvrir();
+    
 
   } else if (typeCargaison == "aérienne") {
     cargaison = new CargaisonAerienne(
@@ -598,6 +680,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       numero,
       typeCargaison,
       poidsCargaison,
+      nbrProduitMax,
       pointDepart,
       pointArrive,
       dateDepart,
@@ -606,14 +689,16 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       'EN ATTENTE',
       'OUVERTE',
       []
-    );
-  } else if (typeCargaison == "routiére") {
+    );  
+  
+  } else if (typeCargaison == "routier") {
     cargaison = new CargaisonRoutier(
       'addCargaison',
       idcargo,
       numero,
       typeCargaison,
       poidsCargaison,
+      nbrProduitMax,
       pointDepart,
       pointArrive,
       dateDepart,
@@ -623,15 +708,12 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       'OUVERTE',
       []
     );
-    cargaison.fermer();
-    cargaison.reouvrir();
-    cargaison.ajouterProduit(produit);
-    cargaison.retireProduit(produit);
-
+    
   } else {
     alert("Type de cargaison invalide");
     return;
   }
+  
 
 
   fetch('../template/api.php', {
@@ -645,9 +727,12 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
     .then(result => {
       console.log(result);
       if (result.status === 'success') {
-        alert(result.message);
+        afficherAlerte("Cargaison ajoutée avec succès", result.status);
         afficherCargaisons();
-      } else {
+      }else if(result.status === "error"){
+        afficherAlerte(result.message,result.status);
+      }
+      else {
         alert('Erreur lors de l\'ajout de la cargaison');
       }
     })
@@ -663,7 +748,7 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
 
   const numero: string = "PRO" + Math.floor(Math.random() * 1000);
   const nomProduit: string = (document.getElementById('nomProduit') as HTMLSelectElement).value;
-  const poidsProduit: number = parseFloat((document.getElementById('productWeight') as HTMLSelectElement).value);
+  const poidsProduit: number = parseFloat((document.getElementById('productWeight') as HTMLInputElement).value);
   const etatProduit: string = (document.getElementById('productState') as HTMLSelectElement).value;
   const typeProduit: string = (document.getElementById('productType') as HTMLSelectElement).value;
   const toxiciteProduit: number = parseFloat((document.getElementById('productToxicity') as HTMLSelectElement).value);
@@ -671,7 +756,7 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
   const expéditeurePrenom: string = (document.getElementById('clientLastName') as HTMLSelectElement).value;
   const expéditeureNom = (document.getElementById('clientFirstName') as HTMLSelectElement).value;
   const expéditeureTelephone = parseFloat((document.getElementById('clientPhone') as HTMLSelectElement).value);
-  const expéditeureAdresse = parseFloat((document.getElementById('clientAddress') as HTMLSelectElement).value);
+  const expéditeureAdresse = parseFloat((document.getElementById('clientAddress') as HTMLInputElement).value);
   const expéditeureEmail = (document.getElementById('clientMail') as HTMLSelectElement).value;
   const destinataireNom = (document.getElementById('nomDestin') as HTMLSelectElement).value;
   const destinatairePrenom = (document.getElementById('prenomDestin') as HTMLSelectElement).value;
@@ -685,25 +770,50 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
 
   if (typeProduit === 'alimentaire') {
     produit = new FoodProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+    limitationProduit
   } else if (typeProduit === 'chimique') {
     produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);
+    limitationProduit
   } else if (typeProduit === 'incassable') {
     produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+    limitationProduit
   } else if (typeProduit === 'cassable') {
     produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+    limitationProduit
   } else {
-    alert("Type de produit invalide");
+    afficherAlerte("Type de produit invalide", "error");
     return;
   }
 
   console.log(produit);
 
+  function limitationProduit(id: string | null) {
+    const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
+    if (cargaisonIndex === -1) {
+      console.error(`Cargaison avec id ${id} non trouvée.`);
+      return;
+    }
+  
+    const cargaison = cargaisons[cargaisonIndex];
+    const poidsTotalProduits = cargaison.produits.reduce((total, produit) => total + produit.poids, 0);
+    
+    if (cargaison.poids_max !== null && poidsTotalProduits > cargaison.poids_max) {
+      afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
+      return;
+    }
+  
+    if (cargaison.nbr_prod_max !== null && cargaison.produits.length > cargaison.nbr_prod_max) {
+      afficherAlerte("La cargaison ne peut pas contenir plus de produits que le nombre maximum autorisé.", "error");
+      return;
+    }
+  
+  }
+  
   const donne = {
     "action": "addproduit",
     "produit": produit,
     "idcargo": id
   }
-
   fetch('../template/api.php', {
     method: 'POST',
     headers: {
@@ -715,25 +825,27 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
     .then(result => {
       console.log(result);
       if (result.status === 'success') {
-        alert(result.message);
+       /*  alert(result.message); */
+        afficherAlerte("produit ajoutée avec succès",result.status);
+      }else if(result.status === "error"){
+        afficherAlerte(result.message,result.status);
       } else {
         alert('Erreur lors de l\'ajout du produit');
       }
     })
 
+
 });
 
 
-
 function showDetails(id: string | null, cargaisons: Cargaison[]) {
-
   const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
   if (cargaisonIndex === -1) {
     console.error(`Cargaison avec id ${id} non trouvée.`);
     return;
   }
 
-  cargaison = cargaisons[cargaisonIndex];
+  const cargaison = cargaisons[cargaisonIndex];
 
   (document.getElementById('detail-idcargo') as HTMLSpanElement).innerText = cargaison.numero.toString();
   (document.getElementById('detail-type') as HTMLSpanElement).innerText = cargaison.type;
@@ -743,40 +855,63 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
   (document.getElementById('detail-date-arrivee') as HTMLSpanElement).innerText = cargaison.date_arrivee;
   (document.getElementById('detail-distance') as HTMLSpanElement).innerText = cargaison.distance_km.toString();
   (document.getElementById('detail-etat-avancement') as HTMLSpanElement).innerText = cargaison.etat_avancement;
-  const produitsContainer = document.getElementById('detail-produits') as HTMLUListElement;
+
+  const produitsContainer = document.getElementById('detail-produits') as HTMLDivElement;
   produitsContainer.innerHTML = ''; // Clear previous content
 
   cargaison.produits.forEach(produit => {
-    const li = document.createElement('li');
-    li.innerText = `Nom: ${produit.nom}, Poids: ${produit.poids}, clientApport: ${produit.clientApport}`;
-    produitsContainer.appendChild(li);
+    const card = document.createElement('div');
+    card.className = 'bg-blue-100 p-4 rounded shadow-md';
+
+    card.innerHTML = `
+      <h4 class="text-lg font-semibold text-blue-600">${produit.nom}</h4>
+      <p><strong>Poids:</strong> ${produit.poids} kg</p>
+      <p><strong>Client Apport:</strong> ${produit.clientApport.nom} ${produit.clientApport.prenom}, ${produit.clientApport.tel}, ${produit.clientApport.adresse}, ${produit.clientApport.email}</p>
+      <p><strong>Destinataire:</strong> ${produit.destinataire.nom} ${produit.destinataire.prenom}, ${produit.destinataire.tel}, ${produit.destinataire.adresse}, ${produit.destinataire.email}</p>
+    `;
+
+    produitsContainer.appendChild(card);
   });
 
-};
-
-function afficherAlerte(message: string, type: string) {
-  let alertDiv = document.getElementById("alert") as HTMLDivElement;
-  let divContent = document.createElement("divContent") as HTMLDivElement;
-  let alertContent = document.getElementById("alertContent") as HTMLDivElement;
-  alertDiv!.classList.remove("hidden");
-  
-  switch(type) {
-    case 'success':
-      alertContent.classList.add('bg-green-200', 'text-green-800');
-      break;
-    case 'error':
-      alertContent.classList.add('bg-red-200', 'text-red-800');
-      break;
-    default:
-      alertContent.classList.add('bg-gray-200', 'text-gray-800');
-  }
-
-  alertContent.textContent = message;
-  divContent.appendChild(alertContent);
-
-  setTimeout(() => {
-    alertDiv.remove();
-  }, 5000); 
 
 
 }
+
+
+
+
+function afficherAlerte(message: string, type: string) {
+  let alertDiv = document.getElementById("alert") as HTMLDivElement;
+  let alertContent = document.getElementById("alertContent") as HTMLElement;
+  let alertIcon = document.getElementById("alertIcon") as HTMLElement;
+
+  // Remove any previous color and icon classes
+  alertContent.classList.remove('bg-green-200', 'text-green-800', 'bg-red-200', 'text-red-800', 'bg-blue-200', 'text-blue-800');
+  alertIcon.className = '';
+
+  switch(type) {
+    case 'success':
+      alertContent.classList.add('text-green-800');
+      alertIcon.classList.add('fas', 'fa-check-circle', 'text-green-800');
+      break;
+    case 'error':
+      alertContent.classList.add('text-red-800');
+      alertIcon.classList.add('fas', 'fa-exclamation-circle', 'text-red-800');
+      break;
+    default:
+      alertContent.classList.add('text-blue-800');
+      alertIcon.classList.add('fas', 'fa-info-circle', 'text-blue-800');
+  }
+
+  alertContent.textContent = message;
+
+  alertDiv.classList.remove('hidden');
+  alertDiv.classList.add('flex');
+
+  setTimeout(() => {
+    alertDiv.classList.add('hidden');
+    alertDiv.classList.remove('flex');
+  }, 5000);
+}
+
+

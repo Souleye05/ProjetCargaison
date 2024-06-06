@@ -5,6 +5,7 @@ export class Cargaison {
     numero;
     type;
     poids_max;
+    nbr_prod_max;
     lieu_depart;
     lieu_arrivee;
     date_depart;
@@ -13,12 +14,13 @@ export class Cargaison {
     etat_avancement;
     etat_globale;
     produits = [];
-    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale) {
+    constructor(action, idcargo, numero, type, poids_max, nbr_prod_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale) {
         this.action = action;
         this.idcargo = idcargo;
         this.numero = numero;
         this.type = type;
         this.poids_max = poids_max;
+        this.nbr_prod_max = nbr_prod_max;
         this.lieu_depart = lieu_depart;
         this.lieu_arrivee = lieu_arrivee;
         this.date_depart = date_depart;
@@ -70,8 +72,8 @@ export class Cargaison {
 }
 export class CargaisonMaritime extends Cargaison {
     produits;
-    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale, produit) {
-        super(action, idcargo, numero, "Maritime", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+    constructor(action, idcargo, numero, type, poids_max, nbr_prod_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale, produit) {
+        super(action, idcargo, numero, "Maritime", poids_max, nbr_prod_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
         this.produits = [];
     }
     fermer() {
@@ -125,8 +127,8 @@ export class CargaisonMaritime extends Cargaison {
 }
 export class CargaisonAerienne extends Cargaison {
     produits;
-    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale, produit) {
-        super(action, idcargo, numero, "Aerienne", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+    constructor(action, idcargo, numero, type, poids_max, nbr_prod_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale, produit) {
+        super(action, idcargo, numero, "Aerienne", poids_max, nbr_prod_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
         this.produits = produit;
     }
     fermer() {
@@ -134,7 +136,7 @@ export class CargaisonAerienne extends Cargaison {
             this.etat_globale = "FERMÉE";
         }
         else {
-            console.log("Seules les cargaisons en attente peuvent être fermées");
+            alert("Seules les cargaisons en attente peuvent être fermées");
         }
     }
     reouvrir() {
@@ -177,8 +179,8 @@ export class CargaisonAerienne extends Cargaison {
 }
 export class CargaisonRoutier extends Cargaison {
     produits;
-    constructor(action, idcargo, numero, type, poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale, produit) {
-        super(action, idcargo, numero, "Routier", poids_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
+    constructor(action, idcargo, numero, type, poids_max, nbr_prod_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale, produit) {
+        super(action, idcargo, numero, "Routier", poids_max, nbr_prod_max, lieu_depart, lieu_arrivee, date_depart, date_arrivee, distance_km, etat_avancement, etat_globale);
         this.produits = [];
     }
     fermer() {

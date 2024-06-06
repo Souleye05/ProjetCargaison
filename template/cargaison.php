@@ -39,7 +39,7 @@
                         <input type="text" id="productToxicity" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <!-- <span class="error">error</span> -->
                     </div>
-                    <div class="mb-4">
+                    <div class="mb-4" id="productWeight">
                         <label for="productWeight" class="block text-gray-700">Poids</label>
                         <input type="text" id="productWeight" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <!-- <span class="error">error</span> -->
@@ -115,17 +115,27 @@
 
  <!-- ======== message d'alerte ====================== -->
 
- <div id="alert" class=" hidden fixed top-1/4 w-1/4 left-1/2 h-1/5 right-0 m-4 p-4 bg-white rounded-lg shadow-lg ">
+ <!-- <div id="alert" class=" hidden fixed top-1/4 w-1/4 left-1/2 h-1/5 right-0 m-4 p-4 bg-white rounded-lg shadow-lg text-gray-800">
     <div class="alertContent" id="divContent">
        <p id="alertContent">Mon message d'alerte</p>
     </div>
- </div>
+ </div> -->
 
- 
+<!-- ======== message d'alerte ====================== -->
+<div id="alert" class="hidden fixed top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/4 p-4 bg-gray-100 rounded-lg shadow-lg text-gray-800 flex flex-col items-center justify-center">
+  <div id="divContent" class="alertContent flex flex-col items-center bg-zinc-200 ">
+    <i id="alertIcon" class="mb-2"></i>
+    <p id="alertContent" class="text-center">Mon message d'alerte</p>
+  </div>
+</div>
+
+
+
     <!-- <button id="add_modal" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Add</button> -->
 
 
-     <!-- <button type="button" class="btn btn-primary">Primary</button>
+
+    <!-- <button type="button" class="btn btn-primary">Primary</button>
 <button type="button" class="btn btn-secondary">Secondary</button>
 <button type="button" class="btn btn-success">Success</button>
 <button type="button" class="btn btn-info">Info</button>
@@ -157,9 +167,9 @@
         <label for="etatFilter" class="block font-medium">Filtrer par État:</label>
         <select id="etatFilter" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 p-3">
             <option value="">Tous</option>
-            <option value="en_attente">En ATTENTE</option>
-            <option value="en_cours">EN COURS</option>
-            <option value="arrivé">ARRIVÉE</option>
+            <option value="en attente">En ATTENTE</option>
+            <option value="en cours">EN COURS</option>
+            <option value="arrivée">ARRIVÉE</option>
             <option value="récupéré">RECUPÉRÉE</option>
             <option value="perdu">PERDU</option>
             <option value="archivé">ARCHIVÉE</option>
@@ -190,6 +200,7 @@
             <tr>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Numéro</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Poids/Nbr_Colis</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lieu de départ</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lieu d'arrivée</th>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date de départ</th>
@@ -268,7 +279,7 @@
             <select id="type" name="type" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200">
                 <option value="maritime">Maritime</option>
                 <option value="aérienne">Aérienne</option>
-                <option value="routière">Routière</option>
+                <option value="routier">Routière</option>
             </select>
         </div>
         <!-- Lieux de départ et d'arrivée sur la même ligne -->
@@ -310,22 +321,31 @@
     </form>
 </div>
 
-
-<div id="detail-modal" class="hidden fixed inset-0 flex items-center justify-center">
-  <div class="bg-white p-4 rounded shadow-lg">
-    <h2>Détails de la cargaison</h2>
-    <p><strong>ID Cargaison:</strong> <span id="detail-idcargo"></span></p>
-    <p><strong>Type:</strong> <span id="detail-type"></span></p>
-    <p><strong>Lieu de départ:</strong> <span id="detail-lieu-depart"></span></p>
-    <p><strong>Lieu d'arrivée:</strong> <span id="detail-lieu-arrivee"></span></p>
-    <p><strong>Date de départ:</strong> <span id="detail-date-depart"></span></p>
-    <p><strong>Date d'arrivée:</strong> <span id="detail-date-arrivee"></span></p>
-    <p><strong>Distance (km):</strong> <span id="detail-distance"></span></p>
-    <p><strong>État d'avancement:</strong> <span id="detail-etat-avancement"></span></p>
-    <h3>Produits</h3>
-    <ul id="detail-produits"></ul>
-    <!-- <button id="close-modal" >Fermer</button> -->
-<button  id="close-modal" type="button" class="btn btn-light">Fermer</button>
-
+  
+<!-- Détails de la cargaison -->
+<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden" id="detail-modal">
+  <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl p-6 space-y-6">
+    <div>
+      <h2 class="text-2xl font-bold text-blue-600 mb-4">Détails de la Cargaison</h2>
+      <div class="space-y-2">
+        <p><strong>ID Cargaison:</strong> <span id="detail-idcargo" class="text-gray-700"></span></p>
+        <p><strong>Type:</strong> <span id="detail-type" class="text-gray-700"></span></p>
+        <p><strong>Lieu de Départ:</strong> <span id="detail-lieu-depart" class="text-gray-700"></span></p>
+        <p><strong>Lieu d'Arrivée:</strong> <span id="detail-lieu-arrivee" class="text-gray-700"></span></p>
+        <p><strong>Date de Départ:</strong> <span id="detail-date-depart" class="text-gray-700"></span></p>
+        <p><strong>Date d'Arrivée:</strong> <span id="detail-date-arrivee" class="text-gray-700"></span></p>
+        <p><strong>Distance (km):</strong> <span id="detail-distance" class="text-gray-700"></span></p>
+        <p><strong>État d'Avancement:</strong> <span id="detail-etat-avancement" class="text-gray-700"></span></p>
+      </div>
+    </div>
+    <div>
+      <h3 class="text-xl font-semibold text-blue-600 mb-4">Produits</h3>
+      <div id="detail-produits" class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Les cartes de produits seront ajoutées ici -->
+      </div>
+    </div>
+    <div class="text-right">
+      <button id="close-modal" type="button" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Fermer</button>
+    </div>
   </div>
 </div>

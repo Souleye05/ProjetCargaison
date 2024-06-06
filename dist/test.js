@@ -178,6 +178,7 @@ function displayPage(page) {
     const dateDepartFilter = document.getElementById('dateDepartFilter').value;
     const dateArriveeFilter = document.getElementById('dateArriveeFilter').value;
     const filteredCargaisons = cargaisons.filter(cargaison => {
+        console.log(cargaison);
         return ((!numeroFilter || cargaison.numero.toLowerCase().includes(numeroFilter)) &&
             (!typeFilter || cargaison.type.toLowerCase() === typeFilter) &&
             (!etatFilter || cargaison.etat_avancement.toLowerCase() === etatFilter) &&
@@ -198,6 +199,7 @@ function displayPage(page) {
         row.innerHTML = `
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.numero}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.type}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.poids_max != null ? cargaison.poids_max + ' (KG)' : cargaison.nbr_prod_max}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_depart}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.lieu_arrivee}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${cargaison.date_depart}</td>
@@ -217,18 +219,25 @@ function displayPage(page) {
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             <button class="bg-blue-500 text-white px-1 py-1 rounded btn-view detail-button" type="button"  data-id="${cargaison.numero}">voir</button>
             <select id="etat_avancement" class="etat-avancement-select" data-id="${cargaison.numero}">
-              <option value="EN ATTENTE">EN ATTENTE</option>
-              <option value="EN COURS">EN COURS</option>
-              <option value="ARRIVÉE">ARRIVÉE</option>
-              <option value="PERDU">PERDU</option>
+              <option value="EN ATTENTE" ${cargaison.etat_avancement === "EN ATTENTE" ? 'selected' : ""}>EN ATTENTE</option>
+              <option value="EN COURS" ${cargaison.etat_avancement === "EN COURS" ? 'selected' : ""}>EN COURS</option>
+              <option value="ARRIVÉE" ${cargaison.etat_avancement === "ARRIVÉE" ? 'selected' : ""}>ARRIVÉE</option>
+              <option value="PERDU" ${cargaison.etat_avancement === "PERDU" ? 'selected' : ""}>PERDU</option>
             </select>
           </td>
         `;
         cargaisonList.appendChild(row);
         /* =========== Modal add Product ========================== */
         const btn = row.querySelector(".btn-add");
+        const productWeight = document.getElementById('productWeight');
         btn?.addEventListener('click', (event) => {
             if (cargaison.etat_globale == "OUVERTE") {
+                if (cargaison.poids_max === null) {
+                    productWeight.classList.add('hidden');
+                }
+                else {
+                    productWeight.classList.remove('hidden');
+                }
                 const target = event.target;
                 id = target.getAttribute('data-id');
                 console.log(id);
@@ -236,10 +245,41 @@ function displayPage(page) {
                 console.log('Added');
             }
             else {
-                alert("la cargaison est fermée");
+                afficherAlerte("la cargaison est fermée", "error");
             }
         });
     });
+    //   // Assurez-vous que le code s'exécute après que le DOM est complètement chargé
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   /* =========== Modal add Product ========================== */
+    //   const rows = document.querySelectorAll(".row"); // Assurez-vous que ".row" sélectionne tous les éléments pertinents
+    //   rows.forEach(row => {
+    //     const btn = row.querySelector(".btn-add");
+    //     const productWeight = document.getElementById('productWeight') as HTMLElement;
+    //     btn?.addEventListener('click', (event) => {
+    //       // Vérifiez l'état global de la cargaison
+    //       if (cargaison.etat_globale === "OUVERTE") {
+    //         // Cachez ou affichez le champ de poids du produit en fonction du poids maximum
+    //         if (cargaison.poids_max === null) {
+    //           productWeight.classList.add('hidden');
+    //         } else {
+    //           productWeight.classList.remove('hidden');
+    //         }
+    //         // Obtenez l'ID du produit à partir de l'attribut data-id
+    //         const target = event.target as HTMLElement;
+    //         const id = target.getAttribute('data-id');
+    //         console.log(id);
+    //         // Affichez la modal pour ajouter un produit
+    //         (document.getElementById('mymodal1') as HTMLDialogElement).showModal();
+    //         console.log('Added');
+    //       } else {
+    //         // Affichez une alerte si la cargaison est fermée
+    //         afficherAlerte("La cargaison est fermée", "error");
+    //       }
+    //     });
+    //   });
+    // });
+    // });
     /*  ============== Modal pour les détails de la cargaison ========================== */
     const details = document.querySelectorAll(".detail-button");
     details.forEach(btn => {
@@ -315,6 +355,30 @@ function displayPage(page) {
         });
     });
     /* =============================== Evenement click bouton Ouvrir ============================*/
+    // document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
+    //   button.addEventListener("click", (event) => {
+    //     const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo");
+    //     if (target) {
+    //       const cargaisonId = target.getAttribute("data-id");
+    //       if (cargaisonId) {
+    //         const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+    //         if (cargaison) {
+    //           // Vérifier les états d'avancement et globale pour déterminer si la cargaison peut être ouverte
+    //           if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "FERMÉE" || cargaison.etat_avancement === "ARRIVÉE" && cargaison.etat_globale === "FERMÉE") {
+    //             console.log(cargaisonId);
+    //             ouvrirCargaison(cargaisonId);
+    //           } else {
+    //             console.log("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en COURS.");
+    //           }
+    //         } else {
+    //           console.error("Cargaison non trouvée.");
+    //         }
+    //       } else {
+    //         console.error("ID de cargaison non trouvé.");
+    //       }
+    //     }
+    //   });
+    // });
     document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
         button.addEventListener("click", (event) => {
             const target = event.target.closest(".btn-ouvrir-cargo");
@@ -328,8 +392,13 @@ function displayPage(page) {
                             console.log(cargaisonId);
                             ouvrirCargaison(cargaisonId);
                         }
+                        else if (cargaison.etat_avancement === "EN COURS") {
+                            // Si la cargaison est en cours, la marquer automatiquement comme fermée
+                            cargaison.etat_globale = "FERMÉE";
+                            afficherAlerte(`La cargaison ${cargaisonId} est en cours et est maintenant fermée automatiquement.`, "error");
+                        }
                         else {
-                            console.log("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en COURS.");
+                            afficherAlerte("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en cours.", "error");
                         }
                     }
                     else {
@@ -342,7 +411,7 @@ function displayPage(page) {
             }
         });
     });
-    /* =============================== Evenement click bouton Ouvrir ============================*/
+    /* =============================== Evenement click bouton fermée ============================*/
     document.querySelectorAll(".btn-fermer-cargo").forEach((button) => {
         button.addEventListener("click", (event) => {
             const target = event.target.closest(".btn-fermer-cargo");
@@ -422,7 +491,7 @@ function changerEtatAvancement(cargaisonId, newEtat) {
         .then((response) => response.json())
         .then((data) => {
         if (data.status === "success") {
-            alert("État d'avancement mis à jour avec succès");
+            afficherAlerte("État d'avancement mis à jour avec succès", data.status);
             afficherCargaisons();
         }
         else {
@@ -454,7 +523,7 @@ function fermerCargaison(cargaisonId) {
         .then((response) => response.json())
         .then((data) => {
         if (data.status === "success") {
-            alert(data.message);
+            afficherAlerte("La cargaison est FERMÉE avec succée", data.status);
             afficherCargaisons(); // Rafraîchir le tableau après fermeture
         }
         else {
@@ -485,7 +554,10 @@ function ouvrirCargaison(cargaisonId) {
         .then((response) => response.json())
         .then((data) => {
         if (data.status === "success") {
-            alert(data.message);
+            afficherAlerte("La cargaison est en État OUVERTE", data.status);
+        }
+        else if (data.status === "error") {
+            afficherAlerte(data.message, data.status);
             afficherCargaisons(); // Rafraîchir le tableau après fermeture
         }
         else {
@@ -510,6 +582,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
     const typeCargaison = document.getElementById('type').value;
     const numero = "CRG" + Math.floor(Math.random() * 1000); // Générer un numéro aléatoire pour la cargaison
     const poidsCargaison = parseFloat(document.getElementById('poids').value);
+    const nbrProduitMax = parseFloat(document.getElementById('produit').value);
     const pointDepart = document.getElementById('depart').value;
     const pointArrive = document.getElementById('arrivee').value;
     const dateDepart = document.getElementById('dateDepart').value;
@@ -517,19 +590,13 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
     const distance = parseFloat(document.getElementById('distance').value);
     console.log(typeCargaison);
     if (typeCargaison == "maritime") {
-        cargaison = new CargaisonMaritime('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERTE', []);
-        cargaison.fermer();
-        cargaison.reouvrir();
+        cargaison = new CargaisonMaritime('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, nbrProduitMax, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERTE', []);
     }
     else if (typeCargaison == "aérienne") {
-        cargaison = new CargaisonAerienne('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERTE', []);
+        cargaison = new CargaisonAerienne('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, nbrProduitMax, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERTE', []);
     }
-    else if (typeCargaison == "routiére") {
-        cargaison = new CargaisonRoutier('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERTE', []);
-        cargaison.fermer();
-        cargaison.reouvrir();
-        cargaison.ajouterProduit(produit);
-        cargaison.retireProduit(produit);
+    else if (typeCargaison == "routier") {
+        cargaison = new CargaisonRoutier('addCargaison', idcargo, numero, typeCargaison, poidsCargaison, nbrProduitMax, pointDepart, pointArrive, dateDepart, dateArrivee, distance, 'EN ATTENTE', 'OUVERTE', []);
     }
     else {
         alert("Type de cargaison invalide");
@@ -546,8 +613,11 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
         .then(result => {
         console.log(result);
         if (result.status === 'success') {
-            alert(result.message);
+            afficherAlerte("Cargaison ajoutée avec succès", result.status);
             afficherCargaisons();
+        }
+        else if (result.status === "error") {
+            afficherAlerte(result.message, result.status);
         }
         else {
             alert('Erreur lors de l\'ajout de la cargaison');
@@ -582,21 +652,42 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
     let destinataire = { nom: destinataireNom, prenom: destinatairePrenom, tel: destinataireTelephone, adresse: destinataireAdresse, email: destinataireEmail };
     if (typeProduit === 'alimentaire') {
         produit = new FoodProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+        limitationProduit;
     }
     else if (typeProduit === 'chimique') {
         produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);
+        limitationProduit;
     }
     else if (typeProduit === 'incassable') {
         produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+        limitationProduit;
     }
     else if (typeProduit === 'cassable') {
         produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+        limitationProduit;
     }
     else {
-        alert("Type de produit invalide");
+        afficherAlerte("Type de produit invalide", "error");
         return;
     }
     console.log(produit);
+    function limitationProduit(id) {
+        const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
+        if (cargaisonIndex === -1) {
+            console.error(`Cargaison avec id ${id} non trouvée.`);
+            return;
+        }
+        const cargaison = cargaisons[cargaisonIndex];
+        const poidsTotalProduits = cargaison.produits.reduce((total, produit) => total + produit.poids, 0);
+        if (cargaison.poids_max !== null && poidsTotalProduits > cargaison.poids_max) {
+            afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
+            return;
+        }
+        if (cargaison.nbr_prod_max !== null && cargaison.produits.length > cargaison.nbr_prod_max) {
+            afficherAlerte("La cargaison ne peut pas contenir plus de produits que le nombre maximum autorisé.", "error");
+            return;
+        }
+    }
     const donne = {
         "action": "addproduit",
         "produit": produit,
@@ -613,7 +704,11 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
         .then(result => {
         console.log(result);
         if (result.status === 'success') {
-            alert(result.message);
+            /*  alert(result.message); */
+            afficherAlerte("produit ajoutée avec succès", result.status);
+        }
+        else if (result.status === "error") {
+            afficherAlerte(result.message, result.status);
         }
         else {
             alert('Erreur lors de l\'ajout du produit');
@@ -626,7 +721,7 @@ function showDetails(id, cargaisons) {
         console.error(`Cargaison avec id ${id} non trouvée.`);
         return;
     }
-    cargaison = cargaisons[cargaisonIndex];
+    const cargaison = cargaisons[cargaisonIndex];
     document.getElementById('detail-idcargo').innerText = cargaison.numero.toString();
     document.getElementById('detail-type').innerText = cargaison.type;
     document.getElementById('detail-lieu-depart').innerText = cargaison.lieu_depart;
@@ -638,30 +733,42 @@ function showDetails(id, cargaisons) {
     const produitsContainer = document.getElementById('detail-produits');
     produitsContainer.innerHTML = ''; // Clear previous content
     cargaison.produits.forEach(produit => {
-        const li = document.createElement('li');
-        li.innerText = `Nom: ${produit.nom}, Poids: ${produit.poids}, clientApport: ${produit.clientApport}`;
-        produitsContainer.appendChild(li);
+        const card = document.createElement('div');
+        card.className = 'bg-blue-100 p-4 rounded shadow-md';
+        card.innerHTML = `
+      <h4 class="text-lg font-semibold text-blue-600">${produit.nom}</h4>
+      <p><strong>Poids:</strong> ${produit.poids} kg</p>
+      <p><strong>Client Apport:</strong> ${produit.clientApport.nom} ${produit.clientApport.prenom}, ${produit.clientApport.tel}, ${produit.clientApport.adresse}, ${produit.clientApport.email}</p>
+      <p><strong>Destinataire:</strong> ${produit.destinataire.nom} ${produit.destinataire.prenom}, ${produit.destinataire.tel}, ${produit.destinataire.adresse}, ${produit.destinataire.email}</p>
+    `;
+        produitsContainer.appendChild(card);
     });
 }
-;
 function afficherAlerte(message, type) {
     let alertDiv = document.getElementById("alert");
-    let divContent = document.createElement("divContent");
     let alertContent = document.getElementById("alertContent");
-    alertDiv.classList.remove("hidden");
+    let alertIcon = document.getElementById("alertIcon");
+    // Remove any previous color and icon classes
+    alertContent.classList.remove('bg-green-200', 'text-green-800', 'bg-red-200', 'text-red-800', 'bg-blue-200', 'text-blue-800');
+    alertIcon.className = '';
     switch (type) {
         case 'success':
-            alertContent.classList.add('bg-green-200', 'text-green-800');
+            alertContent.classList.add('text-green-800');
+            alertIcon.classList.add('fas', 'fa-check-circle', 'text-green-800');
             break;
         case 'error':
-            alertContent.classList.add('bg-red-200', 'text-red-800');
+            alertContent.classList.add('text-red-800');
+            alertIcon.classList.add('fas', 'fa-exclamation-circle', 'text-red-800');
             break;
         default:
-            alertContent.classList.add('bg-gray-200', 'text-gray-800');
+            alertContent.classList.add('text-blue-800');
+            alertIcon.classList.add('fas', 'fa-info-circle', 'text-blue-800');
     }
     alertContent.textContent = message;
-    divContent.appendChild(alertContent);
+    alertDiv.classList.remove('hidden');
+    alertDiv.classList.add('flex');
     setTimeout(() => {
-        alertDiv.remove();
+        alertDiv.classList.add('hidden');
+        alertDiv.classList.remove('flex');
     }, 5000);
 }

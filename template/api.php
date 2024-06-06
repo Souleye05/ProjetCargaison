@@ -1,5 +1,38 @@
-
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Charger l'autoloader de Composer
+require '../vendor/autoload.php';
+
+function envoyerEmail($destinataire, $sujet, $message) {
+    $mail = new PHPMailer(true);
+    try {
+        // Configurer le serveur SMTP
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com'; // Remplacez par votre serveur SMTP
+        $mail->SMTPAuth = true;
+        $mail->Username = 'dsouleye105@gmail.com'; // Remplacez par votre email
+        $mail->Password = 'sbcb okyf ljhj wbbm'; // Remplacez par votre mot de passe
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Destinataires
+        $mail->setFrom('dsouleye105@gmail.com', 'Cargo');
+        $mail->addAddress($destinataire);
+
+        // Contenu
+        $mail->isHTML(true);
+        $mail->Subject = $sujet;
+        $mail->Body    = $message;
+
+        $mail->send();
+        echo 'Email envoyé avec succès.';
+       
+    } catch (Exception $e) {
+        error_log("Échec de l'envoi de l'email. Erreur de PHPMailer: {$mail->ErrorInfo}");
+    }
+}
 /* ------------lire le fichier json--------  */
 function lireJSON($filename) {
     $json_data = file_get_contents($filename);
@@ -25,7 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "idcargo" => uniqid(),
             "numero" => $data['numero'],
             "type" => $data['type'],
-            "poids" => $data['poids'],
+            "poids_max" => $data['poids_max'],
+            "nbr_prod_max" => $data['nbr_prod_max'],
             "lieu_depart" => $data['lieu_depart'],
             "lieu_arrivee" => $data['lieu_arrivee'],
             "date_depart" => $data['date_depart'],
@@ -59,7 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $newProduit = $data ['produit'];
         $newId = $data ['idcargo'];
-
+         $mail = $newProduit['clientApport']['email'];
+$CliMail = $newProduit['destinataire']['email'];
         $currentData = lireJSON('../public/data/cargos.json');
 
         foreach ($currentData['cargaisons'] as $key => $value){
@@ -67,8 +102,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $currentData['cargaisons'][$key]['produits'][] = $newProduit;
             }
         }
-
+        envoyerEmail($mail, "Voici le mail d'avertissement", " Ce-ci est un message de test");
+        envoyerEmail($CliMail, "Voici le mail d'avertissement", " Ce-ci est un message de test");
         ecrireJSON('../public/data/cargos.json', $currentData);
+
         $verifData = lireJSON('../public/data/cargos.json');
         error_log("Données après écriture: " . print_r($verifData, true));
 

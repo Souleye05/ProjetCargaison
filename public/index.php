@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <!-- Material Design icon font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
         #map {
             height: 400px;
@@ -33,7 +35,7 @@
 </head>
 
 <body class="font-sans bg-gray-100 text-gray-900 h-screen">
-    <header class="bg-blue-900 text-white py-4">
+    <!-- <header class="bg-blue-900 text-white py-4">
         <div class="container mx-auto flex justify-between items-center px-4">
             <div class="flex items-center">
                 <img src="" alt="Logo de l'application" class="h-8 mr-2">
@@ -48,17 +50,39 @@
                 </ul>
             </nav>
         </div>
+    </header> -->
+    <header class="bg-blue-900 text-white shadow-md py-4 rounded-lg mx-4 my-4">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-bold ">Gestion de Cargaison</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <input type="text" placeholder="Search" class="input input-bordered w-full max-w-xs rounded-full px-4 py-2">
+                <img src="https://via.placeholder.com/40" alt="Profile Picture" class="rounded-full w-10 h-10 text-gray-900">
+            </div>
+        </div>
     </header>
 
     <div class="flex h-full">
-        <aside class="bg-gray-800 text-white w-1/6 py-8 px-4">
-            <!-- Contenu de la barre latérale -->
-            <ul>
-                <li class="mb-4"><a href="?page=Gestion des Cargaisons" class="hover:text-gray-300">Gestion des Cargaisons</a></li>
-                <li class="mb-4"><a href="?page=Suivi des Colis" class="hover:text-gray-300">Suivi des Colis</a></li>
-                <li class="mb-4"><a href="?page=Paramètres" class="hover:text-gray-300">Paramètres</a></li>
-            </ul>
-        </aside>
+       <aside class="bg-gray-800 text-white w-1/6 py-8 px-4">
+  <!-- Contenu de la barre latérale -->
+  <ul>
+    <li class="mb-4 flex items-center">
+      <i class="fas fa-box fa-2x mr-2"></i> <!-- Utilisation de fa-2x pour élargir l'icône -->
+      <a href="?page=Gestion des Cargaisons" class="hover:text-gray-300 text-lg">Gestion des Cargaisons</a>
+    </li>
+    <li class="mb-4 flex items-center">
+      <i class="fas fa-truck fa-2x mr-2"></i>
+      <a href="?page=Suivi des Colis" class="hover:text-gray-300 text-lg">Suivi des Colis</a>
+    </li>
+    <li class="mb-4 flex items-center">
+      <i class="fas fa-cogs fa-2x mr-2"></i>
+      <a href="?page=Paramètres" class="hover:text-gray-300 text-lg">Paramètres</a>
+    </li>
+  </ul>
+</aside>
+
+
 
         <main class="container mx-auto py-8 px-8 w-4/5">
             <!-- Ajoutez ici le contenu principal de chaque module -->

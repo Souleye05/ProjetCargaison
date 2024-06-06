@@ -1,10 +1,420 @@
 {
     "cargaisons": [
         {
+            "idcargo": "666205e8f1b01",
+            "numero": "CRG528",
+            "type": "Aerienne",
+            "poids_max": 3000,
+            "nbr_prod_max": null,
+            "lieu_depart": "\u00c9tats-Unis d'Am\u00e9rique",
+            "lieu_arrivee": "Tchad",
+            "date_depart": "2024-06-06",
+            "date_arrivee": "2024-08-09",
+            "distance_km": 11224.26,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "OUVERTE",
+            "produits": [
+                {
+                    "action": "addproduit",
+                    "nom": "moto",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 729,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Edward",
+                        "prenom": "Mendy",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "sididiop53@gmail.com"
+                    },
+                    "destinataire": {
+                        "nom": "diop",
+                        "prenom": "saliou",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "sididiop53@gmail.com"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "voiture",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 2500000,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Aliou",
+                        "prenom": "Ndiaye",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "dsouleye105@gmail.com"
+                    },
+                    "destinataire": {
+                        "nom": "dia",
+                        "prenom": "saly",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "dsouleye105@gmail.com"
+                    }
+                }
+            ]
+        },
+        {
+            "idcargo": "6661c62d37423",
+            "numero": "CRG802",
+            "type": "Routier",
+            "poids_max": null,
+            "nbr_prod_max": 2,
+            "lieu_depart": "Su\u00e8de",
+            "lieu_arrivee": "\u00c9gypte",
+            "date_depart": "2024-06-12",
+            "date_arrivee": "2024-12-06",
+            "distance_km": 3892.96,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "OUVERTE",
+            "produits": [
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Sidy",
+                        "prenom": "Brennan",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "qiwuryface@mailinator.com"
+                    },
+                    "destinataire": {
+                        "nom": "diop",
+                        "prenom": "issa",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "sididiop53@gmail.com"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Sidy",
+                        "prenom": "Brennan",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "qiwuryface@mailinator.com"
+                    },
+                    "destinataire": {
+                        "nom": "diop",
+                        "prenom": "issa",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "sididiop53@gmail.com"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Sidy",
+                        "prenom": "Brennan",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "qiwuryface@mailinator.com"
+                    },
+                    "destinataire": {
+                        "nom": "diop",
+                        "prenom": "issa",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "sididiop53@gmail.com"
+                    }
+                }
+            ]
+        },
+        {
+            "idcargo": "6661c56ca7c01",
+            "numero": "CRG415",
+            "type": "Aerienne",
+            "poids_max": 3000,
+            "nbr_prod_max": null,
+            "lieu_depart": "Bogus\u0142awice",
+            "lieu_arrivee": "Soudan",
+            "date_depart": "2024-06-06",
+            "date_arrivee": "2024-09-07",
+            "distance_km": 3936.55,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "OUVERTE",
+            "produits": [
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "diop",
+                        "prenom": "sidy",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "sididiop53@gmail.com"
+                    },
+                    "destinataire": {
+                        "nom": "diop",
+                        "prenom": "issa",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "sididiop53@gmail.com"
+                    }
+                }
+            ]
+        },
+        {
+            "idcargo": "6661c3bfafabd",
+            "numero": "CRG101",
+            "type": "Aerienne",
+            "poids_max": 3000,
+            "nbr_prod_max": null,
+            "lieu_depart": "Bogus\u0142awice",
+            "lieu_arrivee": "Soudan",
+            "date_depart": "2024-06-06",
+            "date_arrivee": "2024-09-07",
+            "distance_km": 3936.55,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "FERM\u00c9E",
+            "produits": []
+        },
+        {
+            "idcargo": "6661c390b2122",
+            "numero": "CRG601",
+            "type": "Aerienne",
+            "poids_max": 3000,
+            "nbr_prod_max": null,
+            "lieu_depart": "Bogus\u0142awice",
+            "lieu_arrivee": "Soudan",
+            "date_depart": "2024-06-06",
+            "date_arrivee": "2024-09-07",
+            "distance_km": 3936.55,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "FERM\u00c9E",
+            "produits": []
+        },
+        {
+            "idcargo": "6661c328d701d",
+            "numero": "CRG394",
+            "type": "Maritime",
+            "poids_max": 5000,
+            "nbr_prod_max": null,
+            "lieu_depart": "Bogus\u0142awice",
+            "lieu_arrivee": "Soudan",
+            "date_depart": "2024-06-06",
+            "date_arrivee": "2024-09-06",
+            "distance_km": 3936.55,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "FERM\u00c9E",
+            "produits": []
+        },
+        {
+            "idcargo": "6661bb76f129f",
+            "numero": "CRG421",
+            "type": "Maritime",
+            "poids_max": null,
+            "nbr_prod_max": null,
+            "lieu_depart": "R\u00e9publique d\u00e9mocratique du Congo",
+            "lieu_arrivee": "Emthanjeni Local Municipality",
+            "date_depart": "2024-06-06",
+            "date_arrivee": "2024-10-06",
+            "distance_km": 3115.73,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "FERM\u00c9E",
+            "produits": [
+                null
+            ]
+        },
+        {
+            "idcargo": "6660b87548108",
+            "numero": "CRG390",
+            "type": "Maritime",
+            "poids_max": null,
+            "nbr_prod_max": 10,
+            "lieu_depart": "Russie",
+            "lieu_arrivee": "Arabie saoudite",
+            "date_depart": "2024-06-05",
+            "date_arrivee": "2024-11-05",
+            "distance_km": 4092.56,
+            "etat_avancement": "ARRIV\u00c9E",
+            "etat_globale": "OUVERTE",
+            "produits": [
+                {
+                    "action": "addproduit",
+                    "nom": "Velit eos delectus",
+                    "poids": null,
+                    "etat": "Ullam blanditiis vol",
+                    "prix": 509,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Baba issa ",
+                        "prenom": "Ndiaye",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "babaissandiaye242@gmail.com"
+                    },
+                    "destinataire": {
+                        "nom": "Beatae eveniet dign",
+                        "prenom": "Quas accusamus duis ",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "babaissandiaye242@gmail.com"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Velit eos delectus",
+                    "poids": null,
+                    "etat": "Ullam blanditiis vol",
+                    "prix": 509,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Baba issa ",
+                        "prenom": "Ndiaye",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "babaissandiaye242@gmail.com"
+                    },
+                    "destinataire": {
+                        "nom": "Beatae eveniet dign",
+                        "prenom": "Quas accusamus duis ",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "babaissandiaye242@gmail.com"
+                    }
+                }
+            ]
+        },
+        {
+            "idcargo": "6660b82fec4b1",
+            "numero": "CRG904",
+            "type": "Maritime",
+            "poids_max": 5000,
+            "nbr_prod_max": null,
+            "lieu_depart": "Br\u00e9sil",
+            "lieu_arrivee": "Tinerkouk",
+            "date_depart": "2024-06-05",
+            "date_arrivee": "2024-11-05",
+            "distance_km": 7475.38,
+            "etat_avancement": "EN COURS",
+            "etat_globale": "FERM\u00c9E",
+            "produits": []
+        },
+        {
+            "idcargo": "66608f4b28e7b",
+            "numero": "CRG955",
+            "type": "Aerienne",
+            "poids_max": 12,
+            "nbr_prod_max": null,
+            "lieu_depart": "Angola",
+            "lieu_arrivee": "Botswana",
+            "date_depart": "2024-06-05",
+            "date_arrivee": "2024-06-08",
+            "distance_km": 1461.76,
+            "etat_avancement": "ARRIV\u00c9E",
+            "etat_globale": "OUVERTE",
+            "produits": [
+                {
+                    "action": "addproduit",
+                    "nom": "Velit tempore nisi ",
+                    "poids": null,
+                    "etat": "Aut do beatae accusa",
+                    "prix": 620,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Margaret",
+                        "prenom": "Kinney",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Nihil voluptatibus a"
+                    },
+                    "destinataire": {
+                        "nom": "Maiores saepe adipis",
+                        "prenom": "Omnis est amet nem",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Aut magnam adipisici"
+                    }
+                }
+            ]
+        },
+        {
+            "idcargo": "66608b099e85a",
+            "numero": "CRG300",
+            "type": "Maritime",
+            "poids_max": 5000,
+            "nbr_prod_max": null,
+            "lieu_depart": "Outarville",
+            "lieu_arrivee": "Madrid",
+            "date_depart": "2024-06-23",
+            "date_arrivee": "2024-08-12",
+            "distance_km": 973.17,
+            "etat_avancement": "ARRIV\u00c9E",
+            "etat_globale": "OUVERTE",
+            "produits": []
+        },
+        {
+            "idcargo": "66607ea14fbb8",
+            "numero": "CRG229",
+            "type": "Maritime",
+            "poids_max": null,
+            "nbr_prod_max": 500,
+            "lieu_depart": "Emthanjeni Local Municipality",
+            "lieu_arrivee": "Mozambique",
+            "date_depart": "2024-06-05",
+            "date_arrivee": "2024-08-06",
+            "distance_km": 2465.34,
+            "etat_avancement": "ARRIV\u00c9E",
+            "etat_globale": "OUVERTE",
+            "produits": []
+        },
+        {
+            "idcargo": "6660695be5f56",
+            "numero": "CRG442",
+            "type": "Maritime",
+            "poids_max": null,
+            "nbr_prod_max": 380,
+            "lieu_depart": "Angola",
+            "lieu_arrivee": "Botswana",
+            "date_depart": "2024-06-06",
+            "date_arrivee": "2024-07-06",
+            "distance_km": 1130.61,
+            "etat_avancement": "PERDU",
+            "etat_globale": "OUVERTE",
+            "produits": []
+        },
+        {
             "idcargo": "665ce62a4f702",
             "numero": "CRG577",
             "type": "Maritime",
-            "poids": null,
+            "poids_max": null,
+            "nbr_prod_max": 120,
             "lieu_depart": "Lodja",
             "lieu_arrivee": "Tanzanie",
             "date_depart": "2024-06-02",
@@ -17,7 +427,7 @@
                     "action": "addproduit",
                     "nom": "Reprehenderit tenetu",
                     "poids": null,
-                    "etat": "EN ATTENTE",
+                    "etat_avancement": "EN ATTENTE",
                     "prix": null,
                     "typePro": "",
                     "typeCargo": "",
@@ -40,7 +450,7 @@
                     "action": "addproduit",
                     "nom": "Velit libero archite",
                     "poids": null,
-                    "etat": "EN ATTENTE",
+                    "etat_avancement": "EN ATTENTE",
                     "prix": null,
                     "typePro": "",
                     "typeCargo": "",
@@ -64,7 +474,7 @@
                     "action": "addproduit",
                     "nom": "Illo non voluptate s",
                     "poids": null,
-                    "etat": "EN ATTENTE",
+                    "etat_avancement": "EN ATTENTE",
                     "prix": null,
                     "typePro": "",
                     "typeCargo": "",
@@ -87,7 +497,7 @@
                     "action": "addproduit",
                     "nom": "Voluptatem Eiusmod ",
                     "poids": null,
-                    "etat": "EN ATTENTE",
+                    "etat_avancement": "EN ATTENTE",
                     "prix": null,
                     "typePro": "",
                     "typeCargo": "",
@@ -110,7 +520,7 @@
                     "action": "addproduit",
                     "nom": "Ipsa ut commodi inc",
                     "poids": null,
-                    "etat": "EN ATTENTE",
+                    "etat_avancement": "EN ATTENTE",
                     "prix": null,
                     "typePro": "",
                     "typeCargo": "",
@@ -133,7 +543,7 @@
                     "action": "addproduit",
                     "nom": "Labore irure elit v",
                     "poids": null,
-                    "etat": "EN ATTENTE",
+                    "etat_avancement": "EN ATTENTE",
                     "prix": null,
                     "typePro": "",
                     "typeCargo": "",
@@ -156,7 +566,7 @@
                     "action": "addproduit",
                     "nom": "Minus dolore occaeca",
                     "poids": null,
-                    "etat": "Iste ut laudantium ",
+                    "etat_avancement": "Iste ut laudantium ",
                     "prix": 479,
                     "typePro": "",
                     "typeCargo": "",
@@ -179,7 +589,7 @@
                     "action": "addproduit",
                     "nom": "Reiciendis quidem co",
                     "poids": null,
-                    "etat": "Voluptate incidunt ",
+                    "etat_avancement": "Voluptate incidunt ",
                     "prix": 60,
                     "typePro": "",
                     "typeCargo": "",
@@ -202,7 +612,7 @@
                     "action": "addproduit",
                     "nom": "Molestiae ut occaeca",
                     "poids": null,
-                    "etat": "Esse aut omnis repe",
+                    "etat_avancement": "Esse aut omnis repe",
                     "prix": 551,
                     "typePro": "",
                     "typeCargo": "",
@@ -225,7 +635,7 @@
                     "action": "addproduit",
                     "nom": "Excepturi ullamco es",
                     "poids": null,
-                    "etat": "Voluptates molestiae",
+                    "etat_avancement": "Voluptates molestiae",
                     "prix": 410,
                     "typePro": "",
                     "typeCargo": "",
@@ -248,7 +658,7 @@
                     "action": "addproduit",
                     "nom": "mbourou",
                     "poids": 1,
-                    "etat": "EN ATTENTE",
+                    "etat_avancement": "EN ATTENTE",
                     "prix": 175,
                     "typePro": "",
                     "typeCargo": "",
@@ -273,7 +683,8 @@
             "idcargo": "665cdff5ee826",
             "numero": "CRG833",
             "type": "Maritime",
-            "poids": null,
+            "poids_max": null,
+            "nbr_prod_max": 20,
             "lieu_depart": "Tsantsabane Local Municipality",
             "lieu_arrivee": "Madagascar",
             "date_depart": "2024-06-03",
@@ -286,7 +697,7 @@
                     "action": "addproduit",
                     "nom": "Excepturi unde perfe",
                     "poids": null,
-                    "etat": "EN ATTENTE",
+                    "etat_avancement": "EN ATTENTE",
                     "prix": null,
                     "typePro": "",
                     "typeCargo": "",
@@ -309,7 +720,7 @@
                     "action": "addproduit",
                     "nom": "Rem molestiae irure ",
                     "poids": null,
-                    "etat": "EN ATTENTE",
+                    "etat_avancementt": "EN ATTENTE",
                     "prix": null,
                     "typePro": "",
                     "typeCargo": "",
@@ -334,20 +745,21 @@
             "idcargo": "665cddd8a93e9",
             "numero": "CRG305",
             "type": "Maritime",
-            "poids": null,
+            "poids_max": null,
+            "nbr_prod_max": 89,
             "lieu_depart": "Saint-R\u00e9my-de-Blot",
             "lieu_arrivee": "Hassi Messaoud",
             "date_depart": "2024-06-06",
             "date_arrivee": "2024-07-06",
             "distance_km": 1773.48,
-            "etat_avancement": "EN COURS",
-            "etat_globale": "FERM\u00c9E",
+            "etat_avancement": "ARRIV\u00c9E",
+            "etat_globale": "OUVERTE",
             "produits": [
                 {
                     "action": "addproduit",
                     "nom": "Illo deleniti et lor",
                     "poids": null,
-                    "etat": "EN ATTENTE",
+                    "etat_avancement": "EN ATTENTE",
                     "prix": null,
                     "typePro": "",
                     "typeCargo": "",
@@ -364,492 +776,6 @@
                         "tel": null,
                         "adresse": null,
                         "email": "Et laboriosam velit"
-                    }
-                }
-            ]
-        },
-        {
-            "idcargo": "665cdca465603",
-            "numero": "CRG459",
-            "type": "Maritime",
-            "poids": null,
-            "lieu_depart": "Tinerkouk",
-            "lieu_arrivee": "Libye",
-            "date_depart": "2024-06-05",
-            "date_arrivee": "2024-07-31",
-            "distance_km": 1732.48,
-            "etat_avancement": "EN COURS",
-            "etat_globale": "FERM\u00c9E",
-            "produits": []
-        },
-        {
-            "idcargo": "665cbe314ea2f",
-            "numero": "CRG875",
-            "type": "Aerienne",
-            "poids": null,
-            "lieu_depart": "Communaut\u00e9 rurale de Gu\u00e9d\u00e9 Village",
-            "lieu_arrivee": "Mauritanie",
-            "date_depart": "2024-06-03",
-            "date_arrivee": "2024-06-10",
-            "distance_km": 742.88,
-            "etat_avancement": "ARRIV\u00c9E",
-            "etat_globale": "OUVERTE",
-            "produits": [
-                {
-                    "action": "addproduit",
-                    "nom": "Distinctio Et tempo",
-                    "poids": null,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Clementine",
-                        "prenom": "Washington",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Molestiae quidem aut"
-                    },
-                    "destinataire": {
-                        "nom": "Consequatur et saepe",
-                        "prenom": "Est aut fugiat et a",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Eius sed aut deserun"
-                    },
-                    "toxicity": null
-                }
-            ]
-        },
-        {
-            "idcargo": "665cb7d355753",
-            "numero": "CRG304",
-            "type": "Maritime",
-            "poids": null,
-            "lieu_depart": "R\u00e9publique d\u00e9mocratique du Congo",
-            "liseu_arrivee": "Namibie",
-            "date_depart": "2024-06-02",
-            "date_arrivee": "2024-06-15",
-            "distance_km": 1913.65,
-            "etat": "EN ATTENTE",
-            "global": "OUVERT",
-            "produits": [],
-            "etat_globale": "OUVERTE"
-        },
-        {
-            "idcargo": "66561e5784ab6",
-            "numero": "CRG43",
-            "type": "Maritime",
-            "poids_max": 5000,
-            "lieu_depart": "Dakar",
-            "lieu_arrivee": "Mbour",
-            "date_depart": "2024-05-28",
-            "date_arrivee": "2024-06-19",
-            "distance_km": 150,
-            "etat_avancement": "PERDU",
-            "etat_globale": "FERM\u00c9E",
-            "frais": 10,
-            "produits": [
-                {
-                    "idclient": "",
-                    "nom": "Produit A",
-                    "poids": 10,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "type",
-                    "typeCargo": "type",
-                    "clientApport": {
-                        "nom": "Client A",
-                        "prenom": "Prenom A",
-                        "tel": "0123456789",
-                        "adresse": "0123456789",
-                        "email": "clientA@example.com"
-                    },
-                    "destinataire": {
-                        "nom": "Destinataire A",
-                        "prenom": "Prenom D",
-                        "tel": "0987654321",
-                        "adresse": "0987654321",
-                        "email": "destinataireA@example.com"
-                    }
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Rem et dolor laborum",
-                    "poids": null,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Desirae",
-                        "prenom": "Velasquez",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Ullam dolorum conseq"
-                    },
-                    "destinataire": {
-                        "nom": "Cillum corporis saep",
-                        "prenom": "Sint doloremque face",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Consectetur dolor o"
-                    },
-                    "toxicity": null
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Excepturi ullamco es",
-                    "poids": null,
-                    "etat": "Voluptates molestiae",
-                    "prix": 410,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Silas",
-                        "prenom": "Mccarthy",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Aliquam sint corrupt"
-                    },
-                    "destinataire": {
-                        "nom": "Pariatur Do in impe",
-                        "prenom": "Dolores fugiat omni",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Excepteur id nostrum"
-                    }
-                }
-            ]
-        },
-        {
-            "idcargo": "66561e5784ab6",
-            "numero": "CRG43",
-            "type": "Maritime",
-            "poids_max": 5000,
-            "lieu_depart": "Dakar",
-            "lieu_arrivee": "Mbour",
-            "date_depart": "2024-05-28",
-            "date_arrivee": "2024-06-19",
-            "distance_km": 150,
-            "etat_avancement": "PERDU",
-            "etat_globale": "FERM\u00c9E",
-            "frais": 10,
-            "produits": [
-                {
-                    "nom": "Produit A",
-                    "poids": 10,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "type",
-                    "typeCargo": "type",
-                    "clientApport": {
-                        "nom": "Client A",
-                        "prenom": "Prenom A",
-                        "tel": "0123456789",
-                        "email": "clientA@example.com"
-                    },
-                    "destinataire": {
-                        "nom": "Destinataire A",
-                        "prenom": "Prenom D",
-                        "tel": "0987654321",
-                        "email": "destinataireA@example.com"
-                    }
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Rem et dolor laborum",
-                    "poids": null,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Desirae",
-                        "prenom": "Velasquez",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Ullam dolorum conseq"
-                    },
-                    "destinataire": {
-                        "nom": "Cillum corporis saep",
-                        "prenom": "Sint doloremque face",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Consectetur dolor o"
-                    },
-                    "toxicity": null
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Excepturi ullamco es",
-                    "poids": null,
-                    "etat": "Voluptates molestiae",
-                    "prix": 410,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Silas",
-                        "prenom": "Mccarthy",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Aliquam sint corrupt"
-                    },
-                    "destinataire": {
-                        "nom": "Pariatur Do in impe",
-                        "prenom": "Dolores fugiat omni",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Excepteur id nostrum"
-                    }
-                }
-            ]
-        },
-        {
-            "idcargo": "66561e5784ab6",
-            "numero": "CRG43",
-            "type": "A\u00e9rienne",
-            "poids_max": 5000,
-            "lieu_depart": "Dakar",
-            "lieu_arrivee": "Mbour",
-            "date_depart": "2024-05-28",
-            "date_arrivee": "2024-06-19",
-            "distance_km": 150,
-            "etat_avancement": "PERDU",
-            "etat_globale": "FERM\u00c9E",
-            "frais": 10,
-            "produits": [
-                {
-                    "nom": "Produit A",
-                    "poids": 10,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "type",
-                    "typeCargo": "type",
-                    "clientApport": {
-                        "nom": "Client A",
-                        "prenom": "Prenom A",
-                        "tel": "0123456789",
-                        "email": "clientA@example.com"
-                    },
-                    "destinataire": {
-                        "nom": "Destinataire A",
-                        "prenom": "Prenom D",
-                        "tel": "0987654321",
-                        "email": "destinataireA@example.com"
-                    }
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Rem et dolor laborum",
-                    "poids": null,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Desirae",
-                        "prenom": "Velasquez",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Ullam dolorum conseq"
-                    },
-                    "destinataire": {
-                        "nom": "Cillum corporis saep",
-                        "prenom": "Sint doloremque face",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Consectetur dolor o"
-                    },
-                    "toxicity": null
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Excepturi ullamco es",
-                    "poids": null,
-                    "etat": "Voluptates molestiae",
-                    "prix": 410,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Silas",
-                        "prenom": "Mccarthy",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Aliquam sint corrupt"
-                    },
-                    "destinataire": {
-                        "nom": "Pariatur Do in impe",
-                        "prenom": "Dolores fugiat omni",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Excepteur id nostrum"
-                    }
-                }
-            ]
-        },
-        {
-            "idcargo": "66561e5784ab6",
-            "numero": "CRG43",
-            "type": "Maritime",
-            "poids_max": 5000,
-            "lieu_depart": "Dakar",
-            "lieu_arrivee": "Mbour",
-            "date_depart": "2024-05-28",
-            "date_arrivee": "2024-06-19",
-            "distance_km": 150,
-            "etat_avancement": "PERDU",
-            "etat_globale": "FERM\u00c9E",
-            "frais": 10,
-            "produits": [
-                {
-                    "nom": "Produit A",
-                    "poids": 10,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "type",
-                    "typeCargo": "type",
-                    "clientApport": {
-                        "nom": "Client A",
-                        "prenom": "Prenom A",
-                        "tel": "0123456789",
-                        "email": "clientA@example.com"
-                    },
-                    "destinataire": {
-                        "nom": "Destinataire A",
-                        "prenom": "Prenom D",
-                        "tel": "0987654321",
-                        "email": "destinataireA@example.com"
-                    }
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Rem et dolor laborum",
-                    "poids": null,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Desirae",
-                        "prenom": "Velasquez",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Ullam dolorum conseq"
-                    },
-                    "destinataire": {
-                        "nom": "Cillum corporis saep",
-                        "prenom": "Sint doloremque face",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Consectetur dolor o"
-                    },
-                    "toxicity": null
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Excepturi ullamco es",
-                    "poids": null,
-                    "etat": "Voluptates molestiae",
-                    "prix": 410,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Silas",
-                        "prenom": "Mccarthy",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Aliquam sint corrupt"
-                    },
-                    "destinataire": {
-                        "nom": "Pariatur Do in impe",
-                        "prenom": "Dolores fugiat omni",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Excepteur id nostrum"
-                    }
-                }
-            ]
-        },
-        {
-            "idcargo": "66561e5784ab6",
-            "numero": "CRG43",
-            "type": "Routi\u00e9re",
-            "poids_max": 5000,
-            "lieu_depart": "Dakar",
-            "lieu_arrivee": "Mbour",
-            "date_depart": "2024-05-28",
-            "date_arrivee": "2024-06-19",
-            "distance_km": 150,
-            "etat_avancement": "PERDU",
-            "etat_globale": "FERM\u00c9E",
-            "frais": 10,
-            "produits": [
-                {
-                    "nom": "Produit A",
-                    "poids": 10,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "type",
-                    "typeCargo": "type",
-                    "clientApport": {
-                        "nom": "Client A",
-                        "prenom": "Prenom A",
-                        "tel": "0123456789",
-                        "email": "clientA@example.com"
-                    },
-                    "destinataire": {
-                        "nom": "Destinataire A",
-                        "prenom": "Prenom D",
-                        "tel": "0987654321",
-                        "email": "destinataireA@example.com"
-                    }
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Rem et dolor laborum",
-                    "poids": null,
-                    "etat": "EN ATTENTE",
-                    "prix": null,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Desirae",
-                        "prenom": "Velasquez",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Ullam dolorum conseq"
-                    },
-                    "destinataire": {
-                        "nom": "Cillum corporis saep",
-                        "prenom": "Sint doloremque face",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Consectetur dolor o"
-                    },
-                    "toxicity": null
-                },
-                {
-                    "action": "addproduit",
-                    "nom": "Excepturi ullamco es",
-                    "poids": null,
-                    "etat": "Voluptates molestiae",
-                    "prix": 410,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Silas",
-                        "prenom": "Mccarthy",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Aliquam sint corrupt"
-                    },
-                    "destinataire": {
-                        "nom": "Pariatur Do in impe",
-                        "prenom": "Dolores fugiat omni",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "Excepteur id nostrum"
                     }
                 }
             ]
