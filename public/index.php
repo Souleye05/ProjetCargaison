@@ -35,25 +35,30 @@
 </head>
 
 <body class="font-sans bg-gray-100 text-gray-900 h-screen">
-    <!-- <header class="bg-blue-900 text-white py-4">
+    <header class="bg-blue-900 text-white py-4">
         <div class="container mx-auto flex justify-between items-center px-4">
             <div class="flex items-center">
-                <img src="" alt="Logo de l'application" class="h-8 mr-2">
+                <img src="../images/logos.jpeg" alt="Logo de l'application" class="h-8 mr-2">
                 <h1 class="text-2xl font-bold ">Gestion de Cargaison</h1>
             </div>
-            <nav>
+            <!-- <nav>
                 <ul class="flex ">
                     <li class="ml-6"><a href="#" class="hover:text-gray-300">Accueil</a></li>
                     <li class="ml-6"><a href="#" class="hover:text-gray-300">Gestion des Cargaisons</a></li>
                     <li class="ml-6"><a href="#" class="hover:text-gray-300">Suivi des Colis</a></li>
                     <li class="ml-6"><a href="#" class="hover:text-gray-300">Paramètres</a></li>
                 </ul>
-            </nav>
+            </nav> -->
+            <div class="flex items-center space-x-4">
+                <input type="text" placeholder="Search" class="input input-bordered w-full max-w-xs rounded-full px-4 py-2">
+                <img src="" alt="Profile Picture" class="rounded-full w-10 h-10 text-gray-900">
+            </div>
         </div>
-    </header> -->
-    <header class="bg-blue-900 text-white shadow-md py-4 rounded-lg mx-4 my-4">
+    </header>
+    <!-- <header class=" text-white shadow-md py-4 rounded-lg mx-4 my-4">
         <div class="container mx-auto flex justify-between items-center px-4">
             <div class="flex items-center">
+            <img src="../images/logos.jpeg" alt="Logo de l'application" class="h-20 mr-2 bg-blue-900">
                 <h1 class="text-2xl font-bold ">Gestion de Cargaison</h1>
             </div>
             <div class="flex items-center space-x-4">
@@ -61,7 +66,7 @@
                 <img src="https://via.placeholder.com/40" alt="Profile Picture" class="rounded-full w-10 h-10 text-gray-900">
             </div>
         </div>
-    </header>
+    </header> -->
 
     <div class="flex h-full">
        <aside class="bg-gray-800 text-white w-1/6 py-8 px-4">

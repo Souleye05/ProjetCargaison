@@ -633,7 +633,7 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
     event.preventDefault();
     const numero = "PRO" + Math.floor(Math.random() * 1000);
     const nomProduit = document.getElementById('nomProduit').value;
-    const poidsProduit = parseFloat(document.getElementById('productWeight').value);
+    const poidsProduit = parseFloat(document.getElementById('product').value);
     const etatProduit = document.getElementById('productState').value;
     const typeProduit = document.getElementById('productType').value;
     const toxiciteProduit = parseFloat(document.getElementById('productToxicity').value);
@@ -648,11 +648,12 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
     const destinataireTelephone = parseFloat(document.getElementById('TelDestin').value);
     const destinataireAdresse = parseFloat(document.getElementById('addressDestin').value);
     const destinataireEmail = document.getElementById('MailDestin').value;
+    console.log(poidsProduit);
     let clientApport = { nom: expéditeureNom, prenom: expéditeurePrenom, tel: expéditeureTelephone, adresse: expéditeureAdresse, email: expéditeureEmail };
     let destinataire = { nom: destinataireNom, prenom: destinatairePrenom, tel: destinataireTelephone, adresse: destinataireAdresse, email: destinataireEmail };
     if (typeProduit === 'alimentaire') {
         produit = new FoodProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
-        limitationProduit;
+        limitationProduit(id);
     }
     else if (typeProduit === 'chimique') {
         produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);
@@ -703,6 +704,16 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
         .then(response => response.json())
         .then(result => {
         console.log(result);
+        const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
+        const poidsTotalProduits = cargaison.produits.reduce((total, produit) => total + produit.poids, 0);
+        if (cargaison.poids_max !== null && poidsTotalProduits > cargaison.poids_max) {
+            afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
+            return;
+        }
+        if (cargaison.nbr_prod_max !== null && cargaison.produits.length > cargaison.nbr_prod_max) {
+            afficherAlerte("La cargaison ne peut pas contenir plus de produits que le nombre maximum autorisé.", "error");
+            return;
+        }
         if (result.status === 'success') {
             /*  alert(result.message); */
             afficherAlerte("produit ajoutée avec succès", result.status);
@@ -734,7 +745,7 @@ function showDetails(id, cargaisons) {
     produitsContainer.innerHTML = ''; // Clear previous content
     cargaison.produits.forEach(produit => {
         const card = document.createElement('div');
-        card.className = 'bg-blue-100 p-4 rounded shadow-md';
+        card.className = 'bg-blue-100 p-4 rounded shadow-md overflow-scroll';
         card.innerHTML = `
       <h4 class="text-lg font-semibold text-blue-600">${produit.nom}</h4>
       <p><strong>Poids:</strong> ${produit.poids} kg</p>

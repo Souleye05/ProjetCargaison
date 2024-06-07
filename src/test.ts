@@ -748,7 +748,7 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
 
   const numero: string = "PRO" + Math.floor(Math.random() * 1000);
   const nomProduit: string = (document.getElementById('nomProduit') as HTMLSelectElement).value;
-  const poidsProduit: number = parseFloat((document.getElementById('productWeight') as HTMLInputElement).value);
+  const poidsProduit: number = parseFloat((document.getElementById('product') as HTMLInputElement).value); 
   const etatProduit: string = (document.getElementById('productState') as HTMLSelectElement).value;
   const typeProduit: string = (document.getElementById('productType') as HTMLSelectElement).value;
   const toxiciteProduit: number = parseFloat((document.getElementById('productToxicity') as HTMLSelectElement).value);
@@ -763,6 +763,7 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
   const destinataireTelephone = parseFloat((document.getElementById('TelDestin') as HTMLSelectElement).value);
   const destinataireAdresse = parseFloat((document.getElementById('addressDestin') as HTMLSelectElement).value);
   const destinataireEmail = (document.getElementById('MailDestin') as HTMLSelectElement).value;
+console.log(poidsProduit);
 
 
   let clientApport: Clients = { nom: expéditeureNom, prenom: expéditeurePrenom, tel: expéditeureTelephone, adresse: expéditeureAdresse, email: expéditeureEmail };
@@ -770,7 +771,8 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
 
   if (typeProduit === 'alimentaire') {
     produit = new FoodProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
-    limitationProduit
+    
+    limitationProduit(id);
   } else if (typeProduit === 'chimique') {
     produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);
     limitationProduit
@@ -824,6 +826,19 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
     .then(response => response.json())
     .then(result => {
       console.log(result);
+    const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
+
+      const poidsTotalProduits = cargaison.produits.reduce((total, produit) => total + produit.poids, 0);
+    
+      if (cargaison.poids_max !== null && poidsTotalProduits > cargaison.poids_max) {
+        afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
+        return;
+      }
+    
+      if (cargaison.nbr_prod_max !== null && cargaison.produits.length > cargaison.nbr_prod_max) {
+        afficherAlerte("La cargaison ne peut pas contenir plus de produits que le nombre maximum autorisé.", "error");
+        return;
+      }
       if (result.status === 'success') {
        /*  alert(result.message); */
         afficherAlerte("produit ajoutée avec succès",result.status);
@@ -861,7 +876,7 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
 
   cargaison.produits.forEach(produit => {
     const card = document.createElement('div');
-    card.className = 'bg-blue-100 p-4 rounded shadow-md';
+    card.className = 'bg-blue-100 p-4 rounded shadow-md overflow-scroll';
 
     card.innerHTML = `
       <h4 class="text-lg font-semibold text-blue-600">${produit.nom}</h4>
@@ -876,8 +891,6 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
 
 
 }
-
-
 
 
 function afficherAlerte(message: string, type: string) {

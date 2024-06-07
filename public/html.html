@@ -68,6 +68,80 @@
         <button class="bg-blue-500 text-white px-6 py-3 rounded-full">Next Step</button>
       </div>
     </div>
+
+    <!-- =========== Tableau des cargaisons ============== -->
+<table id="cargaisonTable" class="min-w-full divide-y divide-gray-200">
+  <thead class="bg-gray-50">
+      <tr>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Numéro</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Poids/Nbr_Colis</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lieu de départ</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lieu d'arrivée</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date de départ</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date d'arrivée</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Distance</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">État</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">État Globale</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produit</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">On/Off</th>
+          <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+      </tr>
+  </thead>
+  <tbody id="cargaisonbody" class="bg-white divide-y divide-gray-200">
+      <?php
+      $mes_donnees = file_get_contents('../public/data/cargos.json');
+      $cargaisonPhp = json_decode($mes_donnees, true)['cargaisons'];
+      foreach ($cargaisonPhp as $cargaisons) {
+      ?>
+          <tr>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['numero'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['type'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['poids_max'] != null ? $cargaisons['poids_max'] . ' (KG)' : $cargaisons['nbr_prod_max'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['lieu_depart'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['lieu_arrivee'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['date_depart'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['date_arrivee'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['distance_km'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['etat_avancement'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap"><?= $cargaisons['etat_globale'] ?></td>
+              <td class="px-6 py-4 whitespace-nowrap btn-add" data-id="<?= $cargaisons['numero'] ?>">
+                  <button class="bg-blue-500 text-white px-2 py-1 rounded" id="add_modal" data-id="<?= $cargaisons['numero'] ?>">
+                      <i class="fas fa-plus" data-id="<?= $cargaisons['numero'] ?>"></i>
+                  </button>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap btn-view" data-id="<?= $cargaisons['numero'] ?>" id="toggle">
+                  <button class="bg-green-500 text-white px-2 py-1 rounded btn-ouvrir-cargo" type="button" data-id="<?= $cargaisons['numero'] ?>">ON</button>
+                  <button class="bg-red-500 text-white px-2 py-1 rounded btn-fermer-cargo" type="button" data-id="<?= $cargaisons['numero'] ?>">OFF</button>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                  <button class="bg-blue-500 text-white px-2 py-1 rounded detail-button" type="button" data-id="<?= $cargaisons['numero'] ?>">voir</button>
+                  <select id="etat_avancement" class="etat-avancement-select" data-id="<?= $cargaisons['numero'] ?>">
+                      <option value="EN ATTENTE" <?= $cargaisons['etat_avancement'] === "EN ATTENTE" ? 'selected' : "" ?>>EN ATTENTE</option>
+                      <option value="EN COURS" <?= $cargaisons['etat_avancement'] === "EN COURS" ? 'selected' : "" ?>>EN COURS</option>
+                      <option value="ARRIVÉE" <?= $cargaisons['etat_avancement'] === "ARRIVÉE" ? 'selected' : "" ?>>ARRIVÉE</option>
+                      <option value="PERDU" <?= $cargaisons['etat_avancement'] === "PERDU" ? 'selected' : "" ?>>PERDU</option>
+                  </select>
+              </td>
+          </tr>
+      <?php } ?>
+  </tbody>
+</table>
+
+<div class="join float-right" id="pagination-controls">
+  <button class="join-item btn" id="prevPage">«</button>
+  <button class="join-item btn" id="pageDisplay">Page 1</button>
+  <button class="join-item btn" id="nextPage">»</button>
+</div>
+
+<main>
+<!-- Contenu principal -->
+</main>
+
+<script>
+// JavaScript pour gérer les actions des boutons et autres interactions
+</script>
+
   </body>
   </html>
   

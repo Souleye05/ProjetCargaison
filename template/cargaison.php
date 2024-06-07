@@ -41,7 +41,7 @@
                     </div>
                     <div class="mb-4" id="productWeight">
                         <label for="productWeight" class="block text-gray-700">Poids</label>
-                        <input type="text" id="productWeight" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" id="product" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <!-- <span class="error">error</span> -->
                     </div>
                     <div class="mb-4">
@@ -255,7 +255,7 @@
 
 <div id="my-modal" class="bg-white p-8 rounded-lg shadow-lg w-2/4 hidden fixed inset-0 z-20 m-auto flex flex-col justify-center items-center">
     <h2 class="text-2xl font-bold mb-4">Formulaire de création de Cargaison</h2>
-    <form class="space-y-4 w-full" id="form_id">
+    <form class="space-y-4 w-full" id="form_id">hidden
         <div>
             <label for="limitation" class="block font-medium">Type de Limitation :</label>
             <select id="limitation" name="limitation" class="select select-bordered w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200">
@@ -324,7 +324,7 @@
   
 <!-- Détails de la cargaison -->
 <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden" id="detail-modal">
-  <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-4xl p-6 space-y-6">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 top-1/4 overflow-auto">
     <div>
       <h2 class="text-2xl font-bold text-blue-600 mb-4">Détails de la Cargaison</h2>
       <div class="space-y-2">

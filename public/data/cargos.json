@@ -1,6 +1,138 @@
 {
     "cargaisons": [
         {
+            "idcargo": "6662187675b90",
+            "numero": "CRG601",
+            "type": "Maritime",
+            "poids_max": null,
+            "nbr_prod_max": 2,
+            "lieu_depart": "Nig\u00e9ria",
+            "lieu_arrivee": "\u00c9gypte",
+            "date_depart": "2024-06-07",
+            "date_arrivee": "2024-07-06",
+            "distance_km": 2959.22,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "OUVERTE",
+            "produits": [
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Martin",
+                        "prenom": "Brennan",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "qiwuryface@mailinator.com"
+                    },
+                    "destinataire": {
+                        "nom": "diop",
+                        "prenom": "issa",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Ut repellendus Volu"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Martin",
+                        "prenom": "Little",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "qiwuryface@mailinator.com"
+                    },
+                    "destinataire": {
+                        "nom": "Eveniet id qui in q",
+                        "prenom": "Itaque Nam nemo aute",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Ut repellendus Volu"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Martin",
+                        "prenom": "Little",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "qiwuryface@mailinator.com"
+                    },
+                    "destinataire": {
+                        "nom": "Eveniet id qui in q",
+                        "prenom": "Itaque Nam nemo aute",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Ut repellendus Volu"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Culpa commodi sint ",
+                    "poids": null,
+                    "etat": "Aut deserunt aut hic",
+                    "prix": 135,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Carl",
+                        "prenom": "Lane",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Lorem sequi quidem n"
+                    },
+                    "destinataire": {
+                        "nom": "Ipsum voluptas quis",
+                        "prenom": "Do dolorem quae arch",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Eum ab explicabo Do"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Vel est esse in omn",
+                    "poids": null,
+                    "etat": "Consectetur tempore",
+                    "prix": 282,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Kennan",
+                        "prenom": "Vaughan",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Cupiditate dolor mai"
+                    },
+                    "destinataire": {
+                        "nom": "Sit eum necessitati",
+                        "prenom": "Vel commodo non id r",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Non occaecat ipsa e"
+                    },
+                    "toxicity": null
+                }
+            ]
+        },
+        {
             "idcargo": "666205e8f1b01",
             "numero": "CRG528",
             "type": "Aerienne",
@@ -59,6 +191,125 @@
                         "adresse": null,
                         "email": "dsouleye105@gmail.com"
                     }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Vel dolor sit volupt",
+                    "poids": null,
+                    "etat": "Odit dolorum aut pos",
+                    "prix": 787,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Emily",
+                        "prenom": "Sims",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Assumenda perspiciat"
+                    },
+                    "destinataire": {
+                        "nom": "Ipsum qui voluptate",
+                        "prenom": "Esse et quidem a do",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Ad sunt nisi maxime"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Perspiciatis harum ",
+                    "poids": null,
+                    "etat": "Asperiores velit atq",
+                    "prix": 732,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Ishmael",
+                        "prenom": "Wilkins",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Voluptatem Vitae ar"
+                    },
+                    "destinataire": {
+                        "nom": "Voluptatem Accusant",
+                        "prenom": "Recusandae Voluptas",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Est fuga Inventore "
+                    },
+                    "toxicity": null
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Perspiciatis harum ",
+                    "poids": null,
+                    "etat": "Asperiores velit atq",
+                    "prix": 732,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Ishmael",
+                        "prenom": "Wilkins",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Voluptatem Vitae ar"
+                    },
+                    "destinataire": {
+                        "nom": "Voluptatem Accusant",
+                        "prenom": "Recusandae Voluptas",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Est fuga Inventore "
+                    },
+                    "toxicity": null
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Perspiciatis harum ",
+                    "poids": null,
+                    "etat": "Asperiores velit atq",
+                    "prix": 732,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Ishmael",
+                        "prenom": "Wilkins",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Voluptatem Vitae ar"
+                    },
+                    "destinataire": {
+                        "nom": "Voluptatem Accusant",
+                        "prenom": "Recusandae Voluptas",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Est fuga Inventore "
+                    },
+                    "toxicity": null
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Perspiciatis harum ",
+                    "poids": null,
+                    "etat": "Asperiores velit atq",
+                    "prix": 732,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Ishmael",
+                        "prenom": "Wilkins",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Voluptatem Vitae ar"
+                    },
+                    "destinataire": {
+                        "nom": "Voluptatem Accusant",
+                        "prenom": "Recusandae Voluptas",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Est fuga Inventore "
+                    },
+                    "toxicity": null
                 }
             ]
         },
@@ -213,8 +464,125 @@
             "date_arrivee": "2024-09-07",
             "distance_km": 3936.55,
             "etat_avancement": "EN ATTENTE",
-            "etat_globale": "FERM\u00c9E",
-            "produits": []
+            "etat_globale": "OUVERTE",
+            "produits": [
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Martin",
+                        "prenom": "Brennan",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "qiwuryface@mailinator.com"
+                    },
+                    "destinataire": {
+                        "nom": "diop",
+                        "prenom": "issa",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Ut repellendus Volu"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Martin",
+                        "prenom": "Little",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "qiwuryface@mailinator.com"
+                    },
+                    "destinataire": {
+                        "nom": "Eveniet id qui in q",
+                        "prenom": "Itaque Nam nemo aute",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Ut repellendus Volu"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "mbourou",
+                    "poids": null,
+                    "etat": "EN ATTENTE",
+                    "prix": 175,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Martin",
+                        "prenom": "Little",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "qiwuryface@mailinator.com"
+                    },
+                    "destinataire": {
+                        "nom": "Eveniet id qui in q",
+                        "prenom": "Itaque Nam nemo aute",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Ut repellendus Volu"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Culpa commodi sint ",
+                    "poids": null,
+                    "etat": "Aut deserunt aut hic",
+                    "prix": 135,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Carl",
+                        "prenom": "Lane",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Lorem sequi quidem n"
+                    },
+                    "destinataire": {
+                        "nom": "Ipsum voluptas quis",
+                        "prenom": "Do dolorem quae arch",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Eum ab explicabo Do"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Vel est esse in omn",
+                    "poids": null,
+                    "etat": "Consectetur tempore",
+                    "prix": 282,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Kennan",
+                        "prenom": "Vaughan",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Cupiditate dolor mai"
+                    },
+                    "destinataire": {
+                        "nom": "Sit eum necessitati",
+                        "prenom": "Vel commodo non id r",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Non occaecat ipsa e"
+                    },
+                    "toxicity": null
+                }
+            ]
         },
         {
             "idcargo": "6661c328d701d",
