@@ -38,7 +38,7 @@
     <header class="bg-blue-900 text-white py-4">
         <div class="container mx-auto flex justify-between items-center px-4">
             <div class="flex items-center">
-                <img src="../images/logos.jpeg" alt="Logo de l'application" class="h-8 mr-2">
+                <img src="" alt="Logo de l'application" class="h-8 mr-2">
                 <h1 class="text-2xl font-bold ">Gestion de Cargaison</h1>
             </div>
             <!-- <nav>
