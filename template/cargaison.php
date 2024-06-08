@@ -36,12 +36,12 @@
                     </div>
                     <div class="mb-4 hidden" id="productToxicity">
                         <label for="productToxicity" class="block text-gray-700">Toxicity</label>
-                        <input type="text" id="productToxicity" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="number" id="productToxicity" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <!-- <span class="error">error</span> -->
                     </div>
                     <div class="mb-4" id="productWeight">
                         <label for="productWeight" class="block text-gray-700">Poids</label>
-                        <input type="text" id="product" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="number" id="poidsProduct" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <!-- <span class="error">error</span> -->
                     </div>
                     <div class="mb-4">
@@ -51,7 +51,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="productPrice" class="block text-gray-700">Prix</label>
-                        <input type="text" id="productPrice" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="number" id="productPrice" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <!-- <span class="error">error</span> -->
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="clientAddress" class="block text-gray-700">Adresse</label>
-                        <input type="text" id="clientAddress" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="text" id="Address" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         <!-- <span class="error">error</span> -->
                     </div>
                     <div class="mb-4">
@@ -113,13 +113,6 @@
     </div>
 </dialog>
 
- <!-- ======== message d'alerte ====================== -->
-
- <!-- <div id="alert" class=" hidden fixed top-1/4 w-1/4 left-1/2 h-1/5 right-0 m-4 p-4 bg-white rounded-lg shadow-lg text-gray-800">
-    <div class="alertContent" id="divContent">
-       <p id="alertContent">Mon message d'alerte</p>
-    </div>
- </div> -->
 
 <!-- ======== message d'alerte ====================== -->
 <div id="alert" class="hidden fixed top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1/4 p-4 bg-gray-100 rounded-lg shadow-lg text-gray-800 flex flex-col items-center justify-center">
@@ -195,7 +188,8 @@
 
 
     <!-- =========== Tableau des cargaisons ============== -->
-    <table id="cargaisonTable" class="min-w-full divide-y divide-gray-200">
+<div class="overflow-x-auto">
+    <table id="cargaisonTable" class="min-w-full divide-y divide-gray-200 ">
         <thead class="bg-gray-50">
             <tr>
                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Numéro</th>
@@ -245,6 +239,7 @@
     <button class="join-item btn" id="prevPage">«</button>
     <button class="join-item btn" id="pageDisplay">Page 1</button>
     <button class="join-item btn" id="nextPage">»</button>
+</div>
 </div>
 
     </div>
@@ -323,7 +318,7 @@
 
   
 <!-- Détails de la cargaison -->
-<div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden" id="detail-modal">
+<!-- <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 hidden" id="detail-modal">
   <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl p-6 top-1/4 overflow-auto">
     <div>
       <h2 class="text-2xl font-bold text-blue-600 mb-4">Détails de la Cargaison</h2>
@@ -341,11 +336,42 @@
     <div>
       <h3 class="text-xl font-semibold text-blue-600 mb-4">Produits</h3>
       <div id="detail-produits" class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <!-- Les cartes de produits seront ajoutées ici -->
+       
       </div>
     </div>
     <div class="text-right">
       <button id="close-modal" type="button" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Fermer</button>
     </div>
   </div>
+</div> -->
+
+<!-- Détails de la cargaison -->
+<!-- Détails de la cargaison -->
+<div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50 hidden" id="detail-modal">
+  <div class="bg-white rounded-lg shadow-lg overflow-y-auto max-h-screen w-full md:w-3/4 lg:w-1/2 p-6">
+    <div class="mb-4">
+      <h2 class="text-2xl font-bold text-blue-700 mb-2">Détails de la Cargaison</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <p><strong class="text-blue-700">ID Cargaison:</strong> <span id="detail-idcargo" class="text-gray-700"></span></p>
+        <p><strong class="text-blue-700">Type:</strong> <span id="detail-type" class="text-gray-700"></span></p>
+        <p><strong class="text-blue-700">Lieu de Départ:</strong> <span id="detail-lieu-depart" class="text-gray-700"></span></p>
+        <p><strong class="text-blue-700">Lieu d'Arrivée:</strong> <span id="detail-lieu-arrivee" class="text-gray-700"></span></p>
+        <p><strong class="text-blue-700">Date de Départ:</strong> <span id="detail-date-depart" class="text-gray-700"></span></p>
+        <p><strong class="text-blue-700">Date d'Arrivée:</strong> <span id="detail-date-arrivee" class="text-gray-700"></span></p>
+        <p><strong class="text-blue-700">Distance (km):</strong> <span id="detail-distance" class="text-gray-700"></span></p>
+        <p><strong class="text-blue-700">État d'Avancement:</strong> <span id="detail-etat-avancement" class="text-gray-700"></span></p>
+      </div>
+    </div>
+    <div>
+      <h3 class="text-xl font-semibold text-blue-700 mb-2">Produits</h3>
+      <div id="detail-produits" class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <!-- Les cartes de produits seront ajoutées ici -->
+      </div>
+    </div>
+    <div class="mt-4 flex justify-end">
+      <button id="close-modal" type="button" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800">Fermer</button>
+    </div>
+  </div>
 </div>
+
+

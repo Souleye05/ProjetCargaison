@@ -1,6 +1,7 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use TCPDF;
 
 // Charger l'autoloader de Composer
 require '../vendor/autoload.php';
@@ -31,6 +32,83 @@ function envoyerEmail($destinataire, $sujet, $message) {
        
     } catch (Exception $e) {
         error_log("Échec de l'envoi de l'email. Erreur de PHPMailer: {$mail->ErrorInfo}");
+    }
+}
+
+function generateReceipt($cargaison, $produit) {
+    $pdf = new TCPDF();
+
+    // Set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('SDB CARGO COMPANY');
+    $pdf->SetTitle('Reçu de Cargaison');
+    $pdf->SetSubject('Reçu de Cargaison');
+    $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+
+    // Add a page
+    $pdf->AddPage();
+
+    // Title
+    $pdf->SetFont('helvetica', 'B', 20);
+    $pdf->Cell(0, 15, 'Reçu de Cargaison', 0, 1, 'C');
+
+    // Cargaison Info
+    $pdf->SetFont('helvetica', '', 12);
+    $html = '<h1>Informations de la Cargaison</h1>';
+    $html .= '<p>Numéro: ' . $cargaison['numero'] . '</p>';
+    $html .= '<p>Point de Départ: ' . $cargaison['pointDepart'] . '</p>';
+    $html .= '<p>Point d\'Arrivée: ' . $cargaison['pointArrive'] . '</p>';
+    $html .= '<p>Date de Départ: ' . $cargaison['dateDepart'] . '</p>';
+    $html .= '<p>Date d\'Arrivée: ' . $cargaison['dateArrive'] . '</p>';
+    $html .= '<p>Distance: ' . $cargaison['distance'] . ' km</p>';
+    $html .= '<p>Type: ' . $cargaison['type'] . '</p>';
+
+    // Produit Info
+    $html .= '<h3>Informations du Produit</h3>';
+    $html .= '<p>Numéro: ' . $produit['numero'] . '</p>';
+    $html .= '<p>Nom: ' . $produit['nomProduit'] . '</p>';
+    $html .= '<p>Poids: ' . $produit['poids'] . ' kg</p>';
+    $html .= '<p>Type: ' . $produit['typeProduit'] . '</p>';
+    $html .= '<p>Type: ' . $produit['frais'] .'FCFA </p>';
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    // Save PDF to a file
+    $filename =  '/var/www/html/miniProjet/recu/recu.pdf';
+    $pdf->Output($filename, 'F');
+
+    return $filename;
+}
+
+function sendEmailWithReceipt($clientEmail, $pdfFilename) {
+    $mail = new PHPMailer(true);
+
+    try {
+        // Paramètres du serveur
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com'; // Remplacez par le serveur SMTP de votre fournisseur
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'dsouleye105@gmail.com'; // Votre adresse email SMTP
+        $mail->Password   = 'sbcb okyf ljhj wbbm'; // Votre mot de passe SMTP
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587; // Port SMTP
+
+        // Destinataires
+        $mail->setFrom('dsouleye105@gmail.com', 'Jules César');
+        $mail->addAddress($clientEmail);
+
+        // Pièce jointe
+        $mail->addAttachment($pdfFilename);
+
+        // Contenu de l'email
+        $mail->isHTML(true);
+        $mail->Subject = 'Reçu de votre Cargaison';
+        $mail->Body    = 'Veuillez trouver ci-joint le reçu de votre cargaison.';
+
+        $mail->send();
+        echo 'Le reçu a été envoyé avec succès';
+        return true;
+    } catch (Exception $e) {
+        echo "Le message n'a pas pu être envoyé. Erreur: {$mail->ErrorInfo}";
     }
 }
 /* ------------lire le fichier json--------  */
@@ -96,14 +174,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
          $mail = $newProduit['clientApport']['email'];
 $CliMail = $newProduit['destinataire']['email'];
         $currentData = lireJSON('../public/data/cargos.json');
+        
 
         foreach ($currentData['cargaisons'] as $key => $value){
             if ($value['numero'] == $newId){
                 $currentData['cargaisons'][$key]['produits'][] = $newProduit;
+                $recu = generateReceipt($value,$newProduit);
+                sendEmailWithReceipt($mail,$recu);
             }
         }
         envoyerEmail($mail, "Voici le mail d'avertissement", " Ce-ci est un message de test");
         envoyerEmail($CliMail, "Voici le mail d'avertissement", " Ce-ci est un message de test");
+
         ecrireJSON('../public/data/cargos.json', $currentData);
 
         $verifData = lireJSON('../public/data/cargos.json');

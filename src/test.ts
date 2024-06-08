@@ -257,6 +257,7 @@ function displayPage(page: number): void {
           </td>
         `;
     cargaisonList.appendChild(row);
+
   /* =========== Modal add Product ========================== */
     const btn = row.querySelector(".btn-add");
     const productWeight = document.getElementById('productWeight') as HTMLElement;
@@ -282,43 +283,6 @@ function displayPage(page: number): void {
       })
 
   });
-
-//   // Assurez-vous que le code s'exécute après que le DOM est complètement chargé
-// document.addEventListener('DOMContentLoaded', () => {
-//   /* =========== Modal add Product ========================== */
-//   const rows = document.querySelectorAll(".row"); // Assurez-vous que ".row" sélectionne tous les éléments pertinents
-
-//   rows.forEach(row => {
-//     const btn = row.querySelector(".btn-add");
-//     const productWeight = document.getElementById('productWeight') as HTMLElement;
-
-//     btn?.addEventListener('click', (event) => {
-//       // Vérifiez l'état global de la cargaison
-//       if (cargaison.etat_globale === "OUVERTE") {
-//         // Cachez ou affichez le champ de poids du produit en fonction du poids maximum
-//         if (cargaison.poids_max === null) {
-//           productWeight.classList.add('hidden');
-//         } else {
-//           productWeight.classList.remove('hidden');
-//         }
-
-//         // Obtenez l'ID du produit à partir de l'attribut data-id
-//         const target = event.target as HTMLElement;
-//         const id = target.getAttribute('data-id');
-//         console.log(id);
-
-//         // Affichez la modal pour ajouter un produit
-//         (document.getElementById('mymodal1') as HTMLDialogElement).showModal();
-//         console.log('Added');
-//       } else {
-//         // Affichez une alerte si la cargaison est fermée
-//         afficherAlerte("La cargaison est fermée", "error");
-//       }
-//     });
-//   });
-// });
-// });
-
 
   /*  ============== Modal pour les détails de la cargaison ========================== */
   const details = document.querySelectorAll(".detail-button");
@@ -371,6 +335,36 @@ function setOptionsByEtat(selectElement: HTMLSelectElement, etat: string): void 
   });
 }
       /* ====================== Changement d'état ========================== */ 
+      // document.querySelectorAll(".etat-avancement-select").forEach((select) => {
+      //   const target = select as HTMLSelectElement;
+      //   const cargaisonId = target.getAttribute("data-id");
+      //   if (cargaisonId) {
+      //     const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+      //     if (cargaison) {
+      //       setOptionsByEtat(target, cargaison.etat_avancement);
+      //     }
+      //   }
+      
+      //   select.addEventListener("change", (event) => {
+      //     const target = event.target as HTMLSelectElement;
+      //     const cargaisonId = target.getAttribute("data-id");
+      //     const newEtat = target.value;
+      
+      //     if (cargaisonId) {
+      //       const cargaison = cargaisons.find(c => c.numero === cargaisonId);
+      //       if (cargaison) {
+      //         if (cargaison.etat_avancement === "EN ATTENTE" && newEtat === "EN COURS") {
+      //           changerEtatAvancement(cargaisonId, newEtat);
+      //         } else if (cargaison.etat_avancement === "EN COURS" && (newEtat === "ARRIVÉE" || newEtat === "PERDU")) {
+      //           changerEtatAvancement(cargaisonId, newEtat);
+      //         } else {
+      //           console.log("Changement d'état non autorisé.");
+      //         }
+      //       }
+      //     }
+      //   });
+      // });
+
       document.querySelectorAll(".etat-avancement-select").forEach((select) => {
         const target = select as HTMLSelectElement;
         const cargaisonId = target.getAttribute("data-id");
@@ -390,33 +384,47 @@ function setOptionsByEtat(selectElement: HTMLSelectElement, etat: string): void 
             const cargaison = cargaisons.find(c => c.numero === cargaisonId);
             if (cargaison) {
               if (cargaison.etat_avancement === "EN ATTENTE" && newEtat === "EN COURS") {
-                changerEtatAvancement(cargaisonId, newEtat);
+                if (cargaison.etat_globale === "FERMÉE") {
+                  changerEtatAvancement(cargaisonId, newEtat);
+                } else {
+                  afficherAlerte("La cargaison doit être fermée pour être mise en cours.", 'error');
+                }
               } else if (cargaison.etat_avancement === "EN COURS" && (newEtat === "ARRIVÉE" || newEtat === "PERDU")) {
                 changerEtatAvancement(cargaisonId, newEtat);
               } else {
-                console.log("Changement d'état non autorisé.");
+                afficherAlerte("Changement d'état non autorisé.", 'error');
               }
             }
           }
         });
       });
+      
 
-/* =============================== Evenement click bouton Ouvrir ============================*/
-// document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
+/* =============================== Evenement click bouton Ouvrir et Fermer ============================*/
+
+// document.querySelectorAll(".btn-ouvrir-cargo, .btn-fermer-cargo").forEach((button) => {
 //   button.addEventListener("click", (event) => {
-//     const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo");
+//     const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo, .btn-fermer-cargo");
 
 //     if (target) {
 //       const cargaisonId = target.getAttribute("data-id");
 //       if (cargaisonId) {
 //         const cargaison = cargaisons.find(c => c.numero === cargaisonId);
 //         if (cargaison) {
-//           // Vérifier les états d'avancement et globale pour déterminer si la cargaison peut être ouverte
-//           if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "FERMÉE" || cargaison.etat_avancement === "ARRIVÉE" && cargaison.etat_globale === "FERMÉE") {
-//             console.log(cargaisonId);
-//             ouvrirCargaison(cargaisonId);
+//           const isOuvrir = target.classList.contains("btn-ouvrir-cargo");
+
+//           if (isOuvrir) {
+//             if ((cargaison.etat_avancement === "EN ATTENTE" || cargaison.etat_avancement === "ARRIVÉE") && cargaison.etat_globale === "FERMÉE") {
+//               changerEtatCargaison(cargaisonId, 'ouvrir');
+//             } else {
+//               afficherAlerte("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en cours.", "error");
+//             }
 //           } else {
-//             console.log("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en COURS.");
+//             if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "OUVERTE") {
+//               changerEtatCargaison(cargaisonId, 'fermer');
+//             } else {
+//               afficherAlerte("La cargaison ne peut pas être fermée car elle n'est pas en attente ou déjà fermée.", "error");
+//             }
 //           }
 //         } else {
 //           console.error("Cargaison non trouvée.");
@@ -426,27 +434,31 @@ function setOptionsByEtat(selectElement: HTMLSelectElement, etat: string): void 
 //       }
 //     }
 //   });
-// });
+// }); 
 
-document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
+document.querySelectorAll(".btn-ouvrir-cargo, .btn-fermer-cargo").forEach((button) => {
   button.addEventListener("click", (event) => {
-    const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo");
+    const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo, .btn-fermer-cargo");
 
     if (target) {
       const cargaisonId = target.getAttribute("data-id");
       if (cargaisonId) {
         const cargaison = cargaisons.find(c => c.numero === cargaisonId);
         if (cargaison) {
-          // Vérifier les états d'avancement et globale pour déterminer si la cargaison peut être ouverte
-          if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "FERMÉE" || cargaison.etat_avancement === "ARRIVÉE" && cargaison.etat_globale === "FERMÉE") {
-            console.log(cargaisonId);
-            ouvrirCargaison(cargaisonId);
-          } else if (cargaison.etat_avancement === "EN COURS") {
-            // Si la cargaison est en cours, la marquer automatiquement comme fermée
-            cargaison.etat_globale = "FERMÉE";
-            afficherAlerte(`La cargaison ${cargaisonId} est en cours et est maintenant fermée automatiquement.`, "error");
+          const isOuvrir = target.classList.contains("btn-ouvrir-cargo");
+
+          if (isOuvrir) {
+            if ((cargaison.etat_avancement === "EN ATTENTE" || cargaison.etat_avancement === "ARRIVÉE") && cargaison.etat_globale === "FERMÉE") {
+              changerEtatCargaison(cargaisonId, 'ouvrir');
+            } else {
+              afficherAlerte("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en cours.", "error");
+            }
           } else {
-            afficherAlerte("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en cours.", "error");
+            if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "OUVERTE") {
+              changerEtatCargaison(cargaisonId, 'fermer');
+            } else {
+              afficherAlerte("La cargaison ne peut pas être fermée car elle n'est pas en attente ou déjà fermée.", "error");
+            }
           }
         } else {
           console.error("Cargaison non trouvée.");
@@ -458,34 +470,6 @@ document.querySelectorAll(".btn-ouvrir-cargo").forEach((button) => {
   });
 });
 
-
-
-/* =============================== Evenement click bouton fermée ============================*/
-
-  document.querySelectorAll(".btn-fermer-cargo").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      const target = (event.target as HTMLElement).closest(".btn-fermer-cargo");
-  
-      if (target) {
-        const cargaisonId = target.getAttribute("data-id");
-        if (cargaisonId) {
-          const cargaison = cargaisons.find(c => c.numero === cargaisonId);
-          if (cargaison) {
-            if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "OUVERTE") {
-              console.log(cargaisonId);
-              fermerCargaison(cargaisonId);
-
-            } 
-          } else {
-            console.error("Cargaison non trouvée.");
-          }
-        } else {
-          console.error("ID de cargaison non trouvé.");
-        }
-      }
-    });
-  });
-  
 
   updatePaginationControls(filteredCargaisons.length);
 }
@@ -562,19 +546,19 @@ function changerEtatAvancement(cargaisonId: string | null, newEtat: string): voi
     });
 }
 
-// Fonction pour fermer une cargaison
-function fermerCargaison(cargaisonId: string | null): void {
-  console.log(cargaisonId);
-
+//
+function changerEtatCargaison(cargaisonId: string | null, action: 'ouvrir' | 'fermer'): void {
   if (!cargaisonId) {
     console.error("cargaisonId is null");
     return;
   }
 
+  const apiAction = action === 'ouvrir' ? 'ouvrirCargaison' : 'fermerCargaison';
+
   fetch("../template/api.php", {
     method: "POST",
     body: JSON.stringify({
-      action: "fermerCargaison",
+      action: apiAction,
       id: cargaisonId
     }),
     headers: {
@@ -584,52 +568,21 @@ function fermerCargaison(cargaisonId: string | null): void {
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "success") {
-        afficherAlerte("La cargaison est FERMÉE avec succée", data.status);
-        afficherCargaisons(); // Rafraîchir le tableau après fermeture
+        const message = action === 'ouvrir' ? "La cargaison est en État OUVERTE" : "La cargaison est FERMÉE avec succès";
+        afficherAlerte(message, data.status);
+        afficherCargaisons(); // Rafraîchir le tableau après ouverture ou fermeture
       } else {
-        alert("Erreur lors de la fermeture de la cargaison : " + data.message);
+        const message = action === 'ouvrir' ? "Erreur lors de l'ouverture de la cargaison : " : "Erreur lors de la fermeture de la cargaison : ";
+        alert(message + data.message);
       }
     })
     .catch((error) => {
       console.error("Erreur:", error);
-      alert("Erreur lors de la fermeture de la cargaison");
+      const message = action === 'ouvrir' ? "Erreur lors de l'ouverture de la cargaison" : "Erreur lors de la fermeture de la cargaison";
+      alert(message);
     });
 }
 
-// Fonction pour ouvrir une cargaison
-function ouvrirCargaison(cargaisonId: string | null): void {
-
-  if (!cargaisonId) {
-    console.error("cargaisonId is null");
-    return;
-  }
-
-  fetch("../template/api.php", {
-    method: "POST",
-    body: JSON.stringify({
-      action: "ouvrirCargaison",
-      id: cargaisonId
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.status === "success") {
-        afficherAlerte("La cargaison est en État OUVERTE", data.status);
-      }else if(data.status === "error"){
-        afficherAlerte(data.message, data.status);
-      afficherCargaisons(); // Rafraîchir le tableau après fermeture
-      } else {
-        alert("Erreur lors de l'ouverture de la cargaison : " + data.message);
-      }
-    })
-    .catch((error) => {
-      console.error("Erreur:", error);
-      alert("Erreur lors de l'ouverture de la cargaison");
-    });
-}
 /* =========================== Ajouter cargaison ======================================= */
 let cargaison: Cargaison;
 let produit: Product;
@@ -740,15 +693,16 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
       console.error('Erreur:', error);
       alert('Erreur lors de l\'ajout de la cargaison');
     });
+
+    document.getElementById('form_id')?.onreset;
 });
 /* ============================= Ajouter Produit ===================================== */
 document.getElementById('addProduct')?.addEventListener('click', (event) => {
   event.preventDefault();
 
-
   const numero: string = "PRO" + Math.floor(Math.random() * 1000);
   const nomProduit: string = (document.getElementById('nomProduit') as HTMLSelectElement).value;
-  const poidsProduit: number = parseFloat((document.getElementById('product') as HTMLInputElement).value); 
+  const poidsProduit: number = parseFloat((document.getElementById('poidsProduct') as HTMLInputElement).value);
   const etatProduit: string = (document.getElementById('productState') as HTMLSelectElement).value;
   const typeProduit: string = (document.getElementById('productType') as HTMLSelectElement).value;
   const toxiciteProduit: number = parseFloat((document.getElementById('productToxicity') as HTMLSelectElement).value);
@@ -756,7 +710,7 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
   const expéditeurePrenom: string = (document.getElementById('clientLastName') as HTMLSelectElement).value;
   const expéditeureNom = (document.getElementById('clientFirstName') as HTMLSelectElement).value;
   const expéditeureTelephone = parseFloat((document.getElementById('clientPhone') as HTMLSelectElement).value);
-  const expéditeureAdresse = parseFloat((document.getElementById('clientAddress') as HTMLInputElement).value);
+  const expéditeureAdresse = parseFloat((document.getElementById('Address') as HTMLInputElement).value);
   const expéditeureEmail = (document.getElementById('clientMail') as HTMLSelectElement).value;
   const destinataireNom = (document.getElementById('nomDestin') as HTMLSelectElement).value;
   const destinatairePrenom = (document.getElementById('prenomDestin') as HTMLSelectElement).value;
@@ -765,51 +719,29 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
   const destinataireEmail = (document.getElementById('MailDestin') as HTMLSelectElement).value;
 console.log(poidsProduit);
 
+const limite = limitationProduit(id);
+console.log(limite);
 
+if (limite == true){
   let clientApport: Clients = { nom: expéditeureNom, prenom: expéditeurePrenom, tel: expéditeureTelephone, adresse: expéditeureAdresse, email: expéditeureEmail };
   let destinataire: Clients = { nom: destinataireNom, prenom: destinatairePrenom, tel: destinataireTelephone, adresse: destinataireAdresse, email: destinataireEmail }
 
   if (typeProduit === 'alimentaire') {
     produit = new FoodProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
-    
-    limitationProduit(id);
   } else if (typeProduit === 'chimique') {
-    produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);
-    limitationProduit
+    produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);  
   } else if (typeProduit === 'incassable') {
-    produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
-    limitationProduit
+    produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);  
   } else if (typeProduit === 'cassable') {
-    produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
-    limitationProduit
+    produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire); 
   } else {
     afficherAlerte("Type de produit invalide", "error");
     return;
   }
 
   console.log(produit);
+  
 
-  function limitationProduit(id: string | null) {
-    const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
-    if (cargaisonIndex === -1) {
-      console.error(`Cargaison avec id ${id} non trouvée.`);
-      return;
-    }
-  
-    const cargaison = cargaisons[cargaisonIndex];
-    const poidsTotalProduits = cargaison.produits.reduce((total, produit) => total + produit.poids, 0);
-    
-    if (cargaison.poids_max !== null && poidsTotalProduits > cargaison.poids_max) {
-      afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
-      return;
-    }
-  
-    if (cargaison.nbr_prod_max !== null && cargaison.produits.length > cargaison.nbr_prod_max) {
-      afficherAlerte("La cargaison ne peut pas contenir plus de produits que le nombre maximum autorisé.", "error");
-      return;
-    }
-  
-  }
   
   const donne = {
     "action": "addproduit",
@@ -828,9 +760,9 @@ console.log(poidsProduit);
       console.log(result);
     const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
 
-      const poidsTotalProduits = cargaison.produits.reduce((total, produit) => total + produit.poids, 0);
+    const poidsTotalProduits = cargaison.produits.reduce((total, produit) => total + produit.poids, 0);
     
-      if (cargaison.poids_max !== null && poidsTotalProduits > cargaison.poids_max) {
+    if (cargaison.poids_max !== null && poidsTotalProduits > cargaison.poids_max) {
         afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
         return;
       }
@@ -841,13 +773,19 @@ console.log(poidsProduit);
       }
       if (result.status === 'success') {
        /*  alert(result.message); */
-        afficherAlerte("produit ajoutée avec succès",result.status);
+        afficherAlerte("produit ajoutée avec succès", "success");
       }else if(result.status === "error"){
         afficherAlerte(result.message,result.status);
       } else {
         alert('Erreur lors de l\'ajout du produit');
       }
     })
+}else{
+  alert("dfghhjk")
+  afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
+  return;
+}
+ 
 
 
 });
@@ -873,42 +811,54 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
 
   const produitsContainer = document.getElementById('detail-produits') as HTMLDivElement;
   produitsContainer.innerHTML = ''; // Clear previous content
-
+  
   cargaison.produits.forEach(produit => {
     const card = document.createElement('div');
-    card.className = 'bg-blue-100 p-4 rounded shadow-md overflow-scroll';
+    card.className = 'bg-white p-4 rounded shadow-md border border-blue-200';
 
     card.innerHTML = `
-      <h4 class="text-lg font-semibold text-blue-600">${produit.nom}</h4>
-      <p><strong>Poids:</strong> ${produit.poids} kg</p>
-      <p><strong>Client Apport:</strong> ${produit.clientApport.nom} ${produit.clientApport.prenom}, ${produit.clientApport.tel}, ${produit.clientApport.adresse}, ${produit.clientApport.email}</p>
-      <p><strong>Destinataire:</strong> ${produit.destinataire.nom} ${produit.destinataire.prenom}, ${produit.destinataire.tel}, ${produit.destinataire.adresse}, ${produit.destinataire.email}</p>
+      <h4 class="text-lg font-semibold text-blue-700">${produit.nom}</h4>
+      <p><strong class="text-blue-700">Poids:</strong> <span class="text-gray-700">${produit.poids} kg</span></p>
+      <p><strong class="text-blue-700">Client Apport:</strong></p>
+      <ul class="list-disc list-inside text-gray-700">
+        <li><strong class="text-blue-700">Nom:</strong> ${produit.clientApport.nom}</li>
+        <li><strong class="text-blue-700">Prénom:</strong> ${produit.clientApport.prenom}</li>
+        <li><strong class="text-blue-700">Téléphone:</strong> ${produit.clientApport.tel}</li>
+        <li><strong class="text-blue-700">Adresse:</strong> ${produit.clientApport.adresse}</li>
+        <li><strong class="text-blue-700">Email:</strong> ${produit.clientApport.email}</li>
+      </ul>
+      <p><strong class="text-blue-700">Destinataire:</strong></p>
+      <ul class="list-disc list-inside text-gray-700">
+        <li><strong class="text-blue-700">Nom:</strong> ${produit.destinataire.nom}</li>
+        <li><strong class="text-blue-700">Prénom:</strong> ${produit.destinataire.prenom}</li>
+        <li><strong class="text-blue-700">Téléphone:</strong> ${produit.destinataire.tel}</li>
+        <li><strong class="text-blue-700">Adresse:</strong> ${produit.destinataire.adresse}</li>
+        <li><strong class="text-blue-700">Email:</strong> ${produit.destinataire.email}</li>
+        </ul>
     `;
-
+    
     produitsContainer.appendChild(card);
   });
-
-
-
 }
+
 
 
 function afficherAlerte(message: string, type: string) {
   let alertDiv = document.getElementById("alert") as HTMLDivElement;
   let alertContent = document.getElementById("alertContent") as HTMLElement;
   let alertIcon = document.getElementById("alertIcon") as HTMLElement;
-
+  
   // Remove any previous color and icon classes
   alertContent.classList.remove('bg-green-200', 'text-green-800', 'bg-red-200', 'text-red-800', 'bg-blue-200', 'text-blue-800');
   alertIcon.className = '';
-
+  
   switch(type) {
     case 'success':
-      alertContent.classList.add('text-green-800');
+      alertContent.classList.add('text-green-800', 'text-lg');
       alertIcon.classList.add('fas', 'fa-check-circle', 'text-green-800');
       break;
     case 'error':
-      alertContent.classList.add('text-red-800');
+      alertContent.classList.add('text-red-800', 'text-lg');
       alertIcon.classList.add('fas', 'fa-exclamation-circle', 'text-red-800');
       break;
     default:
@@ -928,3 +878,27 @@ function afficherAlerte(message: string, type: string) {
 }
 
 
+
+  function limitationProduit(id: string | null) {
+    const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
+    if (cargaisonIndex === -1) {
+      console.error(`Cargaison avec id ${id} non trouvée.`);
+      return;
+    }
+  
+    const cargaison = cargaisons[cargaisonIndex];
+    const poidsTotalProduits = cargaison.produits.reduce((total, produit) => total + produit.poids, 0);
+    
+    if (cargaison.poids_max !== null && poidsTotalProduits > cargaison.poids_max) {
+      afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
+      return false;
+    }
+  
+    if (cargaison.nbr_prod_max !== null && cargaison.produits.length > cargaison.nbr_prod_max) {
+      afficherAlerte("La cargaison ne peut pas contenir plus de produits que le nombre maximum autorisé.", "error");
+      return false;
+    }
+
+    return true
+  
+  }
