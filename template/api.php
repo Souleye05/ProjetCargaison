@@ -11,10 +11,10 @@ function envoyerEmail($destinataire, $sujet, $message) {
     try {
         // Configurer le serveur SMTP
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // Remplacez par votre serveur SMTP
+        $mail->Host = 'smtp.gmail.com'; 
         $mail->SMTPAuth = true;
-        $mail->Username = 'dsouleye105@gmail.com'; // Remplacez par votre email
-        $mail->Password = 'sbcb okyf ljhj wbbm'; // Remplacez par votre mot de passe
+        $mail->Username = 'dsouleye105@gmail.com'; 
+        $mail->Password = 'sbcb okyf ljhj wbbm'; 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
@@ -40,7 +40,7 @@ function generateReceipt($cargaison, $produit) {
 
     // Set document information
     $pdf->SetCreator(PDF_CREATOR);
-    $pdf->SetAuthor('SDB CARGO COMPANY');
+    $pdf->SetAuthor('JULES CÉSAR SERVICES');
     $pdf->SetTitle('Reçu de Cargaison');
     $pdf->SetSubject('Reçu de Cargaison');
     $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
@@ -51,22 +51,23 @@ function generateReceipt($cargaison, $produit) {
     // Title
     $pdf->SetFont('helvetica', 'B', 20);
     $pdf->Cell(0, 15, 'Reçu de Cargaison', 0, 1, 'C');
+    
 
     // Cargaison Info
     $pdf->SetFont('helvetica', '', 12);
     $html = '<h1>Informations de la Cargaison</h1>';
     $html .= '<p>Numéro: ' . $cargaison['numero'] . '</p>';
-    $html .= '<p>Point de Départ: ' . $cargaison['pointDepart'] . '</p>';
-    $html .= '<p>Point d\'Arrivée: ' . $cargaison['pointArrive'] . '</p>';
-    $html .= '<p>Date de Départ: ' . $cargaison['dateDepart'] . '</p>';
-    $html .= '<p>Date d\'Arrivée: ' . $cargaison['dateArrive'] . '</p>';
-    $html .= '<p>Distance: ' . $cargaison['distance'] . ' km</p>';
+    $html .= '<p>Point de Départ: ' . $cargaison['lieu_depart'] . '</p>';
+    $html .= '<p>Point d\'Arrivée: ' . $cargaison['lieu_arrivee'] . '</p>';
+    $html .= '<p>Date de Départ: ' . $cargaison['date_depart'] . '</p>';
+    $html .= '<p>Date d\'Arrivée: ' . $cargaison['date_arrivee'] . '</p>';
+    $html .= '<p>Distance: ' . $cargaison['distance_km'] . ' km</p>';
     $html .= '<p>Type: ' . $cargaison['type'] . '</p>';
 
     // Produit Info
     $html .= '<h3>Informations du Produit</h3>';
-    $html .= '<p>Numéro: ' . $produit['numero'] . '</p>';
-    $html .= '<p>Nom: ' . $produit['nomProduit'] . '</p>';
+    $html .= '<p>Numéro: ' . $produit['numPro'] . '</p>';
+    $html .= '<p>Nom: ' . $produit['nom'] . '</p>';
     $html .= '<p>Poids: ' . $produit['poids'] . ' kg</p>';
     $html .= '<p>Type: ' . $produit['typeProduit'] . '</p>';
     $html .= '<p>Type: ' . $produit['frais'] .'FCFA </p>';
@@ -263,44 +264,68 @@ $CliMail = $newProduit['destinataire']['email'];
         echo json_encode(["status" => "success", "message" => "La cargaison est en État OUVERTE"]);
         exit;
     }
+
     elseif (isset($data['action']) && $data['action'] == 'changerEtatProduit') {
-        $newEtatPro = $data['nouvelEtat'];
-        $newId = $data['numero']; // Correct the variable name
-        $cargoId = $data['idcargo'];
-    
-        // Log the received data for debugging
-        error_log("Received data: " . print_r($data, true));
-    
-        $currentData = lireJSON('../public/data/cargos.json');
-    
-        foreach ($currentData['cargaisons'] as $key => $value) {
-            if ($value['numero'] == $cargoId) {
-                foreach ($value['produits'] as $key1 => $produit) {
-                    if ($produit['numPro'] == $newId) {
-                        // Log before updating
+    $newEtatPro = $data['nouvelEtat'];
+    $newId = $data['numero']; // Correction du nom de la variable
+    $cargoId = $data['idcargo'];
+
+    // Log des données reçues pour le débogage
+    error_log("Received data: " . print_r($data, true));
+
+    $currentData = lireJSON('../public/data/cargos.json');
+
+    foreach ($currentData['cargaisons'] as $key => $value) {
+        if ($value['numero'] == $cargoId) {
+            $cargaison = $value;
+            foreach ($value['produits'] as $key1 => $produit) {
+                if ($produit['numPro'] == $newId) {
+                    // Gérer les états des produits en fonction de l'état de la cargaison
+                    if ($cargaison['etat_avancement'] !== 'ARRIVÉE') {
+                        // Si la cargaison n'est pas encore arrivée, on ne peut pas changer l'état des produits
+                        echo json_encode(["status" => "error", "message" => "L'état du produit ne peut être changé que lorsque la cargaison est arrivée."]);
+                        exit;
+                    } else {
+                        // Log avant la mise à jour
                         error_log("Before update: " . print_r($produit, true));
+
+                        // Mettre à jour l'état du produit
                         $currentData['cargaisons'][$key]['produits'][$key1]['etat'] = $newEtatPro;
-                        // Log after updating
+
+                        // Log après la mise à jour
                         error_log("After update: " . print_r($currentData['cargaisons'][$key]['produits'][$key1], true));
-                        break 2; // Break both loops
                     }
+                    break 2; // Sortir des deux boucles
                 }
             }
         }
-    
-        ecrireJSON('../public/data/cargos.json', $currentData);
-    
-        $verifData = lireJSON('../public/data/cargos.json');
-        error_log("Données après écriture: " . print_r($verifData, true));
-    
-        echo json_encode(["status" => "success", "message" => "Le produit est en État OUVERTE"]);
-        exit;
     }
-    
-     else {
-        echo json_encode(["status" => "error", "message" => "Action non reconnue"]);
-        exit;
+
+    ecrireJSON('../public/data/cargos.json', $currentData);
+
+    $verifData = lireJSON('../public/data/cargos.json');
+    error_log("Données après écriture: " . print_r($verifData, true));
+
+    echo json_encode(["status" => "success", "message" => "Le produit est en État OUVERTE"]);
+    exit;
+}
+
+// ===================== Logique d'archivage automatique des produits 15 jours après l'arrivée de la cargaison ==================//
+foreach ($currentData['cargaisons'] as $key => $cargaison) {
+    if ($cargaison['etat_avancement'] == 'ARRIVÉE') {
+        $dateArrivee = new DateTime($cargaison['date_arrivee']);
+        $dateActuelle = new DateTime();
+
+        $interval = $dateArrivee->diff($dateActuelle);
+        if ($interval->days >= 15) {
+            foreach ($cargaison['produits'] as $key1 => $produit) {
+                if ($produit['etat'] !== 'archive') {
+                    $currentData['cargaisons'][$key]['produits'][$key1]['etat'] = 'archive';
+                }
+            }
+        }
     }
+} 
 } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $data = lireJSON('../public/data/cargos.json');
     if ($data === null) {

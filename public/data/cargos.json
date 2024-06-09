@@ -51,12 +51,84 @@
             "date_depart": "2024-06-08",
             "date_arrivee": "2024-08-10",
             "distance_km": 1682.17,
-            "etat_avancement": "EN ATTENTE",
-            "etat_globale": "FERM\u00c9E",
+            "etat_avancement": "ARRIV\u00c9E",
+            "etat_globale": "OUVERTE",
             "produits": [
                 {
                     "action": "addproduit",
-                    "numPro": "",
+                    "numPro": "PRO980",
+                    "nom": "Ex sit dolor omnis ",
+                    "poids": null,
+                    "etat": "arrive",
+                    "prix": 788,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Tarik",
+                        "prenom": "Osborn",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Et blanditiis sunt "
+                    },
+                    "destinataire": {
+                        "nom": "Natus eveniet accus",
+                        "prenom": "Magnam voluptas mole",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "In eum impedit quam"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "numPro": "PRO987",
+                    "nom": "Ex sit dolor omnis ",
+                    "poids": null,
+                    "etat": "arrive",
+                    "prix": 788,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Tarik",
+                        "prenom": "Osborn",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Et blanditiis sunt "
+                    },
+                    "destinataire": {
+                        "nom": "Natus eveniet accus",
+                        "prenom": "Magnam voluptas mole",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "In eum impedit quam"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "numPro": "PRO932",
+                    "nom": "Ex sit dolor omnis ",
+                    "poids": null,
+                    "etat": "perdu",
+                    "prix": 788,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Tarik",
+                        "prenom": "Osborn",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Et blanditiis sunt "
+                    },
+                    "destinataire": {
+                        "nom": "Natus eveniet accus",
+                        "prenom": "Magnam voluptas mole",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "In eum impedit quam"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "numPro": "PRO959",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -80,7 +152,7 @@
                 },
                 {
                     "action": "addproduit",
-                    "numPro": "",
+                    "numPro": "PRO964",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -104,7 +176,7 @@
                 },
                 {
                     "action": "addproduit",
-                    "numPro": "",
+                    "numPro": "PRO929",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -128,79 +200,7 @@
                 },
                 {
                     "action": "addproduit",
-                    "numPro": "",
-                    "nom": "Ex sit dolor omnis ",
-                    "poids": null,
-                    "etat": "Et esse magni nostru",
-                    "prix": 788,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Tarik",
-                        "prenom": "Osborn",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Et blanditiis sunt "
-                    },
-                    "destinataire": {
-                        "nom": "Natus eveniet accus",
-                        "prenom": "Magnam voluptas mole",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "In eum impedit quam"
-                    }
-                },
-                {
-                    "action": "addproduit",
-                    "numPro": "",
-                    "nom": "Ex sit dolor omnis ",
-                    "poids": null,
-                    "etat": "Et esse magni nostru",
-                    "prix": 788,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Tarik",
-                        "prenom": "Osborn",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Et blanditiis sunt "
-                    },
-                    "destinataire": {
-                        "nom": "Natus eveniet accus",
-                        "prenom": "Magnam voluptas mole",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "In eum impedit quam"
-                    }
-                },
-                {
-                    "action": "addproduit",
-                    "numPro": "",
-                    "nom": "Ex sit dolor omnis ",
-                    "poids": null,
-                    "etat": "Et esse magni nostru",
-                    "prix": 788,
-                    "typePro": "",
-                    "typeCargo": "",
-                    "clientApport": {
-                        "nom": "Tarik",
-                        "prenom": "Osborn",
-                        "tel": 1,
-                        "adresse": null,
-                        "email": "Et blanditiis sunt "
-                    },
-                    "destinataire": {
-                        "nom": "Natus eveniet accus",
-                        "prenom": "Magnam voluptas mole",
-                        "tel": null,
-                        "adresse": null,
-                        "email": "In eum impedit quam"
-                    }
-                },
-                {
-                    "action": "addproduit",
-                    "numPro": "",
+                    "numPro": "PRO9789",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",

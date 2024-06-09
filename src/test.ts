@@ -312,13 +312,7 @@ function displayPage(page: number): void {
       showDetails(id, cargaisons)
     })
   })
-
-  /* ====================== Change État d'avancement ================================ */
-  /* ====================== Changement d'état Produit ========================== */
   
-
-
-
 /* ============ Fonction qui active ou désactive les options du select en fonction de l'état actuel de la cargaison ================================== */
 function setOptionsByEtat(selectElement: HTMLSelectElement, etat: string): void {
   const options = selectElement.querySelectorAll("option");
@@ -757,7 +751,7 @@ if (limite == true){
 
 });
 
-
+/* ===================== Affichage Détail ================================= */
 function showDetails(id: string | null, cargaisons: Cargaison[]) {
   const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
   if (cargaisonIndex === -1) {
@@ -776,10 +770,8 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
   (document.getElementById('detail-distance') as HTMLSpanElement).innerText = cargaison.distance_km.toString();
   (document.getElementById('detail-etat-avancement') as HTMLSpanElement).innerText = cargaison.etat_avancement;
 
-
   const produitsContainer = document.getElementById('detail-produits') as HTMLDivElement;
   produitsContainer.innerHTML = ''; // Clear previous content
-  
 
   cargaison.produits.forEach(produit => {
     const card = document.createElement('div');
@@ -791,8 +783,8 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
       <p><strong class="text-blue-700">EtatProduit:</strong> <span class="text-gray-700">${produit.etat}</span></p>
       <p><strong class="text-blue-700">ChangeEtat:</strong> 
         <span class="text-gray-700">
-          <select id="etatPro-${produit.numPro}" data-id ="${produit.numPro}" class="etat-avancement-select-pro">
-            <option value="disponible" ${produit.etat === "en cours" ? 'selected' : ''}>En cours</option>
+          <select id="etatPro-${produit.numPro}" data-id="${produit.numPro}" class="etat-avancement-select-pro" ${cargaison.etat_avancement !== 'ARRIVÉE' ? 'disabled' : ''}>
+            <option value="en cours" ${produit.etat === "en cours" ? 'selected' : ''}>En cours</option>
             <option value="arrive" ${produit.etat === "arrive" ? 'selected' : ''}>Arrivé</option>
             <option value="perdu" ${produit.etat === "perdu" ? 'selected' : ''}>Perdu</option>
             <option value="recupere" ${produit.etat === "recupere" ? 'selected' : ''}>Recupere</option>
@@ -820,7 +812,7 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
 
     produitsContainer.appendChild(card);
 
-     // Ajout du gestionnaire d'événement pour changer l'état du produit
+    // Ajout du gestionnaire d'événement pour changer l'état du produit
     const selectElement = card.querySelector(`#etatPro-${produit.numPro}`);
     selectElement?.addEventListener('change', function (event) {
       const newEtatPro = (selectElement as HTMLSelectElement).value;
@@ -832,6 +824,7 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
 }
 
 
+/* ======================= Fonction d'affichage d'alerte personnalisée ===================================== */
 function afficherAlerte(message: string, type: string) {
   let alertDiv = document.getElementById("alert") as HTMLDivElement;
   let alertContent = document.getElementById("alertContent") as HTMLElement;
@@ -867,7 +860,7 @@ function afficherAlerte(message: string, type: string) {
 }
 
 
-
+/* ================== Limitatio  de cargaison ========================================= */
   function limitationProduit(id: string | null) {
     const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
     if (cargaisonIndex === -1) {

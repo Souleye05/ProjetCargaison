@@ -274,8 +274,6 @@ function displayPage(page) {
             showDetails(id, cargaisons);
         });
     });
-    /* ====================== Change État d'avancement ================================ */
-    /* ====================== Changement d'état Produit ========================== */
     /* ============ Fonction qui active ou désactive les options du select en fonction de l'état actuel de la cargaison ================================== */
     function setOptionsByEtat(selectElement, etat) {
         const options = selectElement.querySelectorAll("option");
@@ -644,6 +642,7 @@ document.getElementById('addProduct')?.addEventListener('click', (event) => {
         return;
     }
 });
+/* ===================== Affichage Détail ================================= */
 function showDetails(id, cargaisons) {
     const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
     if (cargaisonIndex === -1) {
@@ -670,8 +669,8 @@ function showDetails(id, cargaisons) {
       <p><strong class="text-blue-700">EtatProduit:</strong> <span class="text-gray-700">${produit.etat}</span></p>
       <p><strong class="text-blue-700">ChangeEtat:</strong> 
         <span class="text-gray-700">
-          <select id="etatPro-${produit.numPro}" data-id ="${produit.numPro}" class="etat-avancement-select-pro">
-            <option value="disponible" ${produit.etat === "en cours" ? 'selected' : ''}>En cours</option>
+          <select id="etatPro-${produit.numPro}" data-id="${produit.numPro}" class="etat-avancement-select-pro" ${cargaison.etat_avancement !== 'ARRIVÉE' ? 'disabled' : ''}>
+            <option value="en cours" ${produit.etat === "en cours" ? 'selected' : ''}>En cours</option>
             <option value="arrive" ${produit.etat === "arrive" ? 'selected' : ''}>Arrivé</option>
             <option value="perdu" ${produit.etat === "perdu" ? 'selected' : ''}>Perdu</option>
             <option value="recupere" ${produit.etat === "recupere" ? 'selected' : ''}>Recupere</option>
@@ -707,6 +706,7 @@ function showDetails(id, cargaisons) {
         });
     });
 }
+/* ======================= Fonction d'affichage d'alerte personnalisée ===================================== */
 function afficherAlerte(message, type) {
     let alertDiv = document.getElementById("alert");
     let alertContent = document.getElementById("alertContent");
@@ -735,6 +735,7 @@ function afficherAlerte(message, type) {
         alertDiv.classList.remove('flex');
     }, 5000);
 }
+/* ================== Limitatio  de cargaison ========================================= */
 function limitationProduit(id) {
     const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
     if (cargaisonIndex === -1) {
