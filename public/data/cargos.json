@@ -1,6 +1,46 @@
 {
     "cargaisons": [
         {
+            "idcargo": "6665d1cbb1315",
+            "numero": "CRG553",
+            "type": "Routier",
+            "poids_max": null,
+            "nbr_prod_max": 3,
+            "lieu_depart": "\u00c9tats-Unis d'Am\u00e9rique",
+            "lieu_arrivee": "Kazakhstan",
+            "date_depart": "2024-06-09",
+            "date_arrivee": "2024-07-10",
+            "distance_km": 9428.28,
+            "etat_avancement": "EN ATTENTE",
+            "etat_globale": "OUVERTE",
+            "produits": [
+                {
+                    "action": "addproduit",
+                    "numPro": "PRO989",
+                    "nom": "Porro proident fugi",
+                    "poids": null,
+                    "etat": "perdu",
+                    "prix": 101,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Callum",
+                        "prenom": "Mullins",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Tempor est qui enim "
+                    },
+                    "destinataire": {
+                        "nom": "Irure laborum Hic q",
+                        "prenom": "Natus blanditiis eni",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Laborum Quas dolor "
+                    }
+                }
+            ]
+        },
+        {
             "idcargo": "6664dad892699",
             "numero": "CRG456",
             "type": "Maritime",
@@ -12,10 +52,11 @@
             "date_arrivee": "2024-08-10",
             "distance_km": 1682.17,
             "etat_avancement": "EN ATTENTE",
-            "etat_globale": "OUVERTE",
+            "etat_globale": "FERM\u00c9E",
             "produits": [
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -39,6 +80,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -62,6 +104,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -85,6 +128,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -108,6 +152,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -131,6 +176,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -154,6 +200,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -177,6 +224,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -200,6 +248,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -223,6 +272,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -246,6 +296,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -269,6 +320,7 @@
                 },
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "Ex sit dolor omnis ",
                     "poids": null,
                     "etat": "Et esse magni nostru",
@@ -308,6 +360,7 @@
             "produits": [
                 {
                     "action": "addproduit",
+                    "numPro": "",
                     "nom": "v\u00eatement",
                     "poids": null,
                     "etat": "EN ATTENTE",
@@ -436,8 +489,149 @@
             "date_arrivee": "2024-06-09",
             "distance_km": 3,
             "etat_avancement": "EN ATTENTE",
-            "etat_globale": "FERM\u00c9E",
-            "produits": []
+            "etat_globale": "OUVERTE",
+            "produits": [
+                {
+                    "action": "addproduit",
+                    "nom": "RIZ",
+                    "poids": null,
+                    "etat": "disponile",
+                    "prix": 50000,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Seck",
+                        "prenom": "RAMA",
+                        "tel": 76543213,
+                        "adresse": null,
+                        "email": "seckrama098@gmail.com"
+                    },
+                    "destinataire": {
+                        "nom": "Camara",
+                        "prenom": "issa",
+                        "tel": 778900954,
+                        "adresse": null,
+                        "email": "dsouleye105@gmail.com"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "RIZ",
+                    "poids": null,
+                    "etat": "disponile",
+                    "prix": 50000,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Seck",
+                        "prenom": "RAMA",
+                        "tel": 76543213,
+                        "adresse": null,
+                        "email": "seckrama098@gmail.com"
+                    },
+                    "destinataire": {
+                        "nom": "Camara",
+                        "prenom": "issa",
+                        "tel": 778900954,
+                        "adresse": null,
+                        "email": "dsouleye105@gmail.com"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "RIZ",
+                    "poids": null,
+                    "etat": "disponile",
+                    "prix": 50000,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Seck",
+                        "prenom": "RAMA",
+                        "tel": 76543213,
+                        "adresse": null,
+                        "email": "babaissandiaye242@gmail.com"
+                    },
+                    "destinataire": {
+                        "nom": "Camara",
+                        "prenom": "issa",
+                        "tel": 778900954,
+                        "adresse": null,
+                        "email": "dsouleye105@gmail.com"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Quia dolorem ab vita",
+                    "poids": null,
+                    "etat": "disponile",
+                    "prix": 709,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Sheila",
+                        "prenom": "Warner",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Sunt blanditiis mag"
+                    },
+                    "destinataire": {
+                        "nom": "Repellendus Pariatu",
+                        "prenom": "Debitis ea ullam omn",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Vel voluptas nihil c"
+                    },
+                    "toxicity": null
+                },
+                {
+                    "action": "addproduit",
+                    "nom": "Id lorem praesentium",
+                    "poids": null,
+                    "etat": "disponile",
+                    "prix": 855,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Christian",
+                        "prenom": "Buckner",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Iste quaerat ut even"
+                    },
+                    "destinataire": {
+                        "nom": "Facere non lorem obc",
+                        "prenom": "Culpa voluptate inc",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Expedita assumenda c"
+                    }
+                },
+                {
+                    "action": "addproduit",
+                    "numPro": "PRO259",
+                    "nom": "Nostrud anim commodo",
+                    "poids": null,
+                    "etat": "disponile",
+                    "prix": 655,
+                    "typePro": "",
+                    "typeCargo": "",
+                    "clientApport": {
+                        "nom": "Dane",
+                        "prenom": "Sims",
+                        "tel": 1,
+                        "adresse": null,
+                        "email": "Ex non minima nulla "
+                    },
+                    "destinataire": {
+                        "nom": "Hic rerum et velit ",
+                        "prenom": "Dicta elit est quod",
+                        "tel": null,
+                        "adresse": null,
+                        "email": "Itaque impedit ipsa"
+                    }
+                }
+            ]
         },
         {
             "idcargo": "6664a88e3152a",

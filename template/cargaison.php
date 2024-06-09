@@ -37,16 +37,25 @@
                     <div class="mb-4 hidden" id="productToxicity">
                         <label for="productToxicity" class="block text-gray-700">Toxicity</label>
                         <input type="number" id="productToxicity" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        
                         <!-- <span class="error">error</span> -->
                     </div>
                     <div class="mb-4" id="productWeight">
                         <label for="productWeight" class="block text-gray-700">Poids</label>
                         <input type="number" id="poidsProduct" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        
                         <!-- <span class="error">error</span> -->
                     </div>
                     <div class="mb-4">
                         <label for="productState" class="block text-gray-700">État</label>
-                        <input type="text" id="productState" class="w-full px-4 py-2 border rounded-lg border-sky-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <select id="productState" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Sélectionner</option>
+                            <option value="en cours">En cours</option>
+                            <option value="arrive">Arrive</option>
+                            <option value="perdu">Perdu</option>
+                            <option value="recupere">RECUPÉRÉE</option>
+                            <option value="archive">Archive</option>
+                        </select>
                         <!-- <span class="error">error</span> -->
                     </div>
                     <div class="mb-4">
@@ -152,8 +161,8 @@
         <select id="typeFilter" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 py-3">
             <option value="">Tous</option>
             <option value="maritime">Maritime</option>
-            <option value="aérienne">Aérienne</option>
-            <option value="routière">Routière</option>
+            <option value="aerienne">Aérienne</option>
+            <option value="routier">Routière</option>
         </select>
     </div>
     <div class="flex-1">
@@ -273,7 +282,7 @@
             <label for="type" class="block font-medium">Type :</label>
             <select id="type" name="type" class="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200">
                 <option value="maritime">Maritime</option>
-                <option value="aérienne">Aérienne</option>
+                <option value="aerienne">Aérienne</option>
                 <option value="routier">Routière</option>
             </select>
         </div>

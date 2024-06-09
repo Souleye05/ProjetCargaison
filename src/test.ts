@@ -185,7 +185,7 @@ function afficherCargaisons(): void {
   fetch('../template/api.php')
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      // console.log(data);
       cargaisons = data.cargaisons;
       displayPage(currentPage);
     });
@@ -201,7 +201,7 @@ function displayPage(page: number): void {
   const dateArriveeFilter = (document.getElementById('dateArriveeFilter') as HTMLInputElement).value;
   
   const filteredCargaisons = cargaisons.filter(cargaison => {
-    console.log(cargaison);
+    // console.log(cargaison);
     return (
       (!numeroFilter || cargaison.numero.toLowerCase().includes(numeroFilter)) &&
       (!typeFilter || cargaison.type.toLowerCase() === typeFilter) &&
@@ -314,6 +314,9 @@ function displayPage(page: number): void {
   })
 
   /* ====================== Change État d'avancement ================================ */
+  /* ====================== Changement d'état Produit ========================== */
+  
+
 
 
 /* ============ Fonction qui active ou désactive les options du select en fonction de l'état actuel de la cargaison ================================== */
@@ -334,36 +337,9 @@ function setOptionsByEtat(selectElement: HTMLSelectElement, etat: string): void 
     }
   });
 }
-      /* ====================== Changement d'état ========================== */ 
-      // document.querySelectorAll(".etat-avancement-select").forEach((select) => {
-      //   const target = select as HTMLSelectElement;
-      //   const cargaisonId = target.getAttribute("data-id");
-      //   if (cargaisonId) {
-      //     const cargaison = cargaisons.find(c => c.numero === cargaisonId);
-      //     if (cargaison) {
-      //       setOptionsByEtat(target, cargaison.etat_avancement);
-      //     }
-      //   }
-      
-      //   select.addEventListener("change", (event) => {
-      //     const target = event.target as HTMLSelectElement;
-      //     const cargaisonId = target.getAttribute("data-id");
-      //     const newEtat = target.value;
-      
-      //     if (cargaisonId) {
-      //       const cargaison = cargaisons.find(c => c.numero === cargaisonId);
-      //       if (cargaison) {
-      //         if (cargaison.etat_avancement === "EN ATTENTE" && newEtat === "EN COURS") {
-      //           changerEtatAvancement(cargaisonId, newEtat);
-      //         } else if (cargaison.etat_avancement === "EN COURS" && (newEtat === "ARRIVÉE" || newEtat === "PERDU")) {
-      //           changerEtatAvancement(cargaisonId, newEtat);
-      //         } else {
-      //           console.log("Changement d'état non autorisé.");
-      //         }
-      //       }
-      //     }
-      //   });
-      // });
+
+
+      /* ====================== Changement d'état Cargaison ========================== */ 
 
       document.querySelectorAll(".etat-avancement-select").forEach((select) => {
         const target = select as HTMLSelectElement;
@@ -401,40 +377,6 @@ function setOptionsByEtat(selectElement: HTMLSelectElement, etat: string): void 
       
 
 /* =============================== Evenement click bouton Ouvrir et Fermer ============================*/
-
-// document.querySelectorAll(".btn-ouvrir-cargo, .btn-fermer-cargo").forEach((button) => {
-//   button.addEventListener("click", (event) => {
-//     const target = (event.target as HTMLElement).closest(".btn-ouvrir-cargo, .btn-fermer-cargo");
-
-//     if (target) {
-//       const cargaisonId = target.getAttribute("data-id");
-//       if (cargaisonId) {
-//         const cargaison = cargaisons.find(c => c.numero === cargaisonId);
-//         if (cargaison) {
-//           const isOuvrir = target.classList.contains("btn-ouvrir-cargo");
-
-//           if (isOuvrir) {
-//             if ((cargaison.etat_avancement === "EN ATTENTE" || cargaison.etat_avancement === "ARRIVÉE") && cargaison.etat_globale === "FERMÉE") {
-//               changerEtatCargaison(cargaisonId, 'ouvrir');
-//             } else {
-//               afficherAlerte("La cargaison ne peut pas être ouverte car elle est soit fermée, soit en cours.", "error");
-//             }
-//           } else {
-//             if (cargaison.etat_avancement === "EN ATTENTE" && cargaison.etat_globale === "OUVERTE") {
-//               changerEtatCargaison(cargaisonId, 'fermer');
-//             } else {
-//               afficherAlerte("La cargaison ne peut pas être fermée car elle n'est pas en attente ou déjà fermée.", "error");
-//             }
-//           }
-//         } else {
-//           console.error("Cargaison non trouvée.");
-//         }
-//       } else {
-//         console.error("ID de cargaison non trouvé.");
-//       }
-//     }
-//   });
-// }); 
 
 document.querySelectorAll(".btn-ouvrir-cargo, .btn-fermer-cargo").forEach((button) => {
   button.addEventListener("click", (event) => {
@@ -582,6 +524,37 @@ function changerEtatCargaison(cargaisonId: string | null, action: 'ouvrir' | 'fe
       alert(message);
     });
 }
+function changeEtatProduit(numPro: string | null, newEtatPro: string, id: string | null): void {
+  console.log('Changing state for product:', numPro, 'to:', newEtatPro, 'with cargo id:', id);
+
+  if (!numPro) return;
+
+  fetch("../template/api.php", {
+    method: "POST",
+    body: JSON.stringify({
+      action: "changerEtatProduit",
+      numero: numPro,
+      nouvelEtat: newEtatPro,
+      idcargo: id
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Response data:', data);
+      if (data.status === "success") {
+        afficherAlerte("État du produit mis à jour avec succès", data.status);
+        afficherCargaisons();
+      } else {
+        alert("Erreur lors de la mise à jour de l'état du produit");
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
 
 /* =========================== Ajouter cargaison ======================================= */
 let cargaison: Cargaison;
@@ -605,7 +578,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
   const dateArrivee: string = (document.getElementById('dateArrivee') as HTMLInputElement).value;
   const distance: number = parseFloat((document.getElementById('distance') as HTMLInputElement).value);
 
-  console.log(typeCargaison);
+
 
   if (typeCargaison == "maritime") {
     cargaison = new CargaisonMaritime(
@@ -626,7 +599,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
     );
     
 
-  } else if (typeCargaison == "aérienne") {
+  } else if (typeCargaison == "aerienne") {
     cargaison = new CargaisonAerienne(
       'addCargaison',
       idcargo,
@@ -700,7 +673,7 @@ document.getElementById('form_id')?.addEventListener('submit', (event) => {
 document.getElementById('addProduct')?.addEventListener('click', (event) => {
   event.preventDefault();
 
-  const numero: string = "PRO" + Math.floor(Math.random() * 1000);
+  const numeroPro: string = "PRO" + Math.floor(Math.random() * 1000);
   const nomProduit: string = (document.getElementById('nomProduit') as HTMLSelectElement).value;
   const poidsProduit: number = parseFloat((document.getElementById('poidsProduct') as HTMLInputElement).value);
   const etatProduit: string = (document.getElementById('productState') as HTMLSelectElement).value;
@@ -727,22 +700,20 @@ if (limite == true){
   let destinataire: Clients = { nom: destinataireNom, prenom: destinatairePrenom, tel: destinataireTelephone, adresse: destinataireAdresse, email: destinataireEmail }
 
   if (typeProduit === 'alimentaire') {
-    produit = new FoodProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
+    produit = new FoodProduct('addproduit', numeroPro, nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);
   } else if (typeProduit === 'chimique') {
-    produit = new ChemicalProduct('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);  
+    produit = new ChemicalProduct('addproduit', numeroPro, nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire, toxiciteProduit);  
   } else if (typeProduit === 'incassable') {
-    produit = new FragileMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);  
+    produit = new FragileMaterial('addproduit', numeroPro, nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire);  
   } else if (typeProduit === 'cassable') {
-    produit = new unbreackableMaterial('addproduit', nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire); 
+    produit = new unbreackableMaterial('addproduit', numeroPro, nomProduit, poidsProduit, etatProduit, prix, clientApport, destinataire); 
   } else {
     afficherAlerte("Type de produit invalide", "error");
     return;
   }
 
   console.log(produit);
-  
-
-  
+    
   const donne = {
     "action": "addproduit",
     "produit": produit,
@@ -761,7 +732,6 @@ if (limite == true){
     const cargaisonIndex = cargaisons.findIndex(c => c.numero === id);
 
     const poidsTotalProduits = cargaison.produits.reduce((total, produit) => total + produit.poids, 0);
-    
     if (cargaison.poids_max !== null && poidsTotalProduits > cargaison.poids_max) {
         afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
         return;
@@ -781,12 +751,9 @@ if (limite == true){
       }
     })
 }else{
-  alert("dfghhjk")
   afficherAlerte("La cargaison ne peut pas dépasser le poids maximum autorisé.", "error");
   return;
 }
- 
-
 
 });
 
@@ -809,9 +776,11 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
   (document.getElementById('detail-distance') as HTMLSpanElement).innerText = cargaison.distance_km.toString();
   (document.getElementById('detail-etat-avancement') as HTMLSpanElement).innerText = cargaison.etat_avancement;
 
+
   const produitsContainer = document.getElementById('detail-produits') as HTMLDivElement;
   produitsContainer.innerHTML = ''; // Clear previous content
   
+
   cargaison.produits.forEach(produit => {
     const card = document.createElement('div');
     card.className = 'bg-white p-4 rounded shadow-md border border-blue-200';
@@ -819,6 +788,18 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
     card.innerHTML = `
       <h4 class="text-lg font-semibold text-blue-700">${produit.nom}</h4>
       <p><strong class="text-blue-700">Poids:</strong> <span class="text-gray-700">${produit.poids} kg</span></p>
+      <p><strong class="text-blue-700">EtatProduit:</strong> <span class="text-gray-700">${produit.etat}</span></p>
+      <p><strong class="text-blue-700">ChangeEtat:</strong> 
+        <span class="text-gray-700">
+          <select id="etatPro-${produit.numPro}" data-id ="${produit.numPro}" class="etat-avancement-select-pro">
+            <option value="disponible" ${produit.etat === "en cours" ? 'selected' : ''}>En cours</option>
+            <option value="arrive" ${produit.etat === "arrive" ? 'selected' : ''}>Arrivé</option>
+            <option value="perdu" ${produit.etat === "perdu" ? 'selected' : ''}>Perdu</option>
+            <option value="recupere" ${produit.etat === "recupere" ? 'selected' : ''}>Recupere</option>
+            <option value="archive" ${produit.etat === "archive" ? 'selected' : ''}>Archivé</option>
+          </select>
+        </span>
+      </p>
       <p><strong class="text-blue-700">Client Apport:</strong></p>
       <ul class="list-disc list-inside text-gray-700">
         <li><strong class="text-blue-700">Nom:</strong> ${produit.clientApport.nom}</li>
@@ -834,13 +815,21 @@ function showDetails(id: string | null, cargaisons: Cargaison[]) {
         <li><strong class="text-blue-700">Téléphone:</strong> ${produit.destinataire.tel}</li>
         <li><strong class="text-blue-700">Adresse:</strong> ${produit.destinataire.adresse}</li>
         <li><strong class="text-blue-700">Email:</strong> ${produit.destinataire.email}</li>
-        </ul>
+      </ul>
     `;
-    
+
     produitsContainer.appendChild(card);
+
+     // Ajout du gestionnaire d'événement pour changer l'état du produit
+    const selectElement = card.querySelector(`#etatPro-${produit.numPro}`);
+    selectElement?.addEventListener('change', function (event) {
+      const newEtatPro = (selectElement as HTMLSelectElement).value;
+      const target = event.target as HTMLElement;
+      const idPro = target.getAttribute('data-id');
+      changeEtatProduit(idPro, newEtatPro, id);
+    });
   });
 }
-
 
 
 function afficherAlerte(message: string, type: string) {

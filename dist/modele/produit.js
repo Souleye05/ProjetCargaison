@@ -1,5 +1,6 @@
 export class FoodProduct {
     action;
+    numPro;
     nom;
     poids;
     etat;
@@ -8,8 +9,9 @@ export class FoodProduct {
     typeCargo = "";
     clientApport;
     destinataire;
-    constructor(action, nom, poids, etat, prix, clientsApport, destinataire) {
+    constructor(action, numPro, nom, poids, etat, prix, clientsApport, destinataire) {
         this.action = action;
+        this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;
@@ -20,6 +22,7 @@ export class FoodProduct {
 }
 export class ChemicalProduct {
     action;
+    numPro;
     nom;
     poids;
     etat;
@@ -29,8 +32,9 @@ export class ChemicalProduct {
     clientApport;
     destinataire;
     toxicity;
-    constructor(action, nom, poids, etat, prix, clientsApport, destinataire, toxicity) {
+    constructor(action, numPro, nom, poids, etat, prix, clientsApport, destinataire, toxicity) {
         this.action = action;
+        this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;
@@ -42,6 +46,7 @@ export class ChemicalProduct {
 }
 export class MaterialProduct {
     action;
+    numPro;
     nom;
     poids;
     etat;
@@ -50,8 +55,9 @@ export class MaterialProduct {
     typeCargo = "";
     clientApport;
     destinataire;
-    constructor(action, nom, poids, etat, prix, clientsApport, destinataire) {
+    constructor(action, numPro, nom, poids, etat, prix, clientsApport, destinataire) {
         this.action = action;
+        this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;
@@ -62,6 +68,7 @@ export class MaterialProduct {
 }
 export class FragileMaterial {
     action;
+    numPro;
     nom;
     poids;
     etat;
@@ -70,8 +77,9 @@ export class FragileMaterial {
     typeCargo = "";
     clientApport;
     destinataire;
-    constructor(action, nom, poids, etat, prix, clientsApport, destinataire) {
+    constructor(action, numPro, nom, poids, etat, prix, clientsApport, destinataire) {
         this.action = action;
+        this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;
@@ -82,6 +90,7 @@ export class FragileMaterial {
 }
 export class unbreackableMaterial {
     action;
+    numPro;
     nom;
     poids;
     etat;
@@ -90,8 +99,9 @@ export class unbreackableMaterial {
     typeCargo = "";
     clientApport;
     destinataire;
-    constructor(action, nom, poids, etat, prix, clientsApport, destinataire) {
+    constructor(action, numPro, nom, poids, etat, prix, clientsApport, destinataire) {
         this.action = action;
+        this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;

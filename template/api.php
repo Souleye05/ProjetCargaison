@@ -74,7 +74,14 @@ function generateReceipt($cargaison, $produit) {
 
     // Save PDF to a file
     $filename =  '/var/www/html/miniProjet/recu/recu.pdf';
-    $pdf->Output($filename, 'F');
+    // $pdf->Output($filename, 'F');
+
+    if (is_writable(dirname($filename))) {
+        $pdf->Output($filename, 'F');
+        echo json_encode(['message' => 'Le reçu a été généré et sauvegardé avec succès.']);
+    } else {
+        echo json_encode(['error' => 'Le répertoire n\'est pas accessible en écriture']);
+    }
 
     return $filename;
 }
@@ -256,6 +263,40 @@ $CliMail = $newProduit['destinataire']['email'];
         echo json_encode(["status" => "success", "message" => "La cargaison est en État OUVERTE"]);
         exit;
     }
+    elseif (isset($data['action']) && $data['action'] == 'changerEtatProduit') {
+        $newEtatPro = $data['nouvelEtat'];
+        $newId = $data['numero']; // Correct the variable name
+        $cargoId = $data['idcargo'];
+    
+        // Log the received data for debugging
+        error_log("Received data: " . print_r($data, true));
+    
+        $currentData = lireJSON('../public/data/cargos.json');
+    
+        foreach ($currentData['cargaisons'] as $key => $value) {
+            if ($value['numero'] == $cargoId) {
+                foreach ($value['produits'] as $key1 => $produit) {
+                    if ($produit['numPro'] == $newId) {
+                        // Log before updating
+                        error_log("Before update: " . print_r($produit, true));
+                        $currentData['cargaisons'][$key]['produits'][$key1]['etat'] = $newEtatPro;
+                        // Log after updating
+                        error_log("After update: " . print_r($currentData['cargaisons'][$key]['produits'][$key1], true));
+                        break 2; // Break both loops
+                    }
+                }
+            }
+        }
+    
+        ecrireJSON('../public/data/cargos.json', $currentData);
+    
+        $verifData = lireJSON('../public/data/cargos.json');
+        error_log("Données après écriture: " . print_r($verifData, true));
+    
+        echo json_encode(["status" => "success", "message" => "Le produit est en État OUVERTE"]);
+        exit;
+    }
+    
      else {
         echo json_encode(["status" => "error", "message" => "Action non reconnue"]);
         exit;

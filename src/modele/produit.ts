@@ -8,6 +8,7 @@ export interface Clients {
 
 export interface Product {
     action: string;
+    numPro: string;
     nom: string;
     poids: number;
     etat: string;
@@ -21,6 +22,7 @@ export interface Product {
 
 export class FoodProduct implements Product {
     action: string;
+    numPro: string;
     nom: string;
     poids: number;
     etat: string;
@@ -31,8 +33,9 @@ export class FoodProduct implements Product {
     destinataire: Clients;
 
 
-    constructor(action: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients) {
+    constructor(action: string, numPro: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients) {
         this.action = action;
+        this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;
@@ -46,6 +49,7 @@ export class FoodProduct implements Product {
 
 export class ChemicalProduct implements Product {
     action: string;
+    numPro: string;
     nom: string;
     poids: number;
     etat: string;
@@ -56,8 +60,9 @@ export class ChemicalProduct implements Product {
     destinataire: Clients;
     toxicity: number;
 
-    constructor(action: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients, toxicity: number) {
+    constructor(action: string, numPro: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients, toxicity: number) {
         this.action = action;
+    this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;
@@ -70,6 +75,7 @@ export class ChemicalProduct implements Product {
 
 export abstract class MaterialProduct implements Product {
     action: string;
+    numPro: string
     nom: string;
     poids: number;
     etat: string;
@@ -79,8 +85,9 @@ export abstract class MaterialProduct implements Product {
     clientApport: Clients;
     destinataire: Clients;
 
-    constructor(action: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients) {
+    constructor(action: string, numPro: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients) {
         this.action = action;
+        this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;
@@ -93,6 +100,7 @@ export abstract class MaterialProduct implements Product {
 
 export class FragileMaterial implements MaterialProduct {
     action: string;
+    numPro: string
     nom: string;
     poids: number;
     etat: string;
@@ -102,8 +110,9 @@ export class FragileMaterial implements MaterialProduct {
     clientApport: Clients;
     destinataire: Clients;
 
-    constructor(action: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients) {
+    constructor(action: string, numPro: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients) {
         this.action = action;
+        this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;
@@ -115,6 +124,8 @@ export class FragileMaterial implements MaterialProduct {
 
 export class unbreackableMaterial implements MaterialProduct {
     action: string;
+    numPro: string
+
     nom: string;
     poids: number;
     etat: string;
@@ -124,8 +135,9 @@ export class unbreackableMaterial implements MaterialProduct {
     clientApport: Clients;
     destinataire: Clients;
 
-    constructor(action: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients) {
+    constructor(action: string, numPro: string, nom: string, poids: number,  etat: string, prix: number, clientsApport: Clients, destinataire: Clients) {
         this.action = action;
+        this.numPro = numPro;
         this.nom = nom;
         this.poids = poids;
         this.etat = etat;
